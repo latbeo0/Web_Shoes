@@ -5,7 +5,7 @@ import SwiperCore, { Pagination } from 'swiper';
 SwiperCore.use([Pagination]);
 
 const Container = styled.div`
-    width: 1200px;
+    max-width: 1200px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,6 +56,8 @@ const Image = styled.img`
 const Title = styled.h1`
     font-size: 26px;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
     margin: 40px 0 20px;
 

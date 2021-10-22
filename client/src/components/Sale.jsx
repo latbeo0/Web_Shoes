@@ -5,7 +5,7 @@ import SwiperCore, { Navigation } from 'swiper';
 SwiperCore.use([Navigation]);
 
 const Container = styled.div`
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
     margin-bottom: 100px;
 
@@ -35,10 +35,11 @@ const Container = styled.div`
 
 const Header = styled.h1`
     font-size: 30px;
-    font-weight: 700;
+    font-weight: 900;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 50px;
+    letter-spacing: 2px;
 `;
 
 const Wrapper = styled.div`

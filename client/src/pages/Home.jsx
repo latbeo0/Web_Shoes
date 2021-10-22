@@ -7,6 +7,7 @@ import Menu from '../components/Menu';
 import Navbar from '../components/Navbar';
 import Concept from '../components/Concept';
 import Sale from '../components/Sale';
+import Categories from '../components/Categories';
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -20,6 +21,7 @@ const Home = () => {
             <Announcement />
             <Banner />
             <Concept />
+            <Categories />
             <Sale />
             <Footer />
         </Container>

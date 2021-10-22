@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { ArrowForward } from "@material-ui/icons";
+import styled from 'styled-components';
+import { ArrowForward } from '@material-ui/icons';
 
 const Container = styled.div`
     background-color: #4c4c4c;
@@ -168,7 +168,7 @@ const Footer = () => {
                                     <Input />
                                     <ButtonArrow>
                                         <ArrowForward
-                                            style={{ fontSize: "26px" }}
+                                            style={{ fontSize: '26px' }}
                                         />
                                     </ButtonArrow>
                                 </ItemWrapper>
@@ -178,7 +178,7 @@ const Footer = () => {
                             <Collection>
                                 <Image
                                     src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Footer.svg'
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                 />
                             </Collection>
                         </Column>
