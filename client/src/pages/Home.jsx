@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import Announcement from "../components/Announcement";
-import Banner from "../components/Banner";
-import Footer from "../components/Footer";
-import Menu from "../components/Menu";
-import Navbar from "../components/Navbar";
-import Concept from "../components/Concept";
-import Sale from "../components/Sale";
-import Contact from "../components/Contact";
+import React from 'react';
+import styled from 'styled-components';
+import Announcement from '../components/Announcement';
+import Banner from '../components/Banner';
+import Footer from '../components/Footer';
+import Menu from '../components/Menu';
+import Navbar from '../components/Navbar';
+import Concept from '../components/Concept';
+import Sale from '../components/Sale';
 
-
-const Container = styled.div``;
+const Container = styled.div`
+    overflow-x: hidden;
+`;
 
 const Home = () => {
     return (
@@ -19,8 +19,8 @@ const Home = () => {
             <Navbar />
             <Announcement />
             <Banner />
-            <Concept/>
-            <Sale/>
+            <Concept />
+            <Sale />
             <Footer />
         </Container>
     );

@@ -1,72 +1,123 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Pagination } from 'swiper';
+
+SwiperCore.use([Pagination]);
 
 const Container = styled.div`
-  padding: 10px;
-  width: 100%;
-  height: 500px;
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 100px;
+    gap: 40px;
+
+    .wrapper {
+        .swiper-pagination {
+            color: transparent;
+            top: 300px;
+            bottom: 0;
+
+            .swiper-pagination-bullet {
+                border-radius: 0;
+                width: 40px;
+                height: 5px;
+                opacity: 1;
+                background-color: #d3d3d3;
+            }
+
+            .swiper-pagination-bullet-active {
+                opacity: 0.9;
+                background-color: #f15e2c;
+            }
+        }
+    }
 `;
 const Row = styled.div`
-  width: 100%;
-  height: 100%;
+    flex: 1;
+    overflow: hidden;
 `;
-const RowContentContainer = styled.div`
-  float: left;
-  width: 50%;
-  height: 100%;
-  padding: 10px;
+const ImageBox = styled.div`
+    position: relative;
+    width: 100%;
+    height: 320px;
 `;
-const RowContent = styled.div`
-  font-family: Sans-serif;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-`;
-const RowImage = styled.img`
-  width: 100%;
-  height: 300px;
-  position: relative;
-`;
-const RowTitle = styled.a`
 
-font-weight: bold;
-  font-size: 30px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #000;
-}
+const Image = styled.img`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    object-fit: cover;
 `;
-const RowDescription = styled.p`
-  font-size: 16px;
+const Title = styled.h1`
+    font-size: 26px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 40px 0 20px;
+
+    &:hover {
+        color: #f15e2c;
+    }
 `;
+
+const Description = styled.h2`
+    font-size: 16px;
+    font-weight: 300;
+    margin: 10px 0px;
+`;
+
 const Concept = () => {
-  return (
-    <Container>
-      <Row>
-        <RowContentContainer>
-          <RowContent>
-            <RowImage src="https://www.therightcup.com/wp-content/uploads/2017/03/shoes-banner-bg-1.jpg"></RowImage>
-            <RowTitle>Xuân - Hạ</RowTitle>
-            <RowDescription>
-              Danh mục những sản phẩm bán tại "giá tốt hơn" chỉ được bán kênh
-              online - Online Only, chúng đã từng làm mưa làm gió một thời gian
-              và hiện đang rơi vào tình trạng bể size, bể số.
-            </RowDescription>
-          </RowContent>
-        </RowContentContainer>
+    const concepts = [
+        {
+            id: 1,
+            img: 'https://images.pexels.com/photos/9899496/pexels-photo-9899496.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+            title: 'Concept 1',
+            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore maxime, veniam molestiae perspiciatis libero nihil nesciunt odio commodi laudantium quas delectus velit, ratione et deserunt repudiandae? Consequatur eius tenetur ad.',
+        },
+        {
+            id: 2,
+            img: 'https://images.pexels.com/photos/1240892/pexels-photo-1240892.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+            title: 'Concept 2',
+            desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo velit, incidunt nobis atque esse nam corrupti illum non, amet eum sint totam, repellendus itaque eligendi vitae ullam voluptatum accusamus quas?',
+        },
+    ];
 
-        <RowContentContainer>
-          <RowContent>
-            <RowImage src="https://previews.123rf.com/images/ylivdesign/ylivdesign1708/ylivdesign170826627/84436876-running-sport-shoes-banner-horizontal-concept-flat-illustration-of-running-sport-shoes-banner-horizo.jpg"></RowImage>
-            <RowTitle>Thu - Đông</RowTitle>
-            <RowDescription>
-              Danh mục những sản phẩm bán tại "giá tốt hơn" chỉ được bán kênh
-              online - Online Only, chúng đã từng làm mưa làm gió một thời gian
-              và hiện đang rơi vào tình trạng bể size, bể số.
-            </RowDescription>
-          </RowContent>
-        </RowContentContainer>
-      </Row>
-    </Container>
-  );
+    const pagination = {
+        clickable: true,
+        renderBullet: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + '</span>';
+        },
+    };
+
+    return (
+        <Container>
+            <Row>
+                <Swiper loop={true} pagination={pagination} className='wrapper'>
+                    {concepts.map((concept) => (
+                        <SwiperSlide key={concept.id}>
+                            <ImageBox>
+                                <Image src={concept.img} />
+                            </ImageBox>
+                            <Title>{concept.title}</Title>
+                            <Description>{concept.desc}</Description>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </Row>
+            <Row>
+                <ImageBox>
+                    <Image src='https://images.pexels.com/photos/5632386/pexels-photo-5632386.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                </ImageBox>
+                <Title>OUTLET SALE</Title>
+                <Description>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Architecto quaerat mollitia delectus natus voluptatem dolore
+                    rem laborum labore nostrum perspiciatis impedit possimus
+                    atque unde dolor, qui iusto saepe. Natus, nisi!
+                </Description>
+            </Row>
+        </Container>
+    );
 };
 export default Concept;
