@@ -33,10 +33,12 @@ const Container = styled.div`
         }
     }
 `;
+
 const Row = styled.div`
     flex: 1;
     overflow: hidden;
 `;
+
 const ImageBox = styled.div`
     position: relative;
     width: 100%;
@@ -50,6 +52,7 @@ const Image = styled.img`
     cursor: pointer;
     object-fit: cover;
 `;
+
 const Title = styled.h1`
     font-size: 26px;
     font-weight: 700;

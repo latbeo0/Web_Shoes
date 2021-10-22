@@ -30,6 +30,7 @@ const Container = styled.div`
         }
     }
 `;
+
 const Image = styled.img`
     position: absolute;
     width: 100%;
