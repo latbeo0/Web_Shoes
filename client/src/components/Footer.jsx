@@ -4,6 +4,10 @@ import { ArrowForward } from '@material-ui/icons';
 const Container = styled.div`
     background-color: #4c4c4c;
     padding: 60px 90px;
+
+    @media only screen and (max-width: 991px) {
+        display: none;
+    }
 `;
 
 const Row = styled.div`
@@ -18,6 +22,18 @@ const Column = styled.div`
     padding-right: 45px;
     flex: 0 0 ${(props) => props.flex};
     max-width: ${(props) => props.flex};
+    display: block;
+
+    @media only screen and (max-width: 1199px) {
+        &.l-2-4 {
+            display: none;
+        }
+
+        &.l-9-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
 `;
 
 const Collection = styled.div`
@@ -26,7 +42,17 @@ const Collection = styled.div`
     margin-bottom: 40px;
 `;
 
-const Image = styled.img``;
+const ImageBox = styled.div`
+    position: relative;
+    width: 100%;
+    height: 200px;
+`;
+
+const Image = styled.img`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+`;
 
 const Button = styled.button`
     height: 40px;
@@ -107,13 +133,15 @@ const Footer = () => {
     return (
         <Container>
             <Row>
-                <Column flex='20%'>
+                <Column flex='20%' className='l-2-4'>
                     <Collection>
-                        <Image src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Store.svg' />
+                        <ImageBox>
+                            <Image src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Store.svg' />
+                        </ImageBox>
                         <Button>Find Shop</Button>
                     </Collection>
                 </Column>
-                <Column flex='80%'>
+                <Column flex='80%' className='l-9-6'>
                     <Row>
                         <Column flex='25%'>
                             <Collection>
@@ -176,10 +204,14 @@ const Footer = () => {
                         </Column>
                         <Column flex='30%'>
                             <Collection>
-                                <Image
-                                    src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Footer.svg'
-                                    style={{ cursor: 'pointer' }}
-                                />
+                                <ImageBox style={{ height: '80px' }}>
+                                    <Image
+                                        src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Footer.svg'
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
+                                    />
+                                </ImageBox>
                             </Collection>
                         </Column>
                     </Row>

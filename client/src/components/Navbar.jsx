@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { KeyboardArrowDown, Search } from "@material-ui/icons";
+import styled from 'styled-components';
+import { KeyboardArrowDown, Search } from '@material-ui/icons';
 
 const Container = styled.div`
     display: flex;
@@ -7,10 +7,14 @@ const Container = styled.div`
     align-items: center;
     height: 124px;
     padding: 0 20px;
+
+    @media only screen and (max-width: 991px) {
+        display: none;
+    }
 `;
 
 const LogoContainer = styled.div`
-    width: 90px;
+    min-width: 90px;
     height: 90px;
 `;
 
@@ -50,6 +54,7 @@ const CategoryWrapper = styled.div`
     font-weight: 700;
     cursor: pointer;
     position: static;
+    white-space: nowrap;
 
     .category--drop-down {
         display: none;
@@ -57,6 +62,8 @@ const CategoryWrapper = styled.div`
 
     &.space {
         border: none;
+        position: relative;
+        min-width: 126px;
     }
 
     &::before {
@@ -82,7 +89,7 @@ const Arrow = styled.div`
 
     &::before {
         position: absolute;
-        content: "";
+        content: '';
         top: calc(100% + 23px);
         left: -25px;
         width: 0;
@@ -122,6 +129,10 @@ const SearchInput = styled.input`
         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%),
             0 0 8px rgb(102 175 233 / 60%);
         border-color: #66afe9;
+    }
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        width: unset;
     }
 `;
 
@@ -266,9 +277,9 @@ const Navbar = () => {
                             <Arrow className='arrow'>
                                 <KeyboardArrowDown
                                     style={{
-                                        fontSize: "22px",
-                                        marginLeft: "3px",
-                                        display: "block",
+                                        fontSize: '22px',
+                                        marginLeft: '3px',
+                                        display: 'block',
                                     }}
                                 />
                             </Arrow>
@@ -309,7 +320,7 @@ const Navbar = () => {
                                         </CategoryDropDownImage>
                                     </Wrapper>
                                     <Description>
-                                        People often call me <Light>LV7</Light>{" "}
+                                        People often call me <Light>LV7</Light>{' '}
                                         !
                                     </Description>
                                 </>
@@ -323,9 +334,9 @@ const Navbar = () => {
                             <Arrow className='arrow'>
                                 <KeyboardArrowDown
                                     style={{
-                                        fontSize: "22px",
-                                        marginLeft: "3px",
-                                        display: "block",
+                                        fontSize: '22px',
+                                        marginLeft: '3px',
+                                        display: 'block',
                                     }}
                                 />
                             </Arrow>
@@ -392,9 +403,9 @@ const Navbar = () => {
                             <Arrow className='arrow'>
                                 <KeyboardArrowDown
                                     style={{
-                                        fontSize: "22px",
-                                        marginLeft: "3px",
-                                        display: "block",
+                                        fontSize: '22px',
+                                        marginLeft: '3px',
+                                        display: 'block',
                                     }}
                                 />
                             </Arrow>

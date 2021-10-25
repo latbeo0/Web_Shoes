@@ -1,17 +1,21 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
     AccountCircle,
     Favorite,
     Note,
     Room,
     ShoppingBasket,
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 
 const Container = styled.div`
     height: 30px;
     background-color: #303030;
     display: flex;
     justify-content: flex-end;
+
+    @media only screen and (max-width: 991px) {
+        display: none;
+    }
 `;
 
 const MenuList = styled.div`
@@ -35,7 +39,6 @@ const MenuItem = styled.div`
         font-size: 18px;
     }
 `;
-
 
 const Menu = () => {
     return (

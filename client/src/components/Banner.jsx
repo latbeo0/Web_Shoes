@@ -8,9 +8,27 @@ const Container = styled.div`
     margin-bottom: 80px;
 
     .wrapper {
-        width: 100vw;
-        height: 80vh;
-        position: relative;
+        .imgBx {
+            position: relative;
+            width: 100vw;
+            height: 80vh;
+
+            @media only screen and (min-width: 992px) and (max-width: 1199px) {
+                height: 676px;
+            }
+
+            @media only screen and (min-width: 768px) and (max-width: 991px) {
+                height: 387px;
+            }
+
+            @media only screen and (min-width: 576px) and (max-width: 767px) {
+                height: 300px;
+            }
+
+            @media only screen and (max-width: 575px) {
+                height: 225px;
+            }
+        }
 
         .swiper-pagination {
             color: transparent;
@@ -66,7 +84,7 @@ const Banner = () => {
             <>
                 <Swiper loop={true} pagination={pagination} className='wrapper'>
                     {banners.map((banner) => (
-                        <SwiperSlide key={banner.id}>
+                        <SwiperSlide key={banner.id} className='imgBx'>
                             <Image src={banner.url} />
                         </SwiperSlide>
                     ))}

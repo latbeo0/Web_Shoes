@@ -8,6 +8,7 @@ import Navbar from '../components/Navbar';
 import Concept from '../components/Concept';
 import Sale from '../components/Sale';
 import Categories from '../components/Categories';
+import NavbarMobile from '../components/NavbarMobile';
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -18,6 +19,7 @@ const Home = () => {
         <Container>
             <Menu />
             <Navbar />
+            <NavbarMobile />
             <Announcement />
             <Banner />
             <Concept />

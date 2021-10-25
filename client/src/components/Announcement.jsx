@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Autoplay, Navigation } from "swiper";
+import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Autoplay, Navigation } from 'swiper';
 
-import "swiper/swiper-bundle.min.css";
-import "swiper/swiper.min.css";
-import "swiper/components/navigation/navigation.min.css";
+import 'swiper/swiper-bundle.min.css';
+import 'swiper/swiper.min.css';
+import 'swiper/components/navigation/navigation.min.css';
 
 SwiperCore.use([Autoplay, Navigation]);
 
@@ -17,7 +17,7 @@ const Container = styled.div`
     position: relative;
 
     .wrapper {
-        width: 1000px;
+        width: 990px;
         text-align: center;
 
         .swiper-button-next,
@@ -34,6 +34,19 @@ const Container = styled.div`
             }
         }
     }
+
+    @media only screen and (max-width: 991px) {
+        height: 70px;
+
+        .wrapper {
+            width: 100%;
+
+            .swiper-button-next,
+            .swiper-button-prev {
+                display: none;
+            }
+        }
+    }
 `;
 
 const Text = styled.span`
@@ -44,25 +57,29 @@ const Text = styled.span`
     word-spacing: 2px;
     font-weight: 400;
     cursor: pointer;
+
+    @media only screen and (max-width: 991px) {
+        font-size: 18px;
+    }
 `;
 
 const Announcement = () => {
     const announcements = [
         {
             id: 1,
-            title: "Free ship with bill from 800k",
+            title: 'Free ship with bill from 800k',
         },
         {
             id: 2,
-            title: "Buy more pay less - Applicable when purchasing accessories",
+            title: 'Buy more pay less - Applicable when purchasing accessories',
         },
         {
             id: 3,
-            title: "Buy 2 get 10% off - Applies to all products",
+            title: 'Buy 2 get 10% off - Applies to all products',
         },
         {
             id: 4,
-            title: "Half year warranty",
+            title: 'Half year warranty',
         },
     ];
 
@@ -75,7 +92,8 @@ const Announcement = () => {
                     delay: 3000,
                     disableOnInteraction: false,
                 }}
-                className='wrapper'>
+                className='wrapper'
+            >
                 {announcements.map((announcement) => (
                     <SwiperSlide key={announcement.id}>
                         <Text>{announcement.title}</Text>

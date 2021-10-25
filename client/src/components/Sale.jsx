@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 SwiperCore.use([Navigation]);
 
@@ -10,6 +12,7 @@ const Container = styled.div`
     margin-bottom: 100px;
 
     .mySwiper {
+        display: block;
         .mySwiperSlide {
             display: flex;
         }
@@ -24,12 +27,6 @@ const Container = styled.div`
         .swiper-button-next:hover {
             color: rgba(0, 0, 0, 1);
         }
-
-        .swiper-wrapper {
-            /* width: 1200px;
-            margin: 0 auto;
-            overflow: hidden; */
-        }
     }
 `;
 
@@ -43,6 +40,7 @@ const Header = styled.h1`
 `;
 
 const Wrapper = styled.div`
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -51,16 +49,26 @@ const Wrapper = styled.div`
 
 const ImageBox = styled.div`
     position: relative;
-    width: 285px;
+    width: 100%;
     height: 285px;
     margin-bottom: 16px;
+
+    @media only screen and (max-width: 991px) {
+        height: 100%;
+        padding-top: 100%;
+    }
 `;
 
 const Image = styled.img`
     position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    object-fit: cover;
 `;
 
 const Title = styled.h1`
@@ -136,14 +144,79 @@ export default function App() {
         },
     ];
 
-    const sildePerView = 4;
+    const updateWidth = () => {
+        setWindowWidth(window.innerWidth);
+    };
+
+    const [windowWidth, setWindowWidth] = useState(() => updateWidth);
+    const [size, setSize] = useState([4, 30]);
+
+    useEffect(() => {
+        window.addEventListener('resize', updateWidth);
+
+        if (windowWidth < 992) {
+            setSize([3, 15]);
+        } else {
+            setSize([4, 30]);
+        }
+
+        return () => window.removeEventListener('resize', updateWidth);
+    }, [windowWidth]);
 
     return (
         <Container>
             <Header>Best Seller</Header>
+            {/* {size < 1000 ? (
+                <Swiper
+                    slidesPerView={3}
+                    spaceBetween={15}
+                    slidesPerGroup={3}
+                    loop={true}
+                    loopFillGroupWithBlank={true}
+                    navigation
+                    className='mySwiper'
+                >
+                    {products.map((product) => (
+                        <SwiperSlide key={product.id} className='mySwiperSlide'>
+                            <Wrapper>
+                                <ImageBox>
+                                    <Image src={product.img} />
+                                </ImageBox>
+                                <Title>{product.title}</Title>
+                                <Description>White</Description>
+                                <Price>$ {product.price}</Price>
+                            </Wrapper>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            ) : (
+                <Swiper
+                    slidesPerView={4}
+                    spaceBetween={30}
+                    slidesPerGroup={4}
+                    loop={true}
+                    loopFillGroupWithBlank={true}
+                    navigation
+                    className='mySwiper'
+                >
+                    {products.map((product) => (
+                        <SwiperSlide key={product.id} className='mySwiperSlide'>
+                            <Wrapper>
+                                <ImageBox>
+                                    <Image src={product.img} />
+                                </ImageBox>
+                                <Title>{product.title}</Title>
+                                <Description>White</Description>
+                                <Price>$ {product.price}</Price>
+                            </Wrapper>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            )} */}
             <Swiper
-                slidesPerView={sildePerView}
-                slidesPerGroup={sildePerView}
+                slidesPerView={size[0]}
+                spaceBetween={size[1]}
+                slidesPerGroup={size[0]}
                 loop={true}
                 loopFillGroupWithBlank={true}
                 navigation

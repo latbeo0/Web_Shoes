@@ -15,8 +15,8 @@ const Container = styled.div`
     .wrapper {
         .swiper-pagination {
             color: transparent;
-            top: 300px;
             bottom: 0;
+            margin-bottom: 165px;
 
             .swiper-pagination-bullet {
                 border-radius: 0;
@@ -31,6 +31,10 @@ const Container = styled.div`
                 background-color: #f15e2c;
             }
         }
+    }
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        margin: 0px 30px 80px;
     }
 `;
 
@@ -60,6 +64,7 @@ const Title = styled.h1`
     letter-spacing: 1px;
     cursor: pointer;
     margin: 40px 0 20px;
+    z-index: 100;
 
     &:hover {
         color: #f15e2c;
@@ -70,6 +75,11 @@ const Description = styled.h2`
     font-size: 16px;
     font-weight: 300;
     margin: 10px 0px;
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 `;
 
 const Concept = () => {
