@@ -9,9 +9,17 @@ import Concept from '../components/Concept';
 import Sale from '../components/Sale';
 import Categories from '../components/Categories';
 import NavbarMobile from '../components/NavbarMobile';
+import MenuMobile from '../components/MenuMobile';
+import ButtonToggle from '../components/ButtonToggle';
 
 const Container = styled.div`
+    position: relative;
     overflow-x: hidden;
+    height: 100vh;
+
+    & .show {
+        overflow: hidden;
+    }
 `;
 
 const Home = () => {
@@ -20,7 +28,9 @@ const Home = () => {
             <Menu />
             <Navbar />
             <NavbarMobile />
+            <ButtonToggle />
             <Announcement />
+            <MenuMobile />
             <Banner />
             <Concept />
             <Categories />

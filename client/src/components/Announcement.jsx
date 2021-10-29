@@ -59,7 +59,7 @@ const Text = styled.span`
     cursor: pointer;
 
     @media only screen and (max-width: 991px) {
-        font-size: 18px;
+        font-size: 22px;
     }
 `;
 

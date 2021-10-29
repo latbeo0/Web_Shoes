@@ -33,7 +33,7 @@ const Container = styled.div`
         }
     }
 
-    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    @media only screen and (max-width: 1199px) {
         margin: 0px 30px 80px;
     }
 `;

@@ -142,6 +142,30 @@ export default function App() {
             title: 'Adidas H-1000',
             price: 500,
         },
+        {
+            id: 9,
+            img: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/c7227d99699243099c24ac5e00406c2c_9366/Giay_co_lung_Forum_trang_FY4976_01_standard.jpg',
+            title: 'Adidas H-1000',
+            price: 500,
+        },
+        {
+            id: 10,
+            img: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/9326e8db8d8e4e509e42ad26010cf693_9366/Giay_adidas_4DFWD_Pulse_DJen_Q46451_01_standard.jpg',
+            title: 'Adidas H-1000',
+            price: 500,
+        },
+        {
+            id: 11,
+            img: 'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/ae99cef75be04e089032ab25010d4dfa_9366/4D_Run_1.0_trang_EG6264_01_standard.jpg',
+            title: 'Adidas H-1000',
+            price: 500,
+        },
+        {
+            id: 12,
+            img: 'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy,c_fill,g_auto/49e9743bc8574c79b765a913009cdbc2_9366/Giay_Falcon_trang_B28128_01_standard.jpg',
+            title: 'Adidas H-1000',
+            price: 500,
+        },
     ];
 
     const updateWidth = () => {
