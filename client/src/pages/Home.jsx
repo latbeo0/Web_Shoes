@@ -12,6 +12,7 @@ import NavbarMobile from '../components/NavbarMobile';
 import MenuMobile from '../components/MenuMobile';
 import ButtonToggle from '../components/ButtonToggle';
 import CategoriesMobile from '../components/CategoriesMobile';
+import FooterMobile from '../components/FooterMobile';
 
 const Container = styled.div`
     position: relative;
@@ -38,6 +39,7 @@ const Home = () => {
             <CategoriesMobile />
             <Sale />
             <Footer />
+            <FooterMobile />
         </Container>
     );
 };

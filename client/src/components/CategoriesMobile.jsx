@@ -95,6 +95,25 @@ const List = styled.ul`
     overflow: hidden;
     transform-origin: 0 top;
     animation: ${scale} 0.2s linear;
+    position: relative;
+
+    &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-top: 1px dashed #6f6f6f;
+    }
+
+    &::after {
+        position: absolute;
+        content: '';
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-top: 1px dashed #6f6f6f;
+    }
 `;
 
 const Item = styled.li`
@@ -141,7 +160,6 @@ const CategoriesMobile = () => {
                     <Item>New Arrivals</Item>
                     <Item>Best Seller</Item>
                     <Item>Sale-off</Item>
-                    <Separate />
                 </List>
             </Wrapper>
             <Wrapper onClick={handleClick}>
@@ -154,7 +172,6 @@ const CategoriesMobile = () => {
                     <Item>New Arrivals</Item>
                     <Item>Best Seller</Item>
                     <Item>Sale-off</Item>
-                    <Separate />
                 </List>
             </Wrapper>
             <Wrapper onClick={handleClick}>
@@ -163,13 +180,10 @@ const CategoriesMobile = () => {
                     <ArrowForwardIos className='arrow' />
                 </Body>
                 <List className='sub'>
-                    <Separate />
-
                     <Item>Basas</Item>
                     <Item>Vintas</Item>
                     <Item>Urbas</Item>
                     <Item>Pattas</Item>
-                    <Separate />
                 </List>
             </Wrapper>
         </Container>
