@@ -190,53 +190,6 @@ export default function App() {
     return (
         <Container>
             <Header>Best Seller</Header>
-            {/* {size < 1000 ? (
-                <Swiper
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    slidesPerGroup={3}
-                    loop={true}
-                    loopFillGroupWithBlank={true}
-                    navigation
-                    className='mySwiper'
-                >
-                    {products.map((product) => (
-                        <SwiperSlide key={product.id} className='mySwiperSlide'>
-                            <Wrapper>
-                                <ImageBox>
-                                    <Image src={product.img} />
-                                </ImageBox>
-                                <Title>{product.title}</Title>
-                                <Description>White</Description>
-                                <Price>$ {product.price}</Price>
-                            </Wrapper>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            ) : (
-                <Swiper
-                    slidesPerView={4}
-                    spaceBetween={30}
-                    slidesPerGroup={4}
-                    loop={true}
-                    loopFillGroupWithBlank={true}
-                    navigation
-                    className='mySwiper'
-                >
-                    {products.map((product) => (
-                        <SwiperSlide key={product.id} className='mySwiperSlide'>
-                            <Wrapper>
-                                <ImageBox>
-                                    <Image src={product.img} />
-                                </ImageBox>
-                                <Title>{product.title}</Title>
-                                <Description>White</Description>
-                                <Price>$ {product.price}</Price>
-                            </Wrapper>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            )} */}
             <Swiper
                 slidesPerView={size[0]}
                 spaceBetween={size[1]}

@@ -114,7 +114,7 @@ const Separate = styled.div`
 `;
 
 const Light = styled.span`
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 700;
     letter-spacing: 2px;
     color: white;
@@ -123,7 +123,7 @@ const Light = styled.span`
 `;
 
 const Plur = styled.span`
-    font-size: 48px;
+    font-size: 46px;
     color: #808080;
     padding-right: 30px;
 `;
@@ -220,6 +220,96 @@ const MenuMobile = () => {
                                     </Wrapper>
                                     <Separate type='straight' />
                                 </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Best Seller</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>New Arrival</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Sale Off</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Collections
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            Pineapple Or LV7
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Corluray</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Unsettling</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Irrelevant</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Temperate</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Collaboration
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            LV7 x Lucky Luke
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            LV7 x Doraemon 50 Years
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
                             </SubMenu>
                             <Separate />
                         </SubItem>
@@ -228,6 +318,104 @@ const MenuMobile = () => {
                                 <Title type='thin'>Shoes</Title>
                                 <ArrowForwardIos className='arrow' />
                             </Wrapper>
+                            <SubMenu className='submenu'>
+                                <SubItem onClick={handleClickBack}>
+                                    <Wrapper type='center'>
+                                        <ArrowBackIos className='arrow back' />
+                                        <Title>
+                                            <Plur>Male</Plur>
+                                            <Light type='separate'>Shoes</Light>
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate type='straight' />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Brand
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Basas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Vintas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Urbas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Pattas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Creas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Track 6</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Style
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>High Top</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Low Top</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Slip-on</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            All products
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
+                            </SubMenu>
                             <Separate />
                         </SubItem>
                         <SubItem>
@@ -235,6 +423,102 @@ const MenuMobile = () => {
                                 <Title type='thin'>Fashion & Accessories</Title>
                                 <ArrowForwardIos className='arrow' />
                             </Wrapper>
+                            <SubMenu className='submenu'>
+                                <SubItem onClick={handleClickBack}>
+                                    <Wrapper type='center'>
+                                        <ArrowBackIos className='arrow back' />
+                                        <Title>
+                                            <Plur>Male</Plur>
+                                            <Light type='separate'>
+                                                Fashion & Accessories
+                                            </Light>
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate type='straight' />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Top
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Basic Tee</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Graphic Tee</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Sweatshirt</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Hoodie</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Accessory
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Hat</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Tie's Shoes</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Socks</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            Back_bag & Bag
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            See All Products
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
+                            </SubMenu>
                             <Separate />
                         </SubItem>
                         <SubItem>
@@ -252,13 +536,339 @@ const MenuMobile = () => {
                         <Title>Female</Title>
                         <ArrowForwardIos className='arrow' />
                     </Wrapper>
-                    <SubMenu className='submenu' onClick={handleClickBack}>
+                    <SubMenu className='submenu'>
                         <SubItem onClick={handleClickBack}>
                             <Wrapper type='center'>
                                 <ArrowBackIos className='arrow back' />
                                 <Title>Female</Title>
                             </Wrapper>
                             <Separate type='straight' />
+                        </SubItem>
+                        <SubItem onClick={handleClick}>
+                            <Wrapper type='space-between'>
+                                <Title type='thin'>Highlights</Title>
+                                <ArrowForwardIos className='arrow' />
+                            </Wrapper>
+                            <SubMenu className='submenu'>
+                                <SubItem onClick={handleClickBack}>
+                                    <Wrapper type='center'>
+                                        <ArrowBackIos className='arrow back' />
+                                        <Title>
+                                            <Plur>Female</Plur>
+                                            <Light type='separate'>
+                                                Highlights
+                                            </Light>
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate type='straight' />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Best Seller</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>New Arrival</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Sale Off</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Collections
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            Pineapple Or LV7
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Corluray</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Unsettling</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Irrelevant</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Temperate</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Collaboration
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            LV7 x Lucky Luke
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            LV7 x Doraemon 50 Years
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
+                            </SubMenu>
+                            <Separate />
+                        </SubItem>
+                        <SubItem>
+                            <Wrapper type='space-between'>
+                                <Title type='thin'>Shoes</Title>
+                                <ArrowForwardIos className='arrow' />
+                            </Wrapper>
+                            <SubMenu className='submenu'>
+                                <SubItem onClick={handleClickBack}>
+                                    <Wrapper type='center'>
+                                        <ArrowBackIos className='arrow back' />
+                                        <Title>
+                                            <Plur>Female</Plur>
+                                            <Light type='separate'>Shoes</Light>
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate type='straight' />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Brand
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Basas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Vintas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Urbas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Pattas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Creas</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Track 6</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Style
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>High Top</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Low Top</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Slip-on</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            All products
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
+                            </SubMenu>
+                            <Separate />
+                        </SubItem>
+                        <SubItem>
+                            <Wrapper type='space-between'>
+                                <Title type='thin'>Fashion & Accessories</Title>
+                                <ArrowForwardIos className='arrow' />
+                            </Wrapper>
+                            <SubMenu className='submenu'>
+                                <SubItem onClick={handleClickBack}>
+                                    <Wrapper type='center'>
+                                        <ArrowBackIos className='arrow back' />
+                                        <Title>
+                                            <Plur>Female</Plur>
+                                            <Light type='separate'>
+                                                Fashion & Accessories
+                                            </Light>
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate type='straight' />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Top
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Basic Tee</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Graphic Tee</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Sweatshirt</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Hoodie</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            Accessory
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Hat</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Tie's Shoes</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>Socks</Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin'>
+                                            Back_bag & Bag
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title type='thin' className='info'>
+                                            See All Products
+                                        </Title>
+                                    </Wrapper>
+                                    <Separate />
+                                </SubItem>
+                                <SubItem>
+                                    <Wrapper>
+                                        <Title className='info'>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Title>
+                                    </Wrapper>
+                                </SubItem>
+                            </SubMenu>
+                            <Separate />
+                        </SubItem>
+                        <SubItem>
+                            <Wrapper>
+                                <Title className='info'>
+                                    People often call me <Light>LV7</Light> !
+                                </Title>
+                            </Wrapper>
                         </SubItem>
                     </SubMenu>
                     <Separate />

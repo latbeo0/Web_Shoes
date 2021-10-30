@@ -11,13 +11,14 @@ import Categories from '../components/Categories';
 import NavbarMobile from '../components/NavbarMobile';
 import MenuMobile from '../components/MenuMobile';
 import ButtonToggle from '../components/ButtonToggle';
+import CategoriesMobile from '../components/CategoriesMobile';
 
 const Container = styled.div`
     position: relative;
     overflow-x: hidden;
     height: 100vh;
 
-    & .show {
+    &.hidden {
         overflow: hidden;
     }
 `;
@@ -34,6 +35,7 @@ const Home = () => {
             <Banner />
             <Concept />
             <Categories />
+            <CategoriesMobile />
             <Sale />
             <Footer />
         </Container>

@@ -23,6 +23,7 @@ const ToggleBox = styled.div`
     position: relative;
     top: 0;
     transition: 0.5s;
+    pointer-events: none;
 
     &::before {
         position: absolute;
@@ -65,8 +66,10 @@ const ToggleBox = styled.div`
 const ButtonToggle = () => {
     const [toggle, setToggle] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = (e) => {
         setToggle(!toggle);
+
+        e.target.parentElement.classList.toggle('hidden');
     };
 
     return (

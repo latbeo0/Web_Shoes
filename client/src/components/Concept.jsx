@@ -47,6 +47,14 @@ const ImageBox = styled.div`
     position: relative;
     width: 100%;
     height: 320px;
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        height: 280px;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        height: 200px;
+    }
 `;
 
 const Image = styled.img`

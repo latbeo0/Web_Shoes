@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const Container = styled.div``;
+const Container = styled.div`
+    @media only screen and (max-width: 991px) {
+        display: none;
+    }
+`;
 
 const Header = styled.h1`
     font-size: 30px;
