@@ -10,8 +10,13 @@ const Container = styled.div`
     background-color: #4c4c4c;
     display: flex;
 
-    @media only screen and (min-width: 991px) {
+    @media only screen and (min-width: 992px) {
         display: none;
+    }
+
+    @media only screen and (max-width: 575px) {
+        width: 100px;
+        height: 100px;
     }
 `;
 

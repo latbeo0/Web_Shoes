@@ -166,12 +166,21 @@ const CategoryDropDownImage = styled.div`
     &:hover {
         opacity: 1;
     }
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        margin: 0 15px;
+    }
 `;
 
 const CategoryImgBx = styled.div`
     width: 250px;
     height: 280px;
     position: relative;
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        width: 220px;
+        height: 240px;
+    }
 `;
 
 const CategoryImg = styled.img`

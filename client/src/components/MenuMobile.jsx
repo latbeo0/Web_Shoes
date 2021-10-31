@@ -22,6 +22,10 @@ const Container = styled.div`
     .show ~ & {
         display: block;
     }
+
+    @media only screen and (max-width: 575px) {
+        top: 170px;
+    }
 `;
 
 const List = styled.ul`
@@ -68,7 +72,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 52px;
+    font-size: 38px;
     font-weight: ${(props) => (props.type === 'thin' ? '300' : '700')};
     text-transform: ${(props) => props.type !== 'normal' && 'uppercase'};
     letter-spacing: 2px;
@@ -76,9 +80,17 @@ const Title = styled.h1`
     pointer-events: none;
 
     &.info {
-        font-size: 48px;
+        font-size: 38px;
         color: #808080;
         font-style: italic;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 32px;
+
+        &.info {
+            font-size: 32px;
+        }
     }
 `;
 
@@ -114,18 +126,18 @@ const Separate = styled.div`
 `;
 
 const Light = styled.span`
-    font-size: 48px;
+    font-size: 38px;
     font-weight: 700;
     letter-spacing: 2px;
     color: white;
-    padding-left: ${(props) => props.type === 'separate' && '30px'};
+    padding-left: ${(props) => props.type === 'separate' && '10px'};
     border-left: ${(props) => props.type === 'separate' && '1px solid white'};
 `;
 
 const Plur = styled.span`
-    font-size: 46px;
+    font-size: 38px;
     color: #808080;
-    padding-right: 30px;
+    padding-right: 10px;
 `;
 
 const MenuMobile = () => {
@@ -425,7 +437,10 @@ const MenuMobile = () => {
                             </Wrapper>
                             <SubMenu className='submenu'>
                                 <SubItem onClick={handleClickBack}>
-                                    <Wrapper type='center'>
+                                    <Wrapper
+                                        type='center'
+                                        style={{ padding: '35px' }}
+                                    >
                                         <ArrowBackIos className='arrow back' />
                                         <Title>
                                             <Plur>Male</Plur>
@@ -767,7 +782,10 @@ const MenuMobile = () => {
                             </Wrapper>
                             <SubMenu className='submenu'>
                                 <SubItem onClick={handleClickBack}>
-                                    <Wrapper type='center'>
+                                    <Wrapper
+                                        type='center'
+                                        style={{ padding: '35px' }}
+                                    >
                                         <ArrowBackIos className='arrow back' />
                                         <Title>
                                             <Plur>Female</Plur>

@@ -27,14 +27,17 @@ const scale = keyframes`
     }
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+    @media only screen and (min-width: 992px) {
+        display: none;
+    }
+`;
 
 const ListWrapper = styled.div`
     background-color: #4c4c4c;
 `;
 
 const ItemWrapper = styled.div`
-    cursor: pointer;
     color: white;
 `;
 
@@ -64,15 +67,35 @@ const Body = styled.div`
             animation: ${growth} 0.2s linear;
         }
     }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        & > .arrow {
+            font-size: 34px;
+        }
+    }
+
+    @media only screen and (max-width: 575px) {
+        & > .arrow {
+            font-size: 30px;
+        }
+    }
 `;
 
 const Title = styled.h1`
-    font-size: 38px;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: 500;
     letter-spacing: 1px;
     text-transform: uppercase;
     pointer-events: none;
     user-select: none;
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 34px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 30px;
+    }
 `;
 
 const List = styled.ul`
@@ -106,13 +129,11 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 400;
     letter-spacing: 1px;
     color: white;
     padding: 15px 40px;
-    cursor: pointer;
-    user-select: none;
 
     &:hover {
         color: #f15e2c;
@@ -125,6 +146,14 @@ const Item = styled.li`
     &:last-child {
         margin-bottom: 15px;
     }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 32px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 28px;
+    }
 `;
 
 const Separate = styled.div`
@@ -136,12 +165,12 @@ const Separate = styled.div`
 const ListSocial = styled.div`
     padding: 0 40px;
     user-select: none;
+    margin-bottom: 10px;
 `;
 
 const ItemSocial = styled.img`
     width: 80px;
     height: 80px;
-    cursor: pointer;
 
     & + & {
         margin-left: 30px;
@@ -151,11 +180,11 @@ const ItemSocial = styled.img`
 const InputWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin: 0 20px;
+    margin: 0 20px 20px;
 `;
 
 const Input = styled.input`
-    font-size: 28px;
+    font-size: 26px;
     line-height: 100px;
     outline: none;
     flex: 1;
@@ -167,6 +196,10 @@ const Input = styled.input`
             0 0 8px rgb(102 175 233 / 60%);
         border-color: #66afe9;
     }
+
+    @media only screen and (max-width: 767px) {
+        line-height: 50px;
+    }
 `;
 
 const ArrowButton = styled.div`
@@ -176,11 +209,24 @@ const ArrowButton = styled.div`
     align-items: center;
     justify-content: center;
     background-color: black;
+
+    & > .icon {
+        font-size: 62px;
+    }
+
+    @media only screen and (max-width: 767px) {
+        width: 100px;
+        height: 56px;
+
+        & > .icon {
+            font-size: 36px;
+        }
+    }
 `;
 
 const Button = styled.button`
     width: 100%;
-    height: 100px;
+    height: 80px;
     border: none;
     color: white;
     background-color: #f15e2c;
@@ -193,9 +239,17 @@ const Button = styled.button`
 
 const Span = styled.span`
     display: block;
-    font-size: 38px;
+    font-size: 32px;
     color: #7d7e80;
     margin: 30px 0;
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 28px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 20px;
+    }
 `;
 
 const FooterMobile = () => {
@@ -271,7 +325,7 @@ const FooterMobile = () => {
                     <InputWrapper>
                         <Input placeholder='Search ...' />
                         <ArrowButton>
-                            <ArrowForward style={{ fontSize: '62px' }} />
+                            <ArrowForward className='icon' />
                         </ArrowButton>
                     </InputWrapper>
                 </ItemWrapper>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Search, ShoppingBasket } from '@material-ui/icons';
+import { Room, Search, ShoppingBasket } from '@material-ui/icons';
 
 const Container = styled.div`
     height: 135px;
@@ -7,8 +7,12 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
-    @media only screen and (min-width: 991px) {
+    @media only screen and (min-width: 992px) {
         display: none;
+    }
+
+    @media only screen and (max-width: 575px) {
+        height: 100px;
     }
 `;
 
@@ -16,7 +20,15 @@ const Left = styled.div`
     position: relative;
     min-width: 66px;
     height: 115px;
-    margin-left: 100px;
+    margin-left: 50px;
+
+    @media only screen and (max-width: 575px) {
+        margin-left: 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        height: 80px;
+    }
 `;
 
 const Image = styled.img`
@@ -45,6 +57,28 @@ const ImageBox = styled.div`
         font-size: 50px;
         margin-right: 5px;
     }
+
+    @media only screen and (min-width: 768px) {
+        &.hidden {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        margin-left: 15px;
+
+        .icon {
+            font-size: 58px;
+        }
+    }
+
+    @media only screen and (max-width: 575px) {
+        margin-left: 5px;
+
+        .icon {
+            font-size: 46px;
+        }
+    }
 `;
 
 const SearchContainer = styled.div`
@@ -59,13 +93,17 @@ const SearchContainer = styled.div`
         font-size: 50px;
         pointer-events: none;
     }
+
+    @media only screen and (max-width: 767px) {
+        display: none;
+    }
 `;
 
 const SearchInput = styled.input`
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     outline: none;
-    font-size: 24px;
+    font-size: 21px;
     height: 60px;
     width: 300px;
     padding-left: 70px;
@@ -81,6 +119,11 @@ const Right = styled.div`
     min-width: 135px;
     height: 135px;
     background-color: red;
+
+    @media only screen and (max-width: 575px) {
+        min-width: 100px;
+        height: 100px;
+    }
 `;
 
 const NavbarMobile = () => {
@@ -95,6 +138,12 @@ const NavbarMobile = () => {
                         <Search className='icon' />
                         <SearchInput placeholder='Search' />
                     </SearchContainer>
+                    <ImageBox className='hidden'>
+                        <Search className='icon' />
+                    </ImageBox>
+                    <ImageBox className='hidden'>
+                        <Room className='icon' />
+                    </ImageBox>
                     <ImageBox>
                         <ShoppingBasket className='icon' />
                         (0)

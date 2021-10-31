@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
+    margin: 0 auto 100px;
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        margin: 0 auto 80px;
+    }
+
     @media only screen and (max-width: 991px) {
         display: none;
     }
 `;
 
 const Header = styled.h1`
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
@@ -16,12 +22,12 @@ const Header = styled.h1`
 `;
 
 const Wrapper = styled.div`
+    margin: 0 auto;
     max-width: 1200px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin: 0 auto 100px;
 `;
 
 const Category = styled.div`
@@ -43,9 +49,9 @@ const Title = styled.h1`
     position: relative;
     text-align: center;
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     margin: 45px 0 18px;
     color: rgb(255, 255, 255);
     cursor: pointer;
@@ -59,8 +65,8 @@ const Item = styled.span`
     position: relative;
     display: block;
     text-align: center;
-    font-size: 14px;
-    font-weight: 900;
+    font-size: 20px;
+    font-weight: 500;
     letter-spacing: 1px;
     margin: 18px 0;
     color: rgb(255, 255, 255);

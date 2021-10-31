@@ -52,14 +52,21 @@ const Container = styled.div`
 const Text = styled.span`
     text-transform: uppercase;
     font-style: italic;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1px;
     word-spacing: 2px;
     font-weight: 400;
     cursor: pointer;
 
-    @media only screen and (max-width: 991px) {
-        font-size: 22px;
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 20px;
+        word-spacing: 1px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 17px;
+        word-spacing: 0;
+        letter-spacing: 0;
     }
 `;
 

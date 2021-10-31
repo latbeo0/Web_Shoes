@@ -28,15 +28,46 @@ const Container = styled.div`
             color: rgba(0, 0, 0, 1);
         }
     }
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        margin-bottom: 80px;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        margin-bottom: 50px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        margin-bottom: 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        margin-bottom: 20px;
+    }
 `;
 
 const Header = styled.h1`
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 50px;
     letter-spacing: 2px;
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 38px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 34px;
+        margin-bottom: 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 32px;
+
+        margin-bottom: 20px;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -79,17 +110,29 @@ const Title = styled.h1`
     &:hover {
         color: #f15e2c;
     }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 20px;
+    }
 `;
 
 const Description = styled.h2`
     font-size: 16px;
     font-weight: 300;
     margin: 10px 0px;
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 18px;
+    }
 `;
 
 const Price = styled.h3`
     font-size: 18px;
     font-weight: 700;
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 20px;
+    }
 `;
 
 export default function App() {

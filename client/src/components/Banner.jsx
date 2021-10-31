@@ -5,20 +5,20 @@ import SwiperCore, { Pagination } from 'swiper';
 SwiperCore.use([Pagination]);
 
 const Container = styled.div`
-    margin-bottom: 80px;
+    margin-bottom: 100px;
 
     .wrapper {
         .imgBx {
             position: relative;
             width: 100vw;
-            height: 80vh;
+            height: 82vh;
 
             @media only screen and (min-width: 992px) and (max-width: 1199px) {
-                height: 525px;
+                height: 600px;
             }
 
             @media only screen and (min-width: 768px) and (max-width: 991px) {
-                height: 387px;
+                height: 430px;
             }
 
             @media only screen and (min-width: 576px) and (max-width: 767px) {
@@ -46,6 +46,22 @@ const Container = styled.div`
                 background-color: #f15e2c;
             }
         }
+    }
+
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+        margin-bottom: 80px;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        margin-bottom: 50px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        margin-bottom: 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        margin-bottom: 20px;
     }
 `;
 

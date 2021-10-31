@@ -16,7 +16,7 @@ const Container = styled.div`
         .swiper-pagination {
             color: transparent;
             bottom: 0;
-            margin-bottom: 165px;
+            margin-bottom: 175px;
 
             .swiper-pagination-bullet {
                 border-radius: 0;
@@ -36,6 +36,30 @@ const Container = styled.div`
     @media only screen and (max-width: 1199px) {
         margin: 0px 30px 80px;
     }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        margin: 0px 30px 50px;
+
+        .wrapper {
+            .swiper-pagination {
+                margin-bottom: 208px;
+            }
+        }
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        margin: 0px 20px 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        margin: 0px 20px 20px;
+
+        .wrapper {
+            .swiper-pagination {
+                margin-bottom: 130px;
+            }
+        }
+    }
 `;
 
 const Row = styled.div`
@@ -53,7 +77,15 @@ const ImageBox = styled.div`
     }
 
     @media only screen and (min-width: 768px) and (max-width: 991px) {
-        height: 200px;
+        height: 230px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        height: 180px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        height: 130px;
     }
 `;
 
@@ -77,17 +109,45 @@ const Title = styled.h1`
     &:hover {
         color: #f15e2c;
     }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 28px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 26px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 24px;
+        margin: 20px 0 10px;
+    }
 `;
 
 const Description = styled.h2`
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 300;
+    word-spacing: 1px;
     margin: 10px 0px;
     overflow: hidden;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        font-size: 20px;
+        -webkit-line-clamp: 4;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 18px;
+        -webkit-line-clamp: 3;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 16px;
+    }
 `;
 
 const Concept = () => {

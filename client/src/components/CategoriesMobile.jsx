@@ -35,6 +35,22 @@ const Container = styled.div`
     border-bottom: 2px solid black;
     padding: 10px 0;
     margin: 0 10px 80px;
+
+    @media only screen and (min-width: 992px) {
+        display: none;
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+        margin: 0 10px 50px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        margin: 0 10px 30px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        margin: 0 10px 20px;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -45,7 +61,6 @@ const Wrapper = styled.div`
     flex-direction: column;
     position: relative;
     transition: all 0.2s ease;
-    cursor: pointer;
     overflow: hidden;
 `;
 
@@ -57,7 +72,7 @@ const Body = styled.div`
     padding: 30px 40px;
 
     & > .arrow {
-        font-size: 38px;
+        font-size: 36px;
         transform: rotate(90deg);
         pointer-events: none;
         transition: all 0.2s ease;
@@ -75,15 +90,31 @@ const Body = styled.div`
             animation: ${growth} 0.2s linear;
         }
     }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        padding: 30px 20px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        padding: 25px 15px;
+    }
 `;
 
 const Title = styled.h1`
-    font-size: 38px;
+    font-size: 36px;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     pointer-events: none;
     user-select: none;
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 34px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 30px;
+    }
 `;
 
 const List = styled.ul`
@@ -117,7 +148,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 400;
     letter-spacing: 1px;
     padding: 15px 40px;
@@ -134,6 +165,14 @@ const Item = styled.li`
 
     &:last-child {
         margin-bottom: 15px;
+    }
+
+    @media only screen and (min-width: 576px) and (max-width: 767px) {
+        font-size: 32px;
+    }
+
+    @media only screen and (max-width: 575px) {
+        font-size: 28px;
     }
 `;
 
