@@ -65,7 +65,6 @@ const Header = styled.h1`
 
     @media only screen and (max-width: 575px) {
         font-size: 32px;
-
         margin-bottom: 20px;
     }
 `;
