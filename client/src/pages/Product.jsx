@@ -4,7 +4,7 @@ import Announcement from '../components/Announcement';
 import Menu from './../components/Menu';
 import Footer from '../components/Footer';
 import { FavoriteBorder, KeyboardArrowDown } from '@material-ui/icons';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const Container = styled.div``;
 
@@ -302,7 +302,7 @@ const Product = () => {
         e.target.classList.toggle('toggle');
     };
 
-    const [size, setSize] = useState(0);
+    // const [size, setSize] = useState(0);
 
     const handleChangeSize = (e) => {
         console.log(e.target);

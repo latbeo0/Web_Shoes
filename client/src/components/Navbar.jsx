@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { KeyboardArrowDown, Search } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     display: flex;
@@ -55,6 +56,7 @@ const CategoryWrapper = styled.div`
     cursor: pointer;
     position: static;
     white-space: nowrap;
+    color: rgb(0, 0, 0);
 
     .category--drop-down {
         display: none;
@@ -281,129 +283,154 @@ const Navbar = () => {
             <Center>
                 <Categories>
                     <Category>
-                        <CategoryWrapper>
-                            PRODUCT
-                            <Arrow className='arrow'>
-                                <KeyboardArrowDown
-                                    style={{
-                                        fontSize: '22px',
-                                        marginLeft: '3px',
-                                        display: 'block',
-                                    }}
-                                />
-                            </Arrow>
-                            <CategoryDropDown className='category--drop-down'>
-                                <>
+                        <Link to='/products'>
+                            <CategoryWrapper>
+                                PRODUCT
+                                <Arrow className='arrow'>
+                                    <KeyboardArrowDown
+                                        style={{
+                                            fontSize: '22px',
+                                            marginLeft: '3px',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </Arrow>
+                                <CategoryDropDown className='category--drop-down'>
                                     <Wrapper>
-                                        <CategoryDropDownImage>
-                                            <CategoryImgBx>
-                                                <CategoryImg src='https://images.pexels.com/photos/7760754/pexels-photo-7760754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                            </CategoryImgBx>
-                                            <CategoryTitle>
-                                                For Male
-                                            </CategoryTitle>
-                                        </CategoryDropDownImage>
-                                        <CategoryDropDownImage>
-                                            <CategoryImgBx>
-                                                <CategoryImg src='https://images.pexels.com/photos/7803348/pexels-photo-7803348.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                            </CategoryImgBx>
-                                            <CategoryTitle>
-                                                For Male
-                                            </CategoryTitle>
-                                        </CategoryDropDownImage>
-                                        <CategoryDropDownImage>
-                                            <CategoryImgBx>
-                                                <CategoryImg src='https://images.pexels.com/photos/5872348/pexels-photo-5872348.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
-                                            </CategoryImgBx>
-                                            <CategoryTitle>
-                                                For Male
-                                            </CategoryTitle>
-                                        </CategoryDropDownImage>
-                                        <CategoryDropDownImage>
-                                            <CategoryImgBx>
-                                                <CategoryImg src='https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                            </CategoryImgBx>
-                                            <CategoryTitle>
-                                                For Male
-                                            </CategoryTitle>
-                                        </CategoryDropDownImage>
+                                        <Link to='/products/?gender=men'>
+                                            <CategoryDropDownImage>
+                                                <CategoryImgBx>
+                                                    <CategoryImg src='https://images.pexels.com/photos/7760754/pexels-photo-7760754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                                </CategoryImgBx>
+                                                <CategoryTitle>
+                                                    For Male
+                                                </CategoryTitle>
+                                            </CategoryDropDownImage>
+                                        </Link>
+                                        <Link to='/products/?gender=women'>
+                                            <CategoryDropDownImage>
+                                                <CategoryImgBx>
+                                                    <CategoryImg src='https://images.pexels.com/photos/7803348/pexels-photo-7803348.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                                </CategoryImgBx>
+                                                <CategoryTitle>
+                                                    For FeMale
+                                                </CategoryTitle>
+                                            </CategoryDropDownImage>
+                                        </Link>
+                                        <Link to='/products/sale-off'>
+                                            <CategoryDropDownImage>
+                                                <CategoryImgBx>
+                                                    <CategoryImg src='https://images.pexels.com/photos/5872348/pexels-photo-5872348.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+                                                </CategoryImgBx>
+                                                <CategoryTitle>
+                                                    Sale Off
+                                                </CategoryTitle>
+                                            </CategoryDropDownImage>
+                                        </Link>
+                                        <Link to='/products/?gender=men,women&category=top,bottom,accessories&attribute='>
+                                            <CategoryDropDownImage>
+                                                <CategoryImgBx>
+                                                    <CategoryImg src='https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                                </CategoryImgBx>
+                                                <CategoryTitle>
+                                                    Accessories
+                                                </CategoryTitle>
+                                            </CategoryDropDownImage>
+                                        </Link>
                                     </Wrapper>
+                                    <Link to='/about'>
+                                        <Description>
+                                            People often call me{' '}
+                                            <Light>LV7</Light> !
+                                        </Description>
+                                    </Link>
+                                </CategoryDropDown>
+                            </CategoryWrapper>
+                        </Link>
+                    </Category>
+                    <CategorySeparate />
+                    <Category>
+                        <Link to='/products/?gender=men'>
+                            <CategoryWrapper>
+                                MALE
+                                <Arrow className='arrow'>
+                                    <KeyboardArrowDown
+                                        style={{
+                                            fontSize: '22px',
+                                            marginLeft: '3px',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </Arrow>
+                                <CategoryDropDown className='category--drop-down'>
+                                    <DropDownWrapper>
+                                        <Column>
+                                            <Link to='#'>
+                                                <ColumnTitle>
+                                                    Highlights
+                                                </ColumnTitle>
+                                            </Link>
+                                            <Link to='/products/?gender=men&category=&attribute=best-seller'>
+                                                <Item>Best Seller</Item>
+                                            </Link>
+                                            <Item>New Arrival</Item>
+                                            <Item>Sale Off</Item>
+                                            <ItemTitle>Collections</ItemTitle>
+                                            <Item>Pineapple Or LV7</Item>
+                                            <Item>Corluray</Item>
+                                            <Item>Irrelevant</Item>
+                                            <Item>Temperate</Item>
+                                            <ItemTitle>Collaboration</ItemTitle>
+                                            <Item>LV7 x Lucky Luke</Item>
+                                            <Item>LV7 x Doraemon 50 years</Item>
+                                        </Column>
+                                        <ColumnSeparate />
+                                        <Column>
+                                            <ColumnTitle>Shoes</ColumnTitle>
+                                            <ItemTitle>Product Line</ItemTitle>
+                                            <Item>Basas</Item>
+                                            <Item>Vintas</Item>
+                                            <Item>Urbas</Item>
+                                            <Item>Pattas</Item>
+                                            <Item>Creas</Item>
+                                            <Item>Track 6</Item>
+                                            <ItemTitle>Style</ItemTitle>
+                                            <Item>High Top</Item>
+                                            <Item>Low Top</Item>
+                                            <Item>Slip-on</Item>
+                                            <ItemTitle>
+                                                Show All Shoes
+                                            </ItemTitle>
+                                        </Column>
+                                        <Column>
+                                            <>
+                                                <ColumnTitle>
+                                                    Fashion & Accessories
+                                                </ColumnTitle>
+                                                <ItemTitle>
+                                                    Upper Half
+                                                </ItemTitle>
+                                                <Item>Basic Tee</Item>
+                                                <Item>Sweatshirt</Item>
+                                                <Item>Hoodie</Item>
+                                                <ItemTitle>
+                                                    Accessories
+                                                </ItemTitle>
+                                                <Item>Hat</Item>
+                                                <Item>Shoelace</Item>
+                                                <Item>Sock</Item>
+                                                <Item>Backpacks & Bags</Item>
+                                                <ItemTitle>Show All</ItemTitle>
+                                            </>
+                                        </Column>
+                                    </DropDownWrapper>
                                     <Description>
                                         People often call me <Light>LV7</Light>{' '}
                                         !
                                     </Description>
-                                </>
-                            </CategoryDropDown>
-                        </CategoryWrapper>
-                    </Category>
-                    <CategorySeparate />
-                    <Category>
-                        <CategoryWrapper>
-                            MALE
-                            <Arrow className='arrow'>
-                                <KeyboardArrowDown
-                                    style={{
-                                        fontSize: '22px',
-                                        marginLeft: '3px',
-                                        display: 'block',
-                                    }}
-                                />
-                            </Arrow>
-                            <CategoryDropDown className='category--drop-down'>
-                                <DropDownWrapper>
-                                    <Column>
-                                        <ColumnTitle>Highlights</ColumnTitle>
-                                        <Item>Best Seller</Item>
-                                        <Item>New Arrival</Item>
-                                        <Item>Sale Off</Item>
-                                        <ItemTitle>Collections</ItemTitle>
-                                        <Item>Pineapple Or LV7</Item>
-                                        <Item>Corluray</Item>
-                                        <Item>Irrelevant</Item>
-                                        <Item>Temperate</Item>
-                                        <ItemTitle>Collaboration</ItemTitle>
-                                        <Item>LV7 x Lucky Luke</Item>
-                                        <Item>LV7 x Doraemon 50 years</Item>
-                                    </Column>
-                                    <ColumnSeparate />
-                                    <Column>
-                                        <ColumnTitle>Shoes</ColumnTitle>
-                                        <ItemTitle>Product Line</ItemTitle>
-                                        <Item>Basas</Item>
-                                        <Item>Vintas</Item>
-                                        <Item>Urbas</Item>
-                                        <Item>Pattas</Item>
-                                        <Item>Creas</Item>
-                                        <Item>Track 6</Item>
-                                        <ItemTitle>Style</ItemTitle>
-                                        <Item>High Top</Item>
-                                        <Item>Low Top</Item>
-                                        <Item>Slip-on</Item>
-                                        <ItemTitle>Show All Shoes</ItemTitle>
-                                    </Column>
-                                    <Column>
-                                        <>
-                                            <ColumnTitle>
-                                                Fashion & Accessories
-                                            </ColumnTitle>
-                                            <ItemTitle>Upper Half</ItemTitle>
-                                            <Item>Basic Tee</Item>
-                                            <Item>Sweatshirt</Item>
-                                            <Item>Hoodie</Item>
-                                            <ItemTitle>Accessories</ItemTitle>
-                                            <Item>Hat</Item>
-                                            <Item>Shoelace</Item>
-                                            <Item>Sock</Item>
-                                            <Item>Backpacks & Bags</Item>
-                                            <ItemTitle>Show All</ItemTitle>
-                                        </>
-                                    </Column>
-                                </DropDownWrapper>
-                                <Description>
-                                    People often call me <Light>LV7</Light> !
-                                </Description>
-                            </CategoryDropDown>
-                        </CategoryWrapper>
+                                </CategoryDropDown>
+                            </CategoryWrapper>
+                        </Link>
                     </Category>
                     <CategorySeparate />
                     <Category>
