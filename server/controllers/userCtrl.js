@@ -1,121 +1,132 @@
 const Users = require('../models/userModel');
-const CryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 const sendMail = require('./sendMail');
+const { createAccessToken } = require('./createToken');
+const CryptoJS = require('crypto-js');
 
 const { CLIENT_URL } = process.env;
 
 const userCtrl = {
-    register: async (req, res) => {
+    getAccessToken: (req, res) => {
         try {
-            const { username, email, password } = req.body;
+            const rf_token = req.cookies.refresh_token;
 
-            if (!username || !email || !password)
-                return res
-                    .status(400)
-                    .json({ msg: 'Please fill in all fields.' });
+            if (!rf_token)
+                return res.status(400).json({ msg: 'Please login now!' });
 
-            if (!validateEmail(email))
-                return res.status(400).json({ msg: 'Invalid emails.' });
+            jwt.verify(
+                rf_token,
+                process.env.REFRESH_TOKEN_SECRET,
+                (err, user) => {
+                    if (err)
+                        return res
+                            .status(400)
+                            .json({ msg: 'Please login now!' });
 
+                    const access_token = createAccessToken({
+                        id: user.id,
+                        isAdmin: user.isAdmin,
+                    });
+                    res.status(200).json({ access_token });
+                }
+            );
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    forgotPassword: async (req, res) => {
+        try {
+            const { email } = req.body;
             const user = await Users.findOne({ email });
-            if (user)
+            if (!user)
                 return res
                     .status(400)
-                    .json({ msg: 'This email already exists.' });
+                    .json({ msg: 'This email does not exist.' });
 
-            if (password.length < 6)
-                return res
-                    .status(400)
-                    .json({ msg: 'Password must be at least 6 character.' });
+            const access_token = createAccessToken({ id: user._id });
+            const url = `${CLIENT_URL}/user/reset/${access_token}`;
+
+            sendMail(email, url, 'Reset your password');
+            res.json({ msg: 'Re-send the password, please check your email.' });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    resetPassword: async (req, res) => {
+        try {
+            const { password } = req.body;
 
             const passwordHash = CryptoJS.AES.encrypt(
                 password,
                 process.env.PASS_SEC
             ).toString();
 
-            const newUser = { username, email, password: passwordHash };
-
-            const activation_token = createActivationToken(newUser);
-
-            const url = `${CLIENT_URL}/user/activate/${activation_token}`;
-            sendMail(email, url, 'Verify your email address');
-
-            res.status(200).json({
-                msg: 'Register Success! Please activate your email to start.',
-            });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    activateEmail: async (req, res) => {
-        try {
-            const { activation_token } = req.body;
-            const user = jwt.verify(
-                activation_token,
-                process.env.ACTIVATION_TOKEN_SECRET
+            await Users.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    password: passwordHash,
+                }
             );
 
-            const { username, email, password } = user;
+            res.json({ msg: 'Password successfully changed!' });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getUserInfo: async (req, res) => {
+        try {
+            const user = await Users.findById(req.user.id).select('-password');
 
-            const check = await Users.findOne({ email });
-            check &&
-                res.status(400).json({ msg: 'This email already exists.' });
+            res.json(user);
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getAllUserInfo: async (req, res) => {
+        try {
+            const users = await Users.find().select('-password');
 
-            const newUser = new Users({
-                username,
-                email,
-                password,
+            res.json(users);
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    logout: async (req, res) => {
+        try {
+            res.clearCookie('refresh_token', {
+                path: '/api/user/refresh_token',
             });
 
-            await newUser.save();
-
-            res.status(200).json({ msgL: 'Account has been activated!' });
+            return res.status(200).json({ msg: 'Logout Successful!' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
-    login: async (req, res) => {
+    updateUser: async (req, res) => {
         try {
-            const { email, password } = req.body;
+            const { name, avatar } = req.body;
+            await Users.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    name,
+                    avatar,
+                }
+            );
 
-            const user = await Users.findOne({ email });
-            !user && res.status(400).json({ msg: 'Wrong credentials!' });
-
-            // const hashedPassword = CryptoJS.AES.decrypt(
-            //     user.password,
-            //     process.env.PASS_SEC
-            // );
-
-            res.status(200).json({ msg: 'Login successful!' });
+            res.status(200).json({ msg: 'Update Successful!' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
-};
+    deleteUser: async (req, res) => {
+        try {
+            await Users.findByIdAndDelete(req.params.id);
 
-function validateEmail(email) {
-    const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
-
-const createActivationToken = (payload) => {
-    return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-        expiresIn: '5m',
-    });
-};
-
-const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '15m',
-    });
-};
-
-const createRefreshToken = (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: '1d',
-    });
+            res.status(200).json({ msg: 'Deleted Success!' });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
 };
 
 module.exports = userCtrl;
