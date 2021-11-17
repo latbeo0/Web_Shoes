@@ -297,53 +297,53 @@ const Navbar = () => {
                                 </Arrow>
                                 <CategoryDropDown className='category--drop-down'>
                                     <Wrapper>
-                                        <Link to='/products/?gender=men'>
-                                            <CategoryDropDownImage>
-                                                <CategoryImgBx>
-                                                    <CategoryImg src='https://images.pexels.com/photos/7760754/pexels-photo-7760754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                                </CategoryImgBx>
-                                                <CategoryTitle>
-                                                    For Male
-                                                </CategoryTitle>
-                                            </CategoryDropDownImage>
-                                        </Link>
-                                        <Link to='/products/?gender=women'>
-                                            <CategoryDropDownImage>
-                                                <CategoryImgBx>
-                                                    <CategoryImg src='https://images.pexels.com/photos/7803348/pexels-photo-7803348.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                                </CategoryImgBx>
-                                                <CategoryTitle>
-                                                    For FeMale
-                                                </CategoryTitle>
-                                            </CategoryDropDownImage>
-                                        </Link>
-                                        <Link to='/products/sale-off'>
-                                            <CategoryDropDownImage>
-                                                <CategoryImgBx>
-                                                    <CategoryImg src='https://images.pexels.com/photos/5872348/pexels-photo-5872348.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
-                                                </CategoryImgBx>
-                                                <CategoryTitle>
-                                                    Sale Off
-                                                </CategoryTitle>
-                                            </CategoryDropDownImage>
-                                        </Link>
-                                        <Link to='/products/?gender=men,women&category=top,bottom,accessories&attribute='>
-                                            <CategoryDropDownImage>
-                                                <CategoryImgBx>
-                                                    <CategoryImg src='https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                                </CategoryImgBx>
-                                                <CategoryTitle>
-                                                    Accessories
-                                                </CategoryTitle>
-                                            </CategoryDropDownImage>
-                                        </Link>
+                                        {/* <Link to='/products/?gender=men'> */}
+                                        <CategoryDropDownImage>
+                                            <CategoryImgBx>
+                                                <CategoryImg src='https://images.pexels.com/photos/7760754/pexels-photo-7760754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                            </CategoryImgBx>
+                                            <CategoryTitle>
+                                                For Male
+                                            </CategoryTitle>
+                                        </CategoryDropDownImage>
+                                        {/* </Link> */}
+                                        {/* <Link to='/products/?gender=women'> */}
+                                        <CategoryDropDownImage>
+                                            <CategoryImgBx>
+                                                <CategoryImg src='https://images.pexels.com/photos/7803348/pexels-photo-7803348.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                            </CategoryImgBx>
+                                            <CategoryTitle>
+                                                For FeMale
+                                            </CategoryTitle>
+                                        </CategoryDropDownImage>
+                                        {/* </Link> */}
+                                        {/* <Link to='/products/sale-off'> */}
+                                        <CategoryDropDownImage>
+                                            <CategoryImgBx>
+                                                <CategoryImg src='https://images.pexels.com/photos/5872348/pexels-photo-5872348.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+                                            </CategoryImgBx>
+                                            <CategoryTitle>
+                                                Sale Off
+                                            </CategoryTitle>
+                                        </CategoryDropDownImage>
+                                        {/* </Link> */}
+                                        {/* <Link to='/products/?gender=men,women&category=top,bottom,accessories&attribute='> */}
+                                        <CategoryDropDownImage>
+                                            <CategoryImgBx>
+                                                <CategoryImg src='https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                            </CategoryImgBx>
+                                            <CategoryTitle>
+                                                Accessories
+                                            </CategoryTitle>
+                                        </CategoryDropDownImage>
+                                        {/* </Link> */}
                                     </Wrapper>
-                                    <Link to='/about'>
-                                        <Description>
-                                            People often call me{' '}
-                                            <Light>LV7</Light> !
-                                        </Description>
-                                    </Link>
+                                    {/* <Link to='/about'> */}
+                                    <Description>
+                                        People often call me <Light>LV7</Light>{' '}
+                                        !
+                                    </Description>
+                                    {/* </Link> */}
                                 </CategoryDropDown>
                             </CategoryWrapper>
                         </Link>
@@ -365,14 +365,14 @@ const Navbar = () => {
                                 <CategoryDropDown className='category--drop-down'>
                                     <DropDownWrapper>
                                         <Column>
-                                            <Link to='#'>
-                                                <ColumnTitle>
-                                                    Highlights
-                                                </ColumnTitle>
-                                            </Link>
-                                            <Link to='/products/?gender=men&category=&attribute=best-seller'>
-                                                <Item>Best Seller</Item>
-                                            </Link>
+                                            {/* <Link to='#'> */}
+                                            <ColumnTitle>
+                                                Highlights
+                                            </ColumnTitle>
+                                            {/* </Link> */}
+                                            {/* <Link to='/products/?gender=men&category=&attribute=best-seller'> */}
+                                            <Item>Best Seller</Item>
+                                            {/* </Link> */}
                                             <Item>New Arrival</Item>
                                             <Item>Sale Off</Item>
                                             <ItemTitle>Collections</ItemTitle>

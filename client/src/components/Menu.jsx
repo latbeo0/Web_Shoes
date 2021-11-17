@@ -6,6 +6,7 @@ import {
     Room,
     ShoppingBasket,
 } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     height: 30px;
@@ -56,10 +57,12 @@ const Menu = () => {
                     <Favorite className='icon' />
                     Wishlist
                 </MenuItem>
-                <MenuItem>
-                    <AccountCircle className='icon' />
-                    Login
-                </MenuItem>
+                <Link to='/login'>
+                    <MenuItem>
+                        <AccountCircle className='icon' />
+                        Login
+                    </MenuItem>
+                </Link>
                 <MenuItem>
                     <ShoppingBasket className='icon' />
                     Cart (0)
