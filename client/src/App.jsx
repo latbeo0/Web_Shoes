@@ -5,6 +5,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ActiveEmail from './pages/ActiveEmail';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import Profile from './pages/Profile';
 
 const App = () => {
     return (
@@ -19,6 +22,9 @@ const App = () => {
                     path='/auth/activate/:activation_token'
                     element={<ActiveEmail />}
                 />
+                <Route path='forgot_password' element={<ForgotPassword />} />
+                <Route path='/user/reset/:token' element={<ResetPassword />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
         </BrowserRouter>
     );

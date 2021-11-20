@@ -4,14 +4,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
+const uploadRoute = require('./routes/upload');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+app.use(
+    fileUpload({
+        useTempFiles: true,
+    })
+);
 
 // Connect to mongodb
 const URI = process.env.MONGODB_URL;
@@ -38,6 +45,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
+app.use('/api/user/upload', uploadRoute);
 
 // Listening
 const PORT = process.env.PORT || 5000;

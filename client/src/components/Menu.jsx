@@ -41,7 +41,14 @@ const MenuItem = styled.div`
     }
 `;
 
-const Menu = () => {
+const Image = styled.img`
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+`;
+
+const Menu = (data) => {
     return (
         <Container>
             <MenuList>
@@ -57,12 +64,24 @@ const Menu = () => {
                     <Favorite className='icon' />
                     Wishlist
                 </MenuItem>
-                <Link to='/login'>
-                    <MenuItem>
-                        <AccountCircle className='icon' />
-                        Login
-                    </MenuItem>
-                </Link>
+                {data.user ? (
+                    <>
+                        <Link to='/profile'>
+                            <MenuItem>
+                                <Image src={data.user.avatar} />
+                                {data.user.username}
+                            </MenuItem>
+                        </Link>
+                        <MenuItem>Logout</MenuItem>
+                    </>
+                ) : (
+                    <Link to='/login'>
+                        <MenuItem>
+                            <AccountCircle className='icon' />
+                            Login
+                        </MenuItem>
+                    </Link>
+                )}
                 <MenuItem>
                     <ShoppingBasket className='icon' />
                     Cart (0)

@@ -9,6 +9,7 @@ import axios from 'axios';
 import { dispatchLogin } from '../redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { isEmpty, isEmail, isLength } from '../utils/validation/validate';
 
 const Container = styled.div``;
 
@@ -221,6 +222,28 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (isEmpty(email) || isEmpty(password))
+            return setUser({
+                ...user,
+                err: 'Please fill in all fields.',
+                success: '',
+            });
+
+        if (!isEmail(email))
+            return setUser({
+                ...user,
+                err: 'Invalid emails.',
+                success: '',
+            });
+
+        if (isLength(password))
+            return setUser({
+                ...user,
+                err: 'Password must be at least 6 characters.',
+                success: '',
+            });
+
         try {
             const res = await axios.post('/api/auth/login', {
                 email,
@@ -308,7 +331,7 @@ const Login = () => {
                                         </Link>
                                     </ForgotPassword>
                                     <ForgotPassword>
-                                        <Link to='/forgot'>
+                                        <Link to='/forgot_password'>
                                             Forgot your password? *
                                         </Link>
                                     </ForgotPassword>

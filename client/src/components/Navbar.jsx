@@ -278,7 +278,9 @@ const Navbar = () => {
     return (
         <Container>
             <LogoContainer>
-                <Image src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Header.svg' />
+                <Link to='/'>
+                    <Image src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Header.svg' />
+                </Link>
             </LogoContainer>
             <Center>
                 <Categories>

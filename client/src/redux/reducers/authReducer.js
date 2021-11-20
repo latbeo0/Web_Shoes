@@ -1,4 +1,4 @@
-import ACTIONS from '../actions/index';
+import ACTIONS from '../actions/';
 
 const initialState = {
     user: [],
@@ -12,6 +12,12 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLogged: true,
+            };
+        case ACTIONS.GET_USER:
+            return {
+                ...state,
+                user: action.payload.user,
+                isAdmin: action.payload.isAdmin,
             };
         default:
             return state;

@@ -23,7 +23,8 @@ const UserSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: '',
+        default:
+            'https://res.cloudinary.com/da3pohnlj/image/upload/v1637204419/user_1_kq1w6v.png',
     },
     country: {
         type: String,

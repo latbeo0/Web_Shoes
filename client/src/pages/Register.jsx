@@ -306,9 +306,9 @@ const Register = () => {
                         <Right>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label htmlFor='password'>Username</Label>
+                                    <Label htmlFor='username'>Username</Label>
                                     <Input
-                                        type='username'
+                                        type='text'
                                         id='username'
                                         value={username}
                                         name='username'

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
 import Banner from '../components/Banner';
@@ -13,6 +12,14 @@ import MenuMobile from '../components/MenuMobile';
 import ButtonToggle from '../components/ButtonToggle';
 import CategoriesMobile from '../components/CategoriesMobile';
 import FooterMobile from '../components/FooterMobile';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import axios from 'axios';
+import {
+    dispatchGetUser,
+    dispatchLogin,
+    fetchUser,
+} from '../redux/actions/authActions';
 
 const Container = styled.div`
     position: relative;
@@ -25,9 +32,37 @@ const Container = styled.div`
 `;
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.token);
+    const auth = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        const firstLogin = localStorage.getItem('firstLogin');
+        if (firstLogin) {
+            const getToken = async () => {
+                const res = await axios.post('/api/user/refresh_token', null);
+
+                dispatch({ type: 'GET_TOKEN', payload: res.data.access_token });
+            };
+            getToken();
+        }
+    }, [auth.isLogged, dispatch]);
+
+    useEffect(() => {
+        if (token) {
+            const getUser = () => {
+                dispatch(dispatchLogin());
+                return fetchUser(token).then((res) => {
+                    dispatch(dispatchGetUser(res));
+                });
+            };
+            getUser();
+        }
+    }, [token, dispatch]);
+
     return (
         <Container>
-            <Menu />
+            <Menu user={auth.isLogged && auth.user} />
             <Navbar />
             <NavbarMobile />
             <ButtonToggle />
