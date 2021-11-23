@@ -1,15 +1,14 @@
 import { Facebook, GTranslate } from '@material-ui/icons';
 import styled from 'styled-components';
-import Announcement from '../components/Announcement';
-import Footer from '../components/Footer';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import axios from 'axios';
-import { dispatchLogin } from '../redux/actions/authActions';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { isEmpty, isEmail, isLength } from '../utils/validation/validate';
+import { Link } from 'react-router-dom';
+import {
+    isEmpty,
+    isEmail,
+    isLength,
+    isMatch,
+} from '../../utils/validation/validate';
 
 const Container = styled.div``;
 
@@ -202,18 +201,18 @@ const Middle = styled.div`
 `;
 
 const initialSate = {
+    username: '',
     email: '',
     password: '',
+    cf_password: '',
     err: '',
     success: '',
 };
 
-const Login = () => {
+const Register = () => {
     const [user, setUser] = useState(initialSate);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const { email, password, err, success } = user;
+    const { username, email, password, cf_password, err, success } = user;
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -223,7 +222,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (isEmpty(email) || isEmpty(password))
+        if (
+            isEmpty(username) ||
+            isEmpty(email) ||
+            isEmpty(password) ||
+            isEmpty(cf_password)
+        )
             return setUser({
                 ...user,
                 err: 'Please fill in all fields.',
@@ -244,18 +248,21 @@ const Login = () => {
                 success: '',
             });
 
+        if (!isMatch(password, cf_password))
+            return setUser({
+                ...user,
+                err: 'Password did not match.',
+                success: '',
+            });
+
         try {
-            const res = await axios.post('/api/auth/login', {
+            const res = await axios.post('/api/auth/register', {
+                username,
                 email,
                 password,
             });
 
             setUser({ ...user, err: '', success: res.data.msg });
-
-            localStorage.setItem('firstLogin', true);
-
-            dispatch(dispatchLogin());
-            navigate('/');
         } catch (err) {
             err.response.data.msg &&
                 setUser({
@@ -265,16 +272,12 @@ const Login = () => {
                 });
         }
     };
-
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Wrapper>
                 <Body>
                     <Header>
-                        <Title>Login</Title>
+                        <Title>Register</Title>
                     </Header>
                     {err && <MessageErr>{err}</MessageErr>}
                     {success && <MessageSuccess>{success}</MessageSuccess>}
@@ -295,6 +298,18 @@ const Login = () => {
                         </Left>
                         <Right>
                             <Form onSubmit={handleSubmit}>
+                                <FormGroup>
+                                    <Label htmlFor='username'>Username</Label>
+                                    <Input
+                                        type='text'
+                                        id='username'
+                                        value={username}
+                                        name='username'
+                                        placeholder='Enter your username'
+                                        onChange={handleChangeInput}
+                                    />
+                                    <FormMessage></FormMessage>
+                                </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor='email'>Email</Label>
                                     <Input
@@ -320,19 +335,28 @@ const Login = () => {
                                     <FormMessage></FormMessage>
                                 </FormGroup>
                                 <FormGroup>
+                                    <Label htmlFor='cf_password'>
+                                        Confirm Password
+                                    </Label>
+                                    <Input
+                                        type='password'
+                                        id='cf_password'
+                                        value={cf_password}
+                                        name='cf_password'
+                                        placeholder='Confirm your password'
+                                        onChange={handleChangeInput}
+                                    />
+                                    <FormMessage></FormMessage>
+                                </FormGroup>
+                                <FormGroup>
                                     <ButtonLogin type='submit'>
-                                        Login
+                                        Register
                                     </ButtonLogin>
                                 </FormGroup>
                                 <FormGroup>
                                     <ForgotPassword>
-                                        <Link to='/register'>
-                                            New customer? Register
-                                        </Link>
-                                    </ForgotPassword>
-                                    <ForgotPassword>
-                                        <Link to='/forgot_password'>
-                                            Forgot your password? *
+                                        <Link to='/login'>
+                                            Already have an account? Login now
                                         </Link>
                                     </ForgotPassword>
                                 </FormGroup>
@@ -342,9 +366,8 @@ const Login = () => {
                     <Middle>OR</Middle>
                 </Body>
             </Wrapper>
-            <Footer />
         </Container>
     );
 };
 
-export default Login;
+export default Register;

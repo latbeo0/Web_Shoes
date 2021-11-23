@@ -1,8 +1,4 @@
 import styled from 'styled-components';
-import Footer from '../components/Footer';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
@@ -91,9 +87,6 @@ const ActiveEmail = () => {
 
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Wrapper>
                 <Body>
                     {err && (
@@ -118,7 +111,6 @@ const ActiveEmail = () => {
                     )}
                 </Body>
             </Wrapper>
-            <Footer />
         </Container>
     );
 };

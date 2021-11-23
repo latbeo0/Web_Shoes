@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
-const Container = styled.div`
+export const Container = styled.div`
     position: absolute;
     top: 0;
     right: 0;
@@ -20,7 +19,7 @@ const Container = styled.div`
     }
 `;
 
-const ToggleBox = styled.div`
+export const ToggleBox = styled.div`
     width: 55px;
     height: 30px;
     margin: auto;
@@ -67,21 +66,3 @@ const ToggleBox = styled.div`
         }
     }
 `;
-
-const ButtonToggle = () => {
-    const [toggle, setToggle] = useState(false);
-
-    const handleClick = (e) => {
-        setToggle(!toggle);
-
-        e.target.parentElement.classList.toggle('hidden');
-    };
-
-    return (
-        <Container className={toggle ? 'show' : ''} onClick={handleClick}>
-            <ToggleBox />
-        </Container>
-    );
-};
-
-export default ButtonToggle;

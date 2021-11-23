@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import Announcement from '../components/Announcement';
-import Footer from '../components/Footer';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchGetAccessToken } from './../../services/userFetch';
+import { dispatchAccessToken } from '../../redux/actions/authActions';
 
 const Container = styled.div``;
 
@@ -118,26 +117,32 @@ const Avatar = styled.img`
 `;
 
 const ButtonWrapper = styled.div`
-    width: 180px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 10px;
 `;
 
-const ButtonUpload = styled.input`
-    width: 100%;
-    height: 50px;
-    outline: none;
-    background-color: #1dbfaf;
-    margin-bottom: 25px;
-    padding: 12px 16px;
-    font-weight: 600;
-    color: #fff;
-    border: none;
-    width: 100%;
-    font-size: 14px;
+const ButtonUpload = styled.div`
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 8px 20px;
     border-radius: 8px;
-    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+const InputUpload = styled.input`
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 `;
 
 const Note = styled.span`
+    position: relative;
     font-size: 14px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.4);
@@ -192,10 +197,9 @@ const initialSate = {
 };
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
-    const token = useSelector((state) => state.token);
 
-    const { user, isAdmin } = auth;
     const [data, setData] = useState(initialSate);
     const [avatar, setAvatar] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -210,9 +214,6 @@ const Profile = () => {
 
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Wrapper>
                 <Body>
                     <Header>
@@ -227,7 +228,7 @@ const Profile = () => {
                                 <Input
                                     type='text'
                                     id='username'
-                                    value={user.username}
+                                    value={auth.username}
                                     name='username'
                                     placeholder='Enter your username'
                                     onChange={handleChange}
@@ -239,7 +240,7 @@ const Profile = () => {
                                 <Input
                                     type='text'
                                     id='country'
-                                    value={user.country}
+                                    value={auth.country && auth.country}
                                     name='country'
                                     placeholder='Enter your country'
                                     onChange={handleChange}
@@ -251,7 +252,7 @@ const Profile = () => {
                                 <Input
                                     type='text'
                                     id='city'
-                                    value={user.city}
+                                    value={auth.city && auth.city}
                                     name='city'
                                     placeholder='Enter your city'
                                     onChange={handleChange}
@@ -263,7 +264,7 @@ const Profile = () => {
                                 <Input
                                     type='text'
                                     id='address'
-                                    value={user.address}
+                                    value={auth.address && auth.address}
                                     name='address'
                                     placeholder='Enter your address'
                                     onChange={handleChange}
@@ -278,13 +279,14 @@ const Profile = () => {
                             <AvatarContainer>
                                 <Avatar
                                     src={
-                                        user.img ||
+                                        auth.avatar ||
                                         'https://res.cloudinary.com/da3pohnlj/image/upload/v1637204419/user_1_kq1w6v.png'
                                     }
                                 />
                             </AvatarContainer>
                             <ButtonWrapper>
-                                <ButtonUpload
+                                <ButtonUpload>Upload a file</ButtonUpload>
+                                <InputUpload
                                     type='file'
                                     name='file'
                                     id='file_up'
@@ -296,7 +298,6 @@ const Profile = () => {
                     </Content>
                 </Body>
             </Wrapper>
-            <Footer />
         </Container>
     );
 };

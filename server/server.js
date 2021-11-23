@@ -9,6 +9,7 @@ const fileUpload = require('express-fileupload');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const uploadRoute = require('./routes/upload');
+const productRoute = require('./routes/product');
 
 const app = express();
 app.use(express.json());
@@ -22,16 +23,6 @@ app.use(
 
 // Connect to mongodb
 const URI = process.env.MONGODB_URL;
-// mongoose
-//     .connect(URI, {
-//         useNewUrlParser: true,
-//         // useUnifiedTopology: true,
-//     })
-//     .then(() => console.log('Connected to mongodb'))
-//     .catch((err) => {
-//         console.log(err);
-//     });
-
 const connectDB = async () => {
     await mongoose
         .connect(URI)
@@ -46,6 +37,7 @@ connectDB();
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/user/upload', uploadRoute);
+app.use('/api/product', productRoute);
 
 // Listening
 const PORT = process.env.PORT || 5000;

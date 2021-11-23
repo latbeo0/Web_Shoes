@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Room, Search, ShoppingBasket } from '@material-ui/icons';
 
-const Container = styled.div`
+export const Container = styled.div`
     height: 135px;
     background-color: #fff;
     display: flex;
@@ -16,7 +15,7 @@ const Container = styled.div`
     }
 `;
 
-const Left = styled.div`
+export const Left = styled.div`
     position: relative;
     min-width: 66px;
     height: 115px;
@@ -31,23 +30,23 @@ const Left = styled.div`
     }
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
     position: absolute;
     width: 100%;
     height: 100%;
 `;
 
-const Center = styled.div`
+export const Center = styled.div`
     flex: 1;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
-const ImageBox = styled.div`
+export const ImageBox = styled.div`
     display: flex;
     align-items: center;
     font-size: 28px;
@@ -81,7 +80,7 @@ const ImageBox = styled.div`
     }
 `;
 
-const SearchContainer = styled.div`
+export const SearchContainer = styled.div`
     position: relative;
 
     .icon {
@@ -99,7 +98,7 @@ const SearchContainer = styled.div`
     }
 `;
 
-const SearchInput = styled.input`
+export const SearchInput = styled.input`
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     outline: none;
@@ -115,7 +114,7 @@ const SearchInput = styled.input`
     }
 `;
 
-const Right = styled.div`
+export const Right = styled.div`
     min-width: 135px;
     height: 135px;
     background-color: red;
@@ -125,34 +124,3 @@ const Right = styled.div`
         height: 100px;
     }
 `;
-
-const NavbarMobile = () => {
-    return (
-        <Container>
-            <Left>
-                <Image src='https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Header.svg' />
-            </Left>
-            <Center>
-                <Wrapper>
-                    <SearchContainer>
-                        <Search className='icon' />
-                        <SearchInput placeholder='Search' />
-                    </SearchContainer>
-                    <ImageBox className='hidden'>
-                        <Search className='icon' />
-                    </ImageBox>
-                    <ImageBox className='hidden'>
-                        <Room className='icon' />
-                    </ImageBox>
-                    <ImageBox>
-                        <ShoppingBasket className='icon' />
-                        (0)
-                    </ImageBox>
-                </Wrapper>
-            </Center>
-            <Right></Right>
-        </Container>
-    );
-};
-
-export default NavbarMobile;

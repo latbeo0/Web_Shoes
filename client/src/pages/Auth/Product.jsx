@@ -1,8 +1,4 @@
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
-import Menu from './../components/Menu';
-import Footer from '../components/Footer';
 import { FavoriteBorder, KeyboardArrowDown } from '@material-ui/icons';
 // import { useState } from 'react';
 
@@ -310,9 +306,6 @@ const Product = () => {
 
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Body>
                 <Link>
                     <Blur>Shoes</Blur>
@@ -451,7 +444,6 @@ const Product = () => {
                     </Right>
                 </Content>
             </Body>
-            <Footer />
         </Container>
     );
 };

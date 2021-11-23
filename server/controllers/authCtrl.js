@@ -19,16 +19,16 @@ const authCtrl = {
             if (!validateEmail(email))
                 return res.status(400).json({ msg: 'Invalid emails.' });
 
+            if (password.length < 6)
+                return res
+                    .status(400)
+                    .json({ msg: 'Password must be at least 6 character.' });
+
             const user = await Users.findOne({ email });
             if (user)
                 return res
                     .status(400)
                     .json({ msg: 'This email already exists.' });
-
-            if (password.length < 6)
-                return res
-                    .status(400)
-                    .json({ msg: 'Password must be at least 6 character.' });
 
             const passwordHash = CryptoJS.AES.encrypt(
                 password,
@@ -51,11 +51,7 @@ const authCtrl = {
     },
     activateEmail: async (req, res) => {
         try {
-            const { activation_token } = req.body;
-            const user = jwt.verify(
-                activation_token,
-                process.env.ACTIVATION_TOKEN_SECRET
-            );
+            const user = req.user;
 
             const { username, email, password } = user;
 

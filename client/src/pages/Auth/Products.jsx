@@ -1,10 +1,6 @@
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
-import Menu from './../components/Menu';
-import Footer from '../components/Footer';
-import Product from '../components/Product';
-import FilterSidebar from '../components/FilterSidebar';
+import Product from '../../components/Product';
+import FilterSidebar from '../../components/FilterSidebar';
 
 const Container = styled.div`
     width: 100vw;
@@ -116,9 +112,6 @@ const Products = () => {
 
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Body>
                 <Left>
                     <FilterSidebar />
@@ -138,7 +131,6 @@ const Products = () => {
                     </ProductsWrapper>
                 </Right>
             </Body>
-            <Footer />
         </Container>
     );
 };

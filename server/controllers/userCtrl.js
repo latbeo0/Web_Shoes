@@ -7,29 +7,25 @@ const CryptoJS = require('crypto-js');
 const { CLIENT_URL } = process.env;
 
 const userCtrl = {
-    getAccessToken: (req, res) => {
+    getAccessToken: async (req, res) => {
         try {
-            const rf_token = req.cookies.refresh_token;
+            const user = req.user;
 
-            if (!rf_token)
-                return res.status(400).json({ msg: 'Please login now!' });
+            const info = await Users.findOne({ _id: user.id });
+            const { _id, username, avatar, isAdmin } = info._doc;
 
-            jwt.verify(
-                rf_token,
-                process.env.REFRESH_TOKEN_SECRET,
-                (err, user) => {
-                    if (err)
-                        return res
-                            .status(400)
-                            .json({ msg: 'Please login now!' });
+            const access_token = createAccessToken({
+                id: user.id,
+                isAdmin: user.isAdmin,
+            });
 
-                    const access_token = createAccessToken({
-                        id: user.id,
-                        isAdmin: user.isAdmin,
-                    });
-                    res.status(200).json({ access_token });
-                }
-            );
+            res.status(200).json({
+                id: _id,
+                username,
+                avatar,
+                isAdmin,
+                access_token,
+            });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -104,11 +100,11 @@ const userCtrl = {
     },
     updateUser: async (req, res) => {
         try {
-            const { name, avatar } = req.body;
+            const { username, avatar } = req.body;
             await Users.findOneAndUpdate(
                 { _id: req.user.id },
                 {
-                    name,
+                    username,
                     avatar,
                 }
             );

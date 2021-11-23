@@ -1,11 +1,8 @@
 import styled from 'styled-components';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
-import Footer from '../components/Footer';
 import { useState } from 'react';
-import { isEmpty, isEmail } from '../utils/validation/validate';
+import { isEmpty, isLength, isMatch } from '../../utils/validation/validate';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -128,15 +125,17 @@ const ButtonLogin = styled.button`
 `;
 
 const initialSate = {
-    email: '',
+    password: '',
+    cf_password: '',
     err: '',
     success: '',
 };
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
     const [user, setUser] = useState(initialSate);
+    const { token } = useParams();
 
-    const { email, err, success } = user;
+    const { password, cf_password, err, success } = user;
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -147,19 +146,36 @@ const ForgotPassword = () => {
         e.preventDefault();
     };
 
-    const forgotPassword = async () => {
-        if (isEmpty(email))
+    const handleResetPassword = async () => {
+        if (isEmpty(password) || isEmpty(cf_password))
             return setUser({
                 ...user,
-                err: 'Please enter your email.',
+                err: 'Please fill in all fields.',
                 success: '',
             });
 
-        if (!isEmail(email))
-            return setUser({ ...user, err: 'Invalid emails.', success: '' });
+        if (isLength(password))
+            return setUser({
+                ...user,
+                err: 'Password must be at least 6 characters.',
+                success: '',
+            });
+
+        if (!isMatch(password, cf_password))
+            return setUser({
+                ...user,
+                err: 'Password did not match.',
+                success: '',
+            });
 
         try {
-            const res = await axios.post('/api/user/forgot', { email });
+            const res = await axios.post(
+                '/api/user/reset',
+                { password },
+                {
+                    headers: { Authorization: token },
+                }
+            );
 
             return setUser({ ...user, err: '', success: res.data.msg });
         } catch (err) {
@@ -170,42 +186,52 @@ const ForgotPassword = () => {
 
     return (
         <Container>
-            <Menu />
-            <Navbar />
-            <Announcement />
             <Wrapper>
                 <Body>
                     <Header>
-                        <Title>Forgot password</Title>
+                        <Title>Reset password</Title>
                     </Header>
                     {err && <MessageErr>{err}</MessageErr>}
                     {success && <MessageSuccess>{success}</MessageSuccess>}
                     <Content>
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
-                                <Label htmlFor='email'>Email</Label>
+                                <Label htmlFor='password'>New Password</Label>
                                 <Input
-                                    type='email'
-                                    id='email'
-                                    value={email}
-                                    name='email'
-                                    placeholder='Enter your email'
+                                    type='password'
+                                    id='password'
+                                    value={password}
+                                    name='password'
+                                    placeholder='Enter your password'
                                     onChange={handleChangeInput}
                                 />
                                 <FormMessage></FormMessage>
                             </FormGroup>
                             <FormGroup>
-                                <ButtonLogin onClick={forgotPassword}>
-                                    Verify your email
+                                <Label htmlFor='cf_password'>
+                                    Confirm Password
+                                </Label>
+                                <Input
+                                    type='password'
+                                    id='cf_password'
+                                    value={cf_password}
+                                    name='cf_password'
+                                    placeholder='Confirm your password'
+                                    onChange={handleChangeInput}
+                                />
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <ButtonLogin onClick={handleResetPassword}>
+                                    Reset Password
                                 </ButtonLogin>
                             </FormGroup>
                         </Form>
                     </Content>
                 </Body>
             </Wrapper>
-            <Footer />
         </Container>
     );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

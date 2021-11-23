@@ -1,5 +1,4 @@
 import ACTIONS from './';
-import axios from 'axios';
 
 export const dispatchLogin = () => {
     return {
@@ -7,19 +6,22 @@ export const dispatchLogin = () => {
     };
 };
 
-export const fetchUser = async (token) => {
-    const res = await axios.get('/api/user/info', {
-        headers: { Authorization: token },
-    });
-    return res;
+export const dispatchAccessToken = (res) => {
+    return {
+        type: ACTIONS.GET_TOKEN,
+        payload: res.data,
+    };
 };
 
-export const dispatchGetUser = (res) => {
+export const dispatchLogout = () => {
+    return {
+        type: ACTIONS.LOGOUT,
+    };
+};
+
+export const dispatchGetAddress = (res) => {
     return {
         type: ACTIONS.GET_USER,
-        payload: {
-            user: res.data,
-            isAdmin: res.data.isAdmin,
-        },
+        payload: res.data,
     };
 };
