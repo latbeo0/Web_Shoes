@@ -4,6 +4,12 @@ const jwt = require('jsonwebtoken');
 const sendMail = require('./sendMail');
 const { createActivationToken, createRefreshToken } = require('./createToken');
 
+const { google } = require('googleapis');
+const { OAuth2 } = google.auth;
+const fetch = require('node-fetch');
+
+const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
+
 const { CLIENT_URL } = process.env;
 
 const authCtrl = {
@@ -102,6 +108,149 @@ const authCtrl = {
             });
 
             res.status(200).json({ msg: 'Login successful!' });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    googleLogin: async (req, res) => {
+        try {
+            const { tokenId } = req.body;
+
+            const verify = await client.verifyIdToken({
+                idToken: tokenId,
+                audience: process.env.MAILING_SERVICE_CLIENT_ID,
+            });
+
+            const { email_verified, email, name, picture } = verify.payload;
+
+            const password = email + process.env.GOOGLE_SECRET;
+
+            const passwordHash = CryptoJS.AES.encrypt(
+                password,
+                process.env.PASS_SEC
+            ).toString();
+
+            if (!email_verified)
+                return res
+                    .status(400)
+                    .json({ msg: 'Email verification failed.' });
+
+            const user = await Users.findOne({ email });
+
+            if (user) {
+                const hashedPassword = CryptoJS.AES.decrypt(
+                    user.password,
+                    process.env.PASS_SEC
+                );
+
+                const OriginalPassword = hashedPassword.toString(
+                    CryptoJS.enc.Utf8
+                );
+                if (OriginalPassword !== password)
+                    return res.status(401).json({ msg: 'Wrong credentials!' });
+
+                const refresh_token = createRefreshToken({
+                    id: user._id,
+                    isAdmin: user.isAdmin,
+                });
+                res.cookie('refresh_token', refresh_token, {
+                    httpOnly: true,
+                    path: '/api/user/refresh_token',
+                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                });
+
+                res.status(200).json({ msg: 'Login successful!' });
+            } else {
+                const newUser = new Users({
+                    username: name,
+                    email,
+                    password: passwordHash,
+                    avatar: picture,
+                });
+
+                await newUser.save();
+
+                const refresh_token = createRefreshToken({
+                    id: newUser._id,
+                    isAdmin: newUser.isAdmin,
+                });
+                res.cookie('refresh_token', refresh_token, {
+                    httpOnly: true,
+                    path: '/api/user/refresh_token',
+                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                });
+
+                res.status(200).json({ msg: 'Login successful!' });
+            }
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    facebookLogin: async (req, res) => {
+        try {
+            const { accessToken, userID } = req.body;
+
+            const URL = `https://graph.facebook.com/v2.9/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
+
+            const data = await fetch(URL)
+                .then((res) => res.json())
+                .then((res) => {
+                    return res;
+                });
+
+            const { name, email, picture } = data;
+
+            const password = email + process.env.FACEBOOK_SECRET;
+
+            const passwordHash = CryptoJS.AES.encrypt(
+                password,
+                process.env.PASS_SEC
+            ).toString();
+
+            const user = await Users.findOne({ email });
+
+            if (user) {
+                const hashedPassword = CryptoJS.AES.decrypt(
+                    user.password,
+                    process.env.PASS_SEC
+                );
+
+                const OriginalPassword = hashedPassword.toString(
+                    CryptoJS.enc.Utf8
+                );
+                if (OriginalPassword !== password)
+                    return res.status(401).json({ msg: 'Wrong credentials!' });
+
+                const refresh_token = createRefreshToken({
+                    id: user._id,
+                    isAdmin: user.isAdmin,
+                });
+                res.cookie('refresh_token', refresh_token, {
+                    httpOnly: true,
+                    path: '/api/user/refresh_token',
+                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                });
+
+                res.status(200).json({ msg: 'Login successful!' });
+            } else {
+                const newUser = new Users({
+                    username: name,
+                    email,
+                    password: passwordHash,
+                    avatar: picture.data.url,
+                });
+
+                await newUser.save();
+
+                const refresh_token = createRefreshToken({ id: newUser._id });
+                res.cookie('refresh_token', refresh_token, {
+                    httpOnly: true,
+                    path: '/api/user/refresh_token',
+                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                });
+
+                res.json({ msg: 'Login success!' });
+            }
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

@@ -38,9 +38,11 @@ const authReducer = (state = initialState, action) => {
                 token: '',
             };
 
-        case ACTIONS.GET_ADDRESS:
+        case ACTIONS.UPDATE_ACCOUNT:
             return {
                 ...state,
+                username: action.payload.usernameUd,
+                avatar: action.payload.avatarUd,
             };
 
         default:

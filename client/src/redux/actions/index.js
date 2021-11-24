@@ -2,7 +2,7 @@ const ACTIONS = {
     LOGIN: 'LOGIN',
     GET_TOKEN: 'GET_TOKEN',
     LOGOUT: 'LOGOUT',
-    GET_ADDRESS: 'GET_ADDRESS',
+    UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
 };
 
 export default ACTIONS;

@@ -36,7 +36,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
-app.use('/api/user/upload', uploadRoute);
+app.use('/api/upload', uploadRoute);
 app.use('/api/product', productRoute);
 
 // Listening

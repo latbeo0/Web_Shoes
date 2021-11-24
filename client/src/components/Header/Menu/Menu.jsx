@@ -49,7 +49,7 @@ const Menu = () => {
                 {auth.id ? (
                     <>
                         <MenuItem>
-                            <ItemLink to='/profile'>
+                            <ItemLink to={`/profile/${auth.id}`}>
                                 <AvatarWrapper>
                                     <Avatar src={auth.avatar} />
                                 </AvatarWrapper>

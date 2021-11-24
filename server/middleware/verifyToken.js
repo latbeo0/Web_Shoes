@@ -8,15 +8,15 @@ const verifyTokenActivation = (req, res, next) => {
             process.env.ACTIVATION_TOKEN_SECRET,
             (err, user) => {
                 if (err) {
-                    res.status(403).json('Token is not valid!');
+                    res.status(403).json({ msg: 'Token is not valid!' });
                 } else {
                     req.user = user;
                     next();
                 }
             }
         );
-    } catch (err) {
-        return res.status(500).json({ msg: err.message });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
     }
 };
 

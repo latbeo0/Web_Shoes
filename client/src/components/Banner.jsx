@@ -6,7 +6,6 @@ SwiperCore.use([Pagination]);
 
 const Container = styled.div`
     width: 100vw;
-    height: 800px;
     margin-bottom: 100px;
 
     .wrapper {

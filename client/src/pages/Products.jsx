@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Product from '../../components/Product';
-import FilterSidebar from '../../components/FilterSidebar';
+import Product from '../components/Product';
+import FilterSidebar from '../components/FilterSidebar';
 
 const Container = styled.div`
     width: 100vw;

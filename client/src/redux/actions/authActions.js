@@ -19,9 +19,10 @@ export const dispatchLogout = () => {
     };
 };
 
-export const dispatchGetAddress = (res) => {
+export const dispatchUpdateAccount = (data) => {
+    console.log(data);
     return {
-        type: ACTIONS.GET_USER,
-        payload: res.data,
+        type: ACTIONS.UPDATE_ACCOUNT,
+        payload: data,
     };
 };
