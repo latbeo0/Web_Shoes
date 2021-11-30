@@ -12,6 +12,8 @@ import ResetPassword from './pages/ResetPassword/';
 import Profile from './pages/Profile/';
 import Logout from './pages/Logout';
 import Admin from './pages/Admin/';
+import Mappage from './pages/Map';
+import NotFound from './pages/404NotFound';
 import { useSelector } from 'react-redux';
 
 const App = () => {
@@ -39,6 +41,8 @@ const App = () => {
                 />
                 <Route path='/logout' element={isLogged && <Logout />} />
                 <Route path='/admin' element={isAdmin && <Admin />} />
+                <Route path='/notfound' element={<NotFound />} />
+                <Route path='/find_shop' element={<Mappage />} />
             </Routes>
             <Footer />
         </BrowserRouter>
