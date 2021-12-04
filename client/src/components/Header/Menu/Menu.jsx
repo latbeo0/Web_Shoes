@@ -12,6 +12,7 @@ import {
     PersonIcon,
     CartIcon,
     LogoutIcon,
+    AdminIcon,
     AvatarWrapper,
     Avatar,
 } from './Menu_Elements';
@@ -56,6 +57,16 @@ const Menu = () => {
                                 <ItemTitle>{auth.username}</ItemTitle>
                             </ItemLink>
                         </MenuItem>
+                        {auth.isAdmin && (
+                            <MenuItem>
+                                <ItemLink to='/admin'>
+                                    <IconWrapper>
+                                        <AdminIcon color={'#fff'} />
+                                    </IconWrapper>
+                                    <ItemTitle>Admin</ItemTitle>
+                                </ItemLink>
+                            </MenuItem>
+                        )}
                         <MenuItem>
                             <ItemLink to='/logout'>
                                 <IconWrapper>
@@ -75,6 +86,7 @@ const Menu = () => {
                         </ItemLink>
                     </MenuItem>
                 )}
+
                 <MenuItem>
                     <ItemLink to='/cart'>
                         <IconWrapper>

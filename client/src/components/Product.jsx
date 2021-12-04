@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import WishlistButton from '../components/WishlistButton';
+import { Link } from 'react-router-dom';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -90,6 +91,7 @@ const Title = styled.h1`
     font-weight: 700;
     margin-top: 12px;
     cursor: pointer;
+    text-align: center;
 
     &:hover {
         color: #f15e2c;
@@ -158,41 +160,65 @@ const OutOfStock = styled.h1`
     text-transform: uppercase;
 `;
 
+const LinkR = styled(Link)`
+    text-decoration: none;
+    color: inherit;
+`;
+
 const Product = ({ data }) => {
+    function formatCash(str) {
+        return str
+            .split('')
+            .reverse()
+            .reduce((prev, next, index) => {
+                return (index % 3 ? next : next + '.') + prev;
+            });
+    }
+
     return (
         <ProductWrapper>
-            <ProductImageBox>
-                <ProductImage src={data.img[0]} />
-                <ProductImage className='isHovered' src={data.img[1]} />
-                {data.amount === 0 && (
-                    <Modal className='modal'>
-                        <OutOfStock>Out of stock</OutOfStock>
-                    </Modal>
-                )}
-            </ProductImageBox>
+            <LinkR to={`/product/${data._id}`}>
+                <ProductImageBox>
+                    <ProductImage src={data.imgPrimary} />
+                    <ProductImage
+                        className='isHovered'
+                        src={data.imgSecondary}
+                    />
+                    {!data.inStock && (
+                        <Modal className='modal'>
+                            <OutOfStock>Out of stock</OutOfStock>
+                        </Modal>
+                    )}
+                </ProductImageBox>
+            </LinkR>
             <ButtonWrapper>
-                {data.amount !== 0 && (
-                    <ButtonBuy className='hidden'>Buy Now</ButtonBuy>
-                )}
+                <LinkR to={`/product/${data._id}`}>
+                    {data.inStock && (
+                        <ButtonBuy className='hidden'>Buy Now</ButtonBuy>
+                    )}
+                </LinkR>
+
                 <WishlistButton />
             </ButtonWrapper>
             <ProductBody>
-                <Status>{data.status}</Status>
+                <Status>{data.state}</Status>
                 <Separate />
-                <Title>{data.title}</Title>
-                <Description>{data.desc}</Description>
+                <LinkR to={`/product/${data._id}`}>
+                    <Title>{data.name}</Title>
+                </LinkR>
+                <Description>Poseidon</Description>
                 <PriceWrapper>
-                    <Price state='new'>{data.priceCurrent}.000 VND</Price>
-                    {data.priceOld && (
-                        <Price state='old'>{data.priceOld}.000 VND</Price>
-                    )}
+                    <Price state='new'>
+                        {formatCash(data.price.toString())} vnđ
+                    </Price>
+                    {data.priceOld && <Price state='old'>000</Price>}
                 </PriceWrapper>
             </ProductBody>
-            {data.tag === 'Online Only' ? (
-                <Tag>{data.tag}</Tag>
+            {data.state === 'Online Only' ? (
+                <Tag>{data.state}</Tag>
             ) : (
-                data.tag === 'Limited Edition' && (
-                    <TagLimited>{data.tag}</TagLimited>
+                data.state === 'Limited Edition' && (
+                    <TagLimited>{data.state}</TagLimited>
                 )
             )}
         </ProductWrapper>

@@ -72,7 +72,7 @@ const Body = styled.div`
     padding: 30px 40px;
 
     & > .arrow {
-        font-size: 36px;
+        font-size: 1.6rem;
         transform: rotate(90deg);
         pointer-events: none;
         transition: all 0.2s ease;

@@ -32,6 +32,30 @@ const uploadCtrl = {
             return res.status(500).json({ msg: err.message });
         }
     },
+    uploadProduct: (req, res) => {
+        try {
+            const file = req.files.file;
+
+            cloudinary.v2.uploader.upload(
+                file.tempFilePath,
+                {
+                    folder: 'products',
+                    width: 500,
+                    height: 500,
+                    crop: 'fill',
+                },
+                async (err, result) => {
+                    if (err) throw err;
+
+                    removeTmp(file.tempFilePath);
+
+                    res.json({ url: result.secure_url });
+                }
+            );
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
 };
 
 const removeTmp = (path) => {

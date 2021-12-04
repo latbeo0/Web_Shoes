@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { FavoriteBorder, KeyboardArrowDown } from '@material-ui/icons';
 // import { useState } from 'react';
+import { useEffect } from 'react';
+import { fetchGetProduct } from '../services/productFetch';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -294,6 +298,9 @@ const PayButton = styled.button`
 `;
 
 const Product = () => {
+    const [productDetail, setProductDetail] = useState();
+    const { id } = useParams();
+
     const handleClick = (e) => {
         e.target.classList.toggle('toggle');
     };
@@ -304,146 +311,166 @@ const Product = () => {
         console.log(e.target);
     };
 
+    useEffect(() => {
+        fetchGetProduct(id)
+            .then((res) => setProductDetail(res.data.product))
+            .catch((err) => console.log(err));
+    });
+
     return (
         <Container>
-            <Body>
-                <Link>
-                    <Blur>Shoes</Blur>
-                    <Blur>Basas</Blur>
-                    <HighLight type='link'>
-                        Basas Bumper Gum EXT NE - Low Top
-                    </HighLight>
-                </Link>
-                <Separate />
-                <Content>
-                    <Left>
-                        <ImagePrimaryBox>
-                            <Image src='https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                        </ImagePrimaryBox>
-                        <ImageWrapper>
-                            <ImageSecondBox>
-                                <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                            </ImageSecondBox>
-                            <ImageSecondBox>
-                                <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                            </ImageSecondBox>
-                            <ImageSecondBox>
-                                <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                            </ImageSecondBox>
-                            <ImageSecondBox>
-                                <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                            </ImageSecondBox>
-                        </ImageWrapper>
-                    </Left>
-                    <Right>
-                        <Title>
-                            BASAS BUMPER GUM EXT NE - LOW TOP - OFFWHITE/GUM
-                        </Title>
-                        <InfoWrapper>
-                            <InfoItem>
-                                ID Product: <HighLight>AV00114</HighLight>
-                            </InfoItem>
-                            <InfoItem>
-                                Status: <HighLight>New Arrival</HighLight>
-                            </InfoItem>
-                        </InfoWrapper>
-                        <PriceWrapper>
-                            <PriceCurrent>580.000 VND</PriceCurrent>
-                            <PriceOld>580.000 VND</PriceOld>
-                        </PriceWrapper>
-                        <Separate type='dashed' />
-                        <Description>
-                            Bumper Gum EXT (Extension) NE là bản nâng cấp được
-                            xếp vào dòng sản phẩm Basas, nhưng lại gây ấn tượng
-                            với diện mạo phá đi sự an toàn thường thấy. Với cách
-                            sắp xếp logo hoán đổi đầy ý tứ và mảng miếng da lộn
-                            (Suede) xuất hiện hợp lí trên chất vải canvas NE bền
-                            bỉ dày dặn nhấn nhá thêm bằng những sắc Gum dẻo dai.
-                            Tất cả làm nên 01 bộ sản phẩm với thiết kế đầy thoải
-                            mái trong trải nghiệm, đủ thanh lịch trong dáng vẻ.
-                        </Description>
-                        <Separate type='dashed' />
-                        <ColorWrapper>
-                            <Color color='#F2632C' />
-                            <Color color='#fff' />
-                        </ColorWrapper>
-                        <Separate type='dashed' />
-                        <OptionWrapper>
-                            <OptionItem>
-                                <TitleOption>Size</TitleOption>
-                                <InputOption>
-                                    <ValueWrapper onClick={handleClick}>
-                                        36
-                                        <KeyboardArrowDown className='arrow' />
-                                    </ValueWrapper>
-                                    <OptionContainer className='sub'>
-                                        <OptionSubWrapper
-                                            onClick={handleChangeSize}
-                                        >
-                                            <OptionSubItem>35</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper
-                                            onClick={handleChangeSize}
-                                        >
-                                            <OptionSubItem>36</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper
-                                            className='dis'
-                                            onClick={handleChangeSize}
-                                        >
-                                            <OptionSubItem>37</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper
-                                            onClick={handleChangeSize}
-                                        >
-                                            <OptionSubItem>38</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper
-                                            onClick={handleChangeSize}
-                                        >
-                                            <OptionSubItem>39</OptionSubItem>
-                                        </OptionSubWrapper>
-                                    </OptionContainer>
-                                </InputOption>
-                            </OptionItem>
-                            <OptionItem>
-                                <TitleOption>Quantity</TitleOption>
-                                <InputOption>
-                                    <ValueWrapper onClick={handleClick}>
-                                        1
-                                        <KeyboardArrowDown className='arrow' />
-                                    </ValueWrapper>
-                                    <OptionContainer className='sub'>
-                                        <OptionSubWrapper>
-                                            <OptionSubItem>1</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper>
-                                            <OptionSubItem>2</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper>
-                                            <OptionSubItem>3</OptionSubItem>
-                                        </OptionSubWrapper>
-                                        <OptionSubWrapper>
-                                            <OptionSubItem>4</OptionSubItem>
-                                        </OptionSubWrapper>
-                                    </OptionContainer>
-                                </InputOption>
-                            </OptionItem>
-                        </OptionWrapper>
-                        <ButtonsWrapper>
-                            <AddCartWrapper>
-                                <TitleButton>Add to cart</TitleButton>
-                            </AddCartWrapper>
-                            <WishlistWrapper>
-                                <FavoriteBorder className='icon' />
-                            </WishlistWrapper>
-                        </ButtonsWrapper>
-                        <PayButton>
-                            <TitleButton>Pay</TitleButton>
-                        </PayButton>
-                    </Right>
-                </Content>
-            </Body>
+            {productDetail && (
+                <Body>
+                    <Link>
+                        <Blur>{productDetail.category}</Blur>
+                        <Blur>Basas</Blur>
+                        <HighLight type='link'>{productDetail.name}</HighLight>
+                    </Link>
+                    <Separate />
+                    <Content>
+                        <Left>
+                            <ImagePrimaryBox>
+                                <Image src={productDetail.imgPrimary} />
+                            </ImagePrimaryBox>
+                            <ImageWrapper>
+                                <ImageSecondBox>
+                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                </ImageSecondBox>
+                                <ImageSecondBox>
+                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                </ImageSecondBox>
+                                <ImageSecondBox>
+                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                </ImageSecondBox>
+                                <ImageSecondBox>
+                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+                                </ImageSecondBox>
+                            </ImageWrapper>
+                        </Left>
+                        <Right>
+                            <Title>{productDetail.name}</Title>
+                            <InfoWrapper>
+                                <InfoItem>
+                                    ID Product:{' '}
+                                    <HighLight>{productDetail._id}</HighLight>
+                                </InfoItem>
+                                <InfoItem>
+                                    {productDetail.state && (
+                                        <>
+                                            Status:{' '}
+                                            <HighLight>
+                                                {productDetail.state}
+                                            </HighLight>
+                                        </>
+                                    )}
+                                </InfoItem>
+                            </InfoWrapper>
+                            <PriceWrapper>
+                                <PriceCurrent>
+                                    {productDetail.price}
+                                </PriceCurrent>
+                                {productDetail.priceOld && (
+                                    <PriceOld>580.000 VND</PriceOld>
+                                )}
+                            </PriceWrapper>
+                            <Separate type='dashed' />
+                            <Description>
+                                {productDetail.description}
+                            </Description>
+                            <Separate type='dashed' />
+                            <ColorWrapper>
+                                {productDetail.detail.map((dl) => (
+                                    <Color color={dl.color} />
+                                ))}
+                            </ColorWrapper>
+                            <Separate type='dashed' />
+                            <OptionWrapper>
+                                <OptionItem>
+                                    <TitleOption>Size</TitleOption>
+                                    <InputOption>
+                                        <ValueWrapper onClick={handleClick}>
+                                            36
+                                            <KeyboardArrowDown className='arrow' />
+                                        </ValueWrapper>
+                                        <OptionContainer className='sub'>
+                                            <OptionSubWrapper
+                                                onClick={handleChangeSize}
+                                            >
+                                                <OptionSubItem>
+                                                    35
+                                                </OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper
+                                                onClick={handleChangeSize}
+                                            >
+                                                <OptionSubItem>
+                                                    36
+                                                </OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper
+                                                className='dis'
+                                                onClick={handleChangeSize}
+                                            >
+                                                <OptionSubItem>
+                                                    37
+                                                </OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper
+                                                onClick={handleChangeSize}
+                                            >
+                                                <OptionSubItem>
+                                                    38
+                                                </OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper
+                                                onClick={handleChangeSize}
+                                            >
+                                                <OptionSubItem>
+                                                    39
+                                                </OptionSubItem>
+                                            </OptionSubWrapper>
+                                        </OptionContainer>
+                                    </InputOption>
+                                </OptionItem>
+                                <OptionItem>
+                                    <TitleOption>Quantity</TitleOption>
+                                    <InputOption>
+                                        <ValueWrapper onClick={handleClick}>
+                                            1
+                                            <KeyboardArrowDown className='arrow' />
+                                        </ValueWrapper>
+                                        <OptionContainer className='sub'>
+                                            <OptionSubWrapper>
+                                                <OptionSubItem>1</OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper>
+                                                <OptionSubItem>2</OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper>
+                                                <OptionSubItem>3</OptionSubItem>
+                                            </OptionSubWrapper>
+                                            <OptionSubWrapper>
+                                                <OptionSubItem>4</OptionSubItem>
+                                            </OptionSubWrapper>
+                                        </OptionContainer>
+                                    </InputOption>
+                                </OptionItem>
+                            </OptionWrapper>
+                            <ButtonsWrapper>
+                                <AddCartWrapper>
+                                    <TitleButton>Add to cart</TitleButton>
+                                </AddCartWrapper>
+                                <WishlistWrapper>
+                                    <FavoriteBorder className='icon' />
+                                </WishlistWrapper>
+                            </ButtonsWrapper>
+                            <PayButton>
+                                <TitleButton>Pay</TitleButton>
+                            </PayButton>
+                        </Right>
+                    </Content>
+                </Body>
+            )}
         </Container>
     );
 };

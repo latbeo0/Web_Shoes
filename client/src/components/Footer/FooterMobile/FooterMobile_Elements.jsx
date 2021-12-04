@@ -48,7 +48,7 @@ const Body = styled.div`
     padding: 30px 40px;
 
     & > .arrow {
-        font-size: 38px;
+        font-size: 1.8rem;
         transform: rotate(90deg);
         pointer-events: none;
         transition: all 0.2s ease;
@@ -69,13 +69,13 @@ const Body = styled.div`
 
     @media only screen and (min-width: 576px) and (max-width: 767px) {
         & > .arrow {
-            font-size: 34px;
+            font-size: 1.6rem;
         }
     }
 
     @media only screen and (max-width: 575px) {
         & > .arrow {
-            font-size: 30px;
+            font-size: 1.2rem;
         }
     }
 `;
@@ -210,7 +210,7 @@ const ArrowButton = styled.div`
     background-color: black;
 
     & > .icon {
-        font-size: 62px;
+        font-size: 3rem;
     }
 
     @media only screen and (max-width: 767px) {
@@ -218,7 +218,7 @@ const ArrowButton = styled.div`
         height: 56px;
 
         & > .icon {
-            font-size: 36px;
+            font-size: 2rem;
         }
     }
 `;

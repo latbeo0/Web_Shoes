@@ -1,6 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import { Close, KeyboardArrowDown } from '@material-ui/icons';
 import { useState } from 'react';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 const growth = keyframes`
     from {
@@ -132,10 +134,11 @@ const ItemSubWrapperSize = styled(ItemSubWrapper)`
 const ItemSub = styled.div`
     font-size: 16px;
     font-weight: 400;
-    padding: 8px 15px;
+    padding: 6px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 6px;
 
     .close {
         display: none;
@@ -192,7 +195,10 @@ const Color = styled.div`
 `;
 
 const FilterSlidebar = () => {
-    const [gender, setGender] = useState('');
+    const location = useLocation();
+    const { gender } = useParams();
+    console.log(gender);
+    const [gender1, setGender] = useState('');
 
     const handleGenre = (e) => {
         setGender(e.target.innerHTML.toString());

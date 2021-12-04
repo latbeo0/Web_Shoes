@@ -3,6 +3,8 @@ const ACTIONS = {
     GET_TOKEN: 'GET_TOKEN',
     LOGOUT: 'LOGOUT',
     UPDATE_ACCOUNT: 'UPDATE_ACCOUNT',
+    LOG_ADMIN: 'LOG_ADMIN',
+    OUT_ADMIN: 'OUT_ADMIN',
 };
 
 export default ACTIONS;

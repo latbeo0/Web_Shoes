@@ -7,6 +7,7 @@ const initialState = {
     isLogged: false,
     isAdmin: false,
     token: '',
+    logAdmin: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -43,6 +44,18 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 username: action.payload.usernameUd,
                 avatar: action.payload.avatarUd,
+            };
+
+        case ACTIONS.LOG_ADMIN:
+            return {
+                ...state,
+                logAdmin: true,
+            };
+
+        case ACTIONS.OUT_ADMIN:
+            return {
+                ...state,
+                logAdmin: false,
             };
 
         default:

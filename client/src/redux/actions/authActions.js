@@ -26,3 +26,15 @@ export const dispatchUpdateAccount = (data) => {
         payload: data,
     };
 };
+
+export const dispatchLogAdmin = () => {
+    return {
+        type: ACTIONS.LOG_ADMIN,
+    };
+};
+
+export const dispatchOutAdmin = () => {
+    return {
+        type: ACTIONS.OUT_ADMIN,
+    };
+};

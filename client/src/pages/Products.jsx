@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import Product from '../components/Product';
 import FilterSidebar from '../components/FilterSidebar';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { fetchGetAllProducts } from '../services/productFetch';
 
 const Container = styled.div`
     width: 100vw;
@@ -54,61 +57,15 @@ const Column = styled.div`
 `;
 
 const Products = () => {
-    const data = [
-        {
-            id: 1,
-            title: 'Basas Black Lace - Low Top',
-            desc: 'Dark Grey',
-            img: [
-                'https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-                'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-            ],
-            priceCurrent: 320,
-            priceOld: 420,
-            status: 'Sale Off',
-            amount: 10,
-            tag: 'Online Only',
-        },
-        {
-            id: 2,
-            title: 'Basas Black Lace - Low Top',
-            desc: 'Dark Grey',
-            img: [
-                'https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-                'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-            ],
-            priceCurrent: 320,
-            status: 'New Arrival',
-            amount: 10,
-            tag: 'Limited Edition',
-        },
-        {
-            id: 3,
-            title: 'Basas Black Lace - Low Top',
-            desc: 'Dark Grey',
-            img: [
-                'https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-                'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-            ],
-            priceCurrent: 320,
-            status: 'Best Seller',
-            amount: 0,
-            tag: 'normal',
-        },
-        {
-            id: 4,
-            title: 'Basas Black Lace - Low Top',
-            desc: 'Dark Grey',
-            img: [
-                'https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-                'https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-            ],
-            priceCurrent: 320,
-            status: 'Best Seller',
-            amount: 2,
-            tag: 'normal',
-        },
-    ];
+    const [listProduct, setListProduct] = useState([]);
+
+    useEffect(() => {
+        fetchGetAllProducts()
+            .then((res) => {
+                setListProduct(res.data.products);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     return (
         <Container>
@@ -122,7 +79,7 @@ const Products = () => {
                     </BannerBox>
                     <ProductsWrapper>
                         <Row>
-                            {data.map((product) => (
+                            {listProduct.map((product) => (
                                 <Column key={product.id}>
                                     <Product data={product} />
                                 </Column>

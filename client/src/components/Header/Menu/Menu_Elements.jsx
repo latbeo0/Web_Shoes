@@ -6,7 +6,7 @@ import {
     BsFillPersonFill,
     BsBasket,
 } from 'react-icons/bs';
-import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut, BiBarChartAlt2 } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
 export const MenuContainer = styled.div`
@@ -82,6 +82,10 @@ export const CartIcon = styled(BsBasket)`
 `;
 
 export const LogoutIcon = styled(BiLogOut)`
+    font-size: 1.6rem;
+`;
+
+export const AdminIcon = styled(BiBarChartAlt2)`
     font-size: 1.6rem;
 `;
 
