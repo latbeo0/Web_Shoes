@@ -17,3 +17,13 @@ export const fetchPayment = async (
         userName,
     });
 };
+
+export const fetchGetUserOrders = async (token, id) => {
+    return await axios.get(`/api/order/find/${id}`, {
+        headers: { Authorization: token },
+    });
+};
+
+export const fetchGetOrder = async (idOrder) => {
+    return await axios.post('/api/order/search', { idOrder });
+};

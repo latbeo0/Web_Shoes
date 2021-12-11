@@ -75,3 +75,10 @@ export const fetchUpdateAccount = async (dataUd, auth) => {
         }
     );
 };
+
+export const fetchGetAllUsers = async (token) => {
+    const res = await axios.get('/api/user/', {
+        headers: { Authorization: token },
+    });
+    return res;
+};

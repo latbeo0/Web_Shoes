@@ -27,6 +27,8 @@ import Loader from './utils/Loader';
 import Cart from './pages/Cart';
 import Shipping from './pages/Shipping';
 import PaySuccess from './pages/PaySuccess';
+import ListUser from './pages/ListUser/';
+import Order from './pages/Order/Order';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -96,6 +98,7 @@ const App = () => {
                             path='pay_success/:id'
                             element={<PaySuccess />}
                         />
+                        <Route path='orders' element={<Order />} />
                         <Route path='find_shop' element={<Map />} />
                     </Route>
                     {isAdmin && (
@@ -113,6 +116,7 @@ const App = () => {
                                 path='product/:id'
                                 element={<UpdateProduct />}
                             />
+                            <Route path='list_user' element={<ListUser />} />
                         </Route>
                     )}
                     <Route path='*' element={<NotFound />} />

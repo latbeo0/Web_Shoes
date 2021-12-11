@@ -43,6 +43,7 @@ const verifyTokenRefreshToken = (req, res, next) => {
 const verifyToken = (req, res, next) => {
     try {
         const token = req.header('Authorization');
+
         if (!token)
             return res.status(401).json({ msg: 'Invalid Authentication.' });
 

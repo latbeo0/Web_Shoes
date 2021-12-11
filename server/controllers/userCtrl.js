@@ -97,7 +97,7 @@ const userCtrl = {
         try {
             const users = await Users.find().select('-password');
 
-            res.json(users);
+            res.status(200).json({ users });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

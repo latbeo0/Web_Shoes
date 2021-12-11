@@ -16,6 +16,7 @@ import {
     AddProductIcon,
     CategoryIcon,
     AddCategory,
+    ListUserIcon,
 } from './Sidebar_Elements';
 
 const Sidebar = () => {
@@ -81,6 +82,21 @@ const Sidebar = () => {
                                     <SidebarItemName>
                                         Add Product
                                     </SidebarItemName>
+                                </SidebarItemWrapper>
+                            </SidebarListItem>
+                        </LinkR>
+                    </SidebarList>
+                </SidebarMenu>
+                <SidebarMenu>
+                    <SidebarTitle>Users</SidebarTitle>
+                    <SidebarList>
+                        <LinkR to='/admin/list_user'>
+                            <SidebarListItem>
+                                <SidebarItemWrapper>
+                                    <IconWrapper>
+                                        <ListUserIcon />
+                                    </IconWrapper>
+                                    <SidebarItemName>User List</SidebarItemName>
                                 </SidebarItemWrapper>
                             </SidebarListItem>
                         </LinkR>

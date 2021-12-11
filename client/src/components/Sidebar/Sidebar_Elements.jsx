@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { VscHome, VscGraphLine, VscPieChart } from 'react-icons/vsc';
 import { BsBag, BsBagPlus, BsFolder, BsFolderPlus } from 'react-icons/bs';
+import { HiOutlineUsers } from 'react-icons/hi';
 
 export const SidebarContainer = styled.div`
     flex: 1;
@@ -100,6 +101,11 @@ export const CategoryIcon = styled(BsFolder)`
 `;
 
 export const AddCategory = styled(BsFolderPlus)`
+    margin-right: 5px;
+    font-size: 2.4rem;
+`;
+
+export const ListUserIcon = styled(HiOutlineUsers)`
     margin-right: 5px;
     font-size: 2.4rem;
 `;
