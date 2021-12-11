@@ -63,6 +63,9 @@ const ListProduct = () => {
                                     <ItemHeaderTable>#</ItemHeaderTable>
                                     <ItemHeaderTable>Name</ItemHeaderTable>
                                     <ItemHeaderTable>Price</ItemHeaderTable>
+                                    <ItemHeaderTable>
+                                        Product Line
+                                    </ItemHeaderTable>
                                     <ItemHeaderTable>Category</ItemHeaderTable>
                                     <ItemHeaderTable>Color</ItemHeaderTable>
                                     <ItemHeaderTable>Stock</ItemHeaderTable>
@@ -97,6 +100,11 @@ const ListProduct = () => {
                                                 product.price.toString()
                                             )}{' '}
                                             vnđ
+                                        </ItemBodyTable>
+                                        <ItemBodyTable
+                                            style={{ width: '150px' }}
+                                        >
+                                            {product.productLine}
                                         </ItemBodyTable>
                                         <ItemBodyTable
                                             style={{ width: '150px' }}

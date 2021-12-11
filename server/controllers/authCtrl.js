@@ -156,7 +156,7 @@ const authCtrl = {
                 res.cookie('refresh_token', refresh_token, {
                     httpOnly: true,
                     path: '/api/user/refresh_token',
-                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                    maxAge: 3 * 24 * 60 * 60 * 1000,
                 });
 
                 res.status(200).json({ msg: 'Login successful!' });
@@ -177,7 +177,7 @@ const authCtrl = {
                 res.cookie('refresh_token', refresh_token, {
                     httpOnly: true,
                     path: '/api/user/refresh_token',
-                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                    maxAge: 3 * 24 * 60 * 60 * 1000,
                 });
 
                 res.status(200).json({ msg: 'Login successful!' });
@@ -228,7 +228,7 @@ const authCtrl = {
                 res.cookie('refresh_token', refresh_token, {
                     httpOnly: true,
                     path: '/api/user/refresh_token',
-                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                    maxAge: 3 * 24 * 60 * 60 * 1000,
                 });
 
                 res.status(200).json({ msg: 'Login successful!' });
@@ -246,7 +246,7 @@ const authCtrl = {
                 res.cookie('refresh_token', refresh_token, {
                     httpOnly: true,
                     path: '/api/user/refresh_token',
-                    maxAge: 1 * 24 * 60 * 60 * 1000,
+                    maxAge: 3 * 24 * 60 * 60 * 1000,
                 });
 
                 res.json({ msg: 'Login success!' });

@@ -21,7 +21,12 @@ import Map from './pages/Map/';
 import { useEffect, useState } from 'react';
 import { fetchGetAccessToken } from './services/userFetch';
 import { dispatchAccessToken } from './redux/actions/authActions';
+import { fetchGetAllProducts } from './services/productFetch';
+import { dispatchGetAllProducts } from './redux/actions/productActions';
 import Loader from './utils/Loader';
+import Cart from './pages/Cart';
+import Shipping from './pages/Shipping';
+import PaySuccess from './pages/PaySuccess';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -35,16 +40,23 @@ const App = () => {
             fetchGetAccessToken()
                 .then((res) => {
                     dispatch(dispatchAccessToken(res));
-                    setLoading(false);
                 })
                 .catch((err) => {
                     localStorage.removeItem('firstLogin');
-                    setLoading(false);
                 });
-        } else {
-            setLoading(false);
         }
+        setLoading(false);
     }, [isLogged, dispatch]);
+
+    useEffect(() => {
+        fetchGetAllProducts()
+            .then((res) => {
+                dispatch(dispatchGetAllProducts(res));
+            })
+            .catch((err) => console.log(err));
+
+        setLoading(false);
+    }, [dispatch]);
 
     return (
         <BrowserRouter>
@@ -54,7 +66,7 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<User />}>
                         <Route index element={<Home />} />
-                        <Route path='products' element={<Products />} />
+                        <Route path='products/*' element={<Products />} />
                         <Route path='product/:id' element={<Product />} />
                         <Route path='login' element={<Login />} />
                         <Route path='register' element={<Register />} />
@@ -75,6 +87,15 @@ const App = () => {
                             element={isLogged && <Profile />}
                         />
                         <Route path='logout' element={isLogged && <Logout />} />
+                        <Route path='cart' element={<Cart />} />
+                        <Route
+                            path='shipping_information'
+                            element={<Shipping />}
+                        />
+                        <Route
+                            path='pay_success/:id'
+                            element={<PaySuccess />}
+                        />
                         <Route path='find_shop' element={<Map />} />
                     </Route>
                     {isAdmin && (

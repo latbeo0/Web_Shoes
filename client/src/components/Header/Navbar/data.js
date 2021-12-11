@@ -19,7 +19,7 @@ export const dataImage = [
     },
     {
         id: 4,
-        link: '#',
+        link: '/products?gender=men,women&category=half_upper,accessory&attribute=',
         img: 'https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         title: 'Fashion & Accessories',
     },

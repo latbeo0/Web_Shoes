@@ -10,6 +10,7 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const uploadRoute = require('./routes/upload');
 const productRoute = require('./routes/product');
+const orderRoute = require('./routes/order');
 
 const app = express();
 app.use(express.json());
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/upload', uploadRoute);
 app.use('/api/product', productRoute);
+app.use('/api/order', orderRoute);
 
 // Listening
 const PORT = process.env.PORT || 5000;

@@ -19,6 +19,7 @@ import {
 
 const Menu = () => {
     const auth = useSelector((state) => state.auth);
+    const cart = useSelector((state) => state.cart);
 
     return (
         <MenuContainer>
@@ -92,7 +93,7 @@ const Menu = () => {
                         <IconWrapper>
                             <CartIcon color={'#fff'} />
                         </IconWrapper>
-                        <ItemTitle>Cart (10)</ItemTitle>
+                        <ItemTitle>Cart ({cart.products.length})</ItemTitle>
                     </ItemLink>
                 </MenuItem>
             </MenuList>

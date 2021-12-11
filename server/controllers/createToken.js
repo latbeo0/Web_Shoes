@@ -8,13 +8,13 @@ const createActivationToken = (payload) => {
 
 const createAccessToken = (payload) => {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '15m',
+        expiresIn: '1d',
     });
 };
 
 const createRefreshToken = (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: '1d',
+        expiresIn: '3d',
     });
 };
 

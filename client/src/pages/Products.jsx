@@ -4,6 +4,8 @@ import FilterSidebar from '../components/FilterSidebar';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { fetchGetAllProducts } from '../services/productFetch';
+import { useLocation } from 'react-router';
+import Loader from '../utils/Loader';
 
 const Container = styled.div`
     width: 100vw;
@@ -56,16 +58,115 @@ const Column = styled.div`
     padding-right: 10px;
 `;
 
+const initialState = {
+    gender: '',
+    category: [],
+    attribute: [],
+};
+
 const Products = () => {
     const [listProduct, setListProduct] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchGetAllProducts()
             .then((res) => {
                 setListProduct(res.data.products);
+                setLoading(false);
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const location = useLocation();
+
+    const [filters, setFilters] = useState(initialState);
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+
+        let gender = '';
+        if (query.get('gender')) {
+            // eslint-disable-next-line
+            const qGender = query.get('gender').split(/,/);
+
+            if (qGender.includes('men')) {
+                if (qGender.includes('women')) {
+                    gender = 'all';
+                } else {
+                    gender = 'male';
+                }
+            } else {
+                gender = 'female';
+            }
+        }
+
+        // Category
+        const category = [];
+        if (query.get('category')) {
+            // eslint-disable-next-line
+            const qCategory = query.get('category').split(/,/);
+
+            qCategory.forEach((item) => {
+                category.push(item.split('_').join(' '));
+            });
+        }
+
+        // Attribute
+        const attribute = [];
+        if (query.get('attribute')) {
+            // eslint-disable-next-line
+            const qAttribute = query.get('attribute').split(/,/);
+
+            qAttribute.forEach((item) => {
+                attribute.push(item.split('_').join(' '));
+            });
+        }
+
+        setFilters({ gender, category, attribute });
+    }, [location]);
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const productTemp = [];
+        if (filters.gender !== 'male' && filters.gender !== 'female') {
+            listProduct.forEach((item) => {
+                if (
+                    filters.category.length === 0 ||
+                    filters.category.includes(item.category.toLowerCase())
+                ) {
+                    // productTemp.push(item);
+                    if (
+                        filters.attribute.length === 0 ||
+                        filters.attribute.includes(
+                            item.collections.toLowerCase()
+                        ) ||
+                        filters.attribute.includes(
+                            item.material.toLowerCase()
+                        ) ||
+                        filters.attribute.includes(
+                            item.productLine.toLowerCase()
+                        ) ||
+                        filters.attribute.includes(item.state.toLowerCase()) ||
+                        filters.attribute.includes(item.style.toLowerCase())
+                    ) {
+                        productTemp.push(item);
+                    }
+                }
+            });
+            setProducts(() => [...productTemp]);
+        } else {
+            listProduct.forEach((item) => {
+                productTemp.push(item);
+            });
+
+            const newArr = productTemp.filter(
+                (item) => !item.gender.includes(filters.gender)
+            );
+
+            setProducts(() => [...newArr]);
+        }
+    }, [listProduct, filters]);
 
     return (
         <Container>
@@ -78,13 +179,17 @@ const Products = () => {
                         <Banner src='https://images.pexels.com/photos/9638823/pexels-photo-9638823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
                     </BannerBox>
                     <ProductsWrapper>
-                        <Row>
-                            {listProduct.map((product) => (
-                                <Column key={product.id}>
-                                    <Product data={product} />
-                                </Column>
-                            ))}
-                        </Row>
+                        {loading ? (
+                            <Loader />
+                        ) : (
+                            <Row>
+                                {products.map((product) => (
+                                    <Column key={product._id}>
+                                        <Product data={product} />
+                                    </Column>
+                                ))}
+                            </Row>
+                        )}
                     </ProductsWrapper>
                 </Right>
             </Body>

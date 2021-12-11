@@ -12,7 +12,17 @@ const userCtrl = {
             const user = req.user;
 
             const info = await Users.findOne({ _id: user.id });
-            const { _id, username, avatar, isAdmin } = info._doc;
+            const {
+                _id,
+                username,
+                avatar,
+                isAdmin,
+                email,
+                phone,
+                country,
+                city,
+                address,
+            } = info._doc;
 
             const access_token = createAccessToken({
                 id: user.id,
@@ -24,6 +34,11 @@ const userCtrl = {
                 username,
                 avatar,
                 isAdmin,
+                email,
+                phone,
+                country,
+                city,
+                address,
                 access_token,
             });
         } catch (err) {
@@ -100,12 +115,10 @@ const userCtrl = {
     },
     updateUser: async (req, res) => {
         try {
-            const { username, avatar } = req.body;
             await Users.findOneAndUpdate(
                 { _id: req.user.id },
                 {
-                    username,
-                    avatar,
+                    $set: req.body,
                 }
             );
 

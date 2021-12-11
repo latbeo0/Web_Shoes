@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ImageProduct from '../components/ImageProduct';
 import EnhancedTable from './../components/CpnTestContainer';
 
 const Container = styled.div`
@@ -9,10 +8,6 @@ const Container = styled.div`
 `;
 
 const Test = () => {
-    const handleChange = (e) => {
-        console.log(e.target);
-    };
-
     return (
         <Container style={{ fontSize: '30px' }}>
             <EnhancedTable />

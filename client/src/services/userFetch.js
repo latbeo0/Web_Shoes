@@ -59,12 +59,16 @@ export const fetchChangeAvatar = async (formData, token) => {
     });
 };
 
-export const fetchUpdateAccount = async (username, avatar, auth) => {
+export const fetchUpdateAccount = async (dataUd, auth) => {
     return await axios.put(
         `/api/user/${auth.id}`,
         {
-            username: username,
-            avatar: avatar,
+            username: dataUd.usernameUd,
+            avatar: dataUd.avatarUd,
+            phone: dataUd.phoneUd,
+            country: dataUd.countryUd,
+            city: dataUd.cityUd,
+            address: dataUd.addressUd,
         },
         {
             headers: { Authorization: auth.token },

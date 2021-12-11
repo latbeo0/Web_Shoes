@@ -128,7 +128,7 @@ export const AvatarUploadContainer = styled.div`
 export const AvatarUpload = styled.div`
     position: relative;
     max-width: 200px;
-    margin: 0 auto 10px;
+    margin-bottom: 10px;
 `;
 
 export const AvatarUploadPlus = styled(BsFillPlusCircleFill)`

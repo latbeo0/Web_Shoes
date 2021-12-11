@@ -2,9 +2,15 @@ import styled from 'styled-components';
 import { FavoriteBorder, KeyboardArrowDown } from '@material-ui/icons';
 // import { useState } from 'react';
 import { useEffect } from 'react';
-import { fetchGetProduct } from '../services/productFetch';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Loader from '../utils/Loader';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Pagination } from 'swiper';
+import { useDispatch, useSelector } from 'react-redux';
+import { dispatchHandleCart } from '../redux/actions/cartActions';
+
+SwiperCore.use([Pagination]);
 
 const Container = styled.div``;
 
@@ -51,6 +57,7 @@ const Content = styled.div`
 `;
 
 const Left = styled.div`
+    flex: 1;
     min-width: 640px;
     margin-right: 60px;
     display: flex;
@@ -78,6 +85,10 @@ const ImageWrapper = styled.div`
     width: 100%;
     height: 160px;
     gap: 5px;
+
+    .wrapper {
+        width: 100%;
+    }
 `;
 
 const ImageSecondBox = styled.div`
@@ -147,11 +158,25 @@ const ColorWrapper = styled.div`
 `;
 
 const Color = styled.div`
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-    background-color: ${(props) => props.color};
+    width: 35px;
+    height: 35px;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.check {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    &::before {
+        position: absolute;
+        content: '';
+        height: 25px;
+        width: 25px;
+        background-color: ${(props) => props.color};
+    }
 
     & + & {
         margin-left: 20px;
@@ -198,6 +223,7 @@ const ValueWrapper = styled.button`
     font-weight: 700;
     margin-bottom: 5px;
     cursor: pointer;
+    cursor: ${(props) => props.disabled && 'not-allowed'};
 
     .arrow {
         position: absolute;
@@ -241,6 +267,10 @@ const OptionSubWrapper = styled.div`
     margin-bottom: -1px;
     cursor: pointer;
 
+    &.check {
+        background-color: #dddddd;
+    }
+
     &:hover {
         background-color: #f5f5f5;
     }
@@ -273,6 +303,7 @@ const TitleButton = styled.h1`
     font-weight: 900;
     text-transform: uppercase;
     color: white;
+    pointer-events: none;
 `;
 
 const WishlistWrapper = styled.div`
@@ -297,69 +328,184 @@ const PayButton = styled.button`
     cursor: pointer;
 `;
 
+const Message = styled.h1`
+    font-size: 1.4rem;
+    color: #f2632c;
+    margin-bottom: 30px;
+`;
+
+const initialState = {
+    color: '',
+    size: [],
+    quantity: 0,
+    sz: '',
+    qnt: '',
+};
+
 const Product = () => {
-    const [productDetail, setProductDetail] = useState();
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.product);
+
+    const [product, setProduct] = useState();
     const { id } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(false);
+
+    const [detail, setDetail] = useState(initialState);
+
+    useEffect(() => {
+        products.forEach((item) => {
+            if (item._id === id) {
+                setProduct(item);
+                setLoading(false);
+            }
+        });
+    }, [products, id]);
+
+    const handleCheckColor = async (e) => {
+        const changeColor = async () => {
+            const value = e.target.id;
+            setDetail((prev) => {
+                return { ...prev, color: value };
+            });
+            return value;
+        };
+        await changeColor().then((value) => {
+            const temp = [];
+            product.detail.forEach((item) => {
+                if (item.color === value) {
+                    item.values.forEach((s) => {
+                        temp.push(s);
+                    });
+                    setDetail((prev) => {
+                        return { ...prev, size: [...temp], sz: '', qnt: '' };
+                    });
+                }
+            });
+        });
+    };
+
+    const handleChangeSize = async (e) => {
+        const changeSize = async () => {
+            const value = e.target.id;
+            return value;
+        };
+        await changeSize().then((data) => {
+            product.detail.forEach((item) => {
+                if (item.color === detail.color) {
+                    item.values.forEach((value) => {
+                        if (value.size.toString() === data) {
+                            setDetail((prev) => {
+                                return {
+                                    ...prev,
+                                    sz: data,
+                                    quantity: value.quantity,
+                                };
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    };
 
     const handleClick = (e) => {
         e.target.classList.toggle('toggle');
     };
 
-    // const [size, setSize] = useState(0);
+    function formatCash(str) {
+        return str
+            .split('')
+            .reverse()
+            .reduce((prev, next, index) => {
+                return (index % 3 ? next : next + '.') + prev;
+            });
+    }
 
-    const handleChangeSize = (e) => {
-        console.log(e.target);
+    const handleCart = () => {
+        if (!detail.quantity) {
+            setErr(true);
+        } else {
+            dispatch(dispatchHandleCart({ product: product, detail: detail }));
+        }
     };
 
-    useEffect(() => {
-        fetchGetProduct(id)
-            .then((res) => setProductDetail(res.data.product))
-            .catch((err) => console.log(err));
-    });
+    const handleChangeQuantity = (e) => {
+        const value = e.target.id;
+        setDetail((prev) => {
+            return { ...prev, qnt: value };
+        });
+    };
+
+    const Quantities = ({ quantity }) => {
+        const result = [];
+        for (let i = 1; i <= quantity; i++) {
+            result.push(
+                <OptionSubWrapper
+                    key={i}
+                    id={i}
+                    className={i.toString() === detail.qnt && 'check'}
+                    onClick={handleChangeQuantity}
+                >
+                    <OptionSubItem>{i}</OptionSubItem>
+                </OptionSubWrapper>
+            );
+        }
+        return result;
+    };
 
     return (
         <Container>
-            {productDetail && (
+            {loading ? (
+                <Loader />
+            ) : (
                 <Body>
                     <Link>
-                        <Blur>{productDetail.category}</Blur>
-                        <Blur>Basas</Blur>
-                        <HighLight type='link'>{productDetail.name}</HighLight>
+                        <Blur>{product.category}</Blur>
+                        <Blur>{product.productLine}</Blur>
+                        <HighLight type='link'>{product.name}</HighLight>
                     </Link>
                     <Separate />
                     <Content>
                         <Left>
                             <ImagePrimaryBox>
-                                <Image src={productDetail.imgPrimary} />
+                                <Image src={product.imgPrimary} />
                             </ImagePrimaryBox>
                             <ImageWrapper>
-                                <ImageSecondBox>
-                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                </ImageSecondBox>
-                                <ImageSecondBox>
-                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                </ImageSecondBox>
-                                <ImageSecondBox>
-                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                </ImageSecondBox>
-                                <ImageSecondBox>
-                                    <Image src='https://images.pexels.com/photos/1464625/pexels-photo-1464625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
-                                </ImageSecondBox>
+                                <Swiper
+                                    slidesPerView={4}
+                                    spaceBetween={10}
+                                    navigation
+                                    className='wrapper'
+                                >
+                                    {product.listImg.map((item) => (
+                                        <SwiperSlide
+                                            key={item}
+                                            className='imgBx'
+                                        >
+                                            <ImageSecondBox>
+                                                <Image src={item} />
+                                            </ImageSecondBox>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
                             </ImageWrapper>
                         </Left>
                         <Right>
-                            <Title>{productDetail.name}</Title>
+                            <Title>{product.name}</Title>
                             <InfoWrapper>
                                 <InfoItem>
                                     ID Product:{' '}
-                                    <HighLight>{productDetail._id}</HighLight>
+                                    <HighLight>
+                                        {product._id.slice(0, 12)} ...
+                                    </HighLight>
                                 </InfoItem>
                                 <InfoItem>
-                                    {productDetail.state && (
+                                    {product.state && (
                                         <>
                                             Status:{' '}
                                             <HighLight>
-                                                {productDetail.state}
+                                                {product.state}
                                             </HighLight>
                                         </>
                                     )}
@@ -367,20 +513,26 @@ const Product = () => {
                             </InfoWrapper>
                             <PriceWrapper>
                                 <PriceCurrent>
-                                    {productDetail.price}
+                                    {formatCash(product.price.toString())} VNĐ
                                 </PriceCurrent>
-                                {productDetail.priceOld && (
+                                {product.priceOld && (
                                     <PriceOld>580.000 VND</PriceOld>
                                 )}
                             </PriceWrapper>
                             <Separate type='dashed' />
-                            <Description>
-                                {productDetail.description}
-                            </Description>
+                            <Description>{product.description}</Description>
                             <Separate type='dashed' />
                             <ColorWrapper>
-                                {productDetail.detail.map((dl) => (
-                                    <Color color={dl.color} />
+                                {product.detail.map((dl) => (
+                                    <Color
+                                        key={dl}
+                                        id={dl.color}
+                                        className={
+                                            dl.color === detail.color && 'check'
+                                        }
+                                        color={dl.color}
+                                        onClick={handleCheckColor}
+                                    />
                                 ))}
                             </ColorWrapper>
                             <Separate type='dashed' />
@@ -388,76 +540,56 @@ const Product = () => {
                                 <OptionItem>
                                     <TitleOption>Size</TitleOption>
                                     <InputOption>
-                                        <ValueWrapper onClick={handleClick}>
-                                            36
+                                        <ValueWrapper
+                                            disabled={!detail.color}
+                                            onClick={handleClick}
+                                        >
+                                            {detail.sz}
                                             <KeyboardArrowDown className='arrow' />
                                         </ValueWrapper>
                                         <OptionContainer className='sub'>
-                                            <OptionSubWrapper
-                                                onClick={handleChangeSize}
-                                            >
-                                                <OptionSubItem>
-                                                    35
-                                                </OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper
-                                                onClick={handleChangeSize}
-                                            >
-                                                <OptionSubItem>
-                                                    36
-                                                </OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper
-                                                className='dis'
-                                                onClick={handleChangeSize}
-                                            >
-                                                <OptionSubItem>
-                                                    37
-                                                </OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper
-                                                onClick={handleChangeSize}
-                                            >
-                                                <OptionSubItem>
-                                                    38
-                                                </OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper
-                                                onClick={handleChangeSize}
-                                            >
-                                                <OptionSubItem>
-                                                    39
-                                                </OptionSubItem>
-                                            </OptionSubWrapper>
+                                            {detail.size.map((item) => (
+                                                <OptionSubWrapper
+                                                    id={item.size}
+                                                    className={
+                                                        item.size.toString() ===
+                                                            detail.sz && 'check'
+                                                    }
+                                                    onClick={handleChangeSize}
+                                                >
+                                                    <OptionSubItem>
+                                                        {item.size}
+                                                    </OptionSubItem>
+                                                </OptionSubWrapper>
+                                            ))}
                                         </OptionContainer>
                                     </InputOption>
                                 </OptionItem>
                                 <OptionItem>
                                     <TitleOption>Quantity</TitleOption>
                                     <InputOption>
-                                        <ValueWrapper onClick={handleClick}>
-                                            1
+                                        <ValueWrapper
+                                            disabled={!detail.sz}
+                                            onClick={handleClick}
+                                        >
+                                            {detail.qnt}
                                             <KeyboardArrowDown className='arrow' />
                                         </ValueWrapper>
                                         <OptionContainer className='sub'>
-                                            <OptionSubWrapper>
-                                                <OptionSubItem>1</OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper>
-                                                <OptionSubItem>2</OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper>
-                                                <OptionSubItem>3</OptionSubItem>
-                                            </OptionSubWrapper>
-                                            <OptionSubWrapper>
-                                                <OptionSubItem>4</OptionSubItem>
-                                            </OptionSubWrapper>
+                                            <Quantities
+                                                quantity={detail.quantity}
+                                            />
                                         </OptionContainer>
                                     </InputOption>
                                 </OptionItem>
                             </OptionWrapper>
+                            {err && (
+                                <Message>
+                                    *Vui lòng chọn Màu/Size/Số lượng phù hợp
+                                </Message>
+                            )}
                             <ButtonsWrapper>
-                                <AddCartWrapper>
+                                <AddCartWrapper onClick={handleCart}>
                                     <TitleButton>Add to cart</TitleButton>
                                 </AddCartWrapper>
                                 <WishlistWrapper>

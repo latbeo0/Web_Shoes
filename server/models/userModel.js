@@ -28,15 +28,19 @@ const UserSchema = new mongoose.Schema({
     },
     country: {
         type: String,
+        default: '',
     },
     address: {
         type: String,
+        default: '',
     },
     city: {
         type: String,
+        default: '',
     },
     phone: {
         type: String,
+        default: '',
         trim: true,
     },
 });

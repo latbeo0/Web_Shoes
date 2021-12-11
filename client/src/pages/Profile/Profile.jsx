@@ -33,6 +33,10 @@ import {
 
 const initialSate = {
     username: '',
+    phone: '',
+    country: '',
+    city: '',
+    address: '',
     err: '',
     success: '',
 };
@@ -45,7 +49,7 @@ const Profile = () => {
     const [avatar, setAvatar] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { username, err, success } = data;
+    const { username, city, phone, country, address, err, success } = data;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -84,12 +88,33 @@ const Profile = () => {
     const updateAccount = () => {
         const usernameUd = username ? username : auth.username;
         const avatarUd = avatar ? avatar : auth.avatar;
+        const phoneUd = phone ? phone : auth.phone;
+        const cityUd = city ? city : auth.city;
+        const countryUd = country ? country : auth.country;
+        const addressUd = address ? address : auth.address;
+        const dataUd = {
+            usernameUd,
+            avatarUd,
+            phoneUd,
+            cityUd,
+            countryUd,
+            addressUd,
+        };
 
-        fetchUpdateAccount(usernameUd, avatarUd, auth)
+        fetchUpdateAccount(dataUd, auth)
             .then((res) => {
                 setData({ ...data, err: '', success: res.data.msg });
 
-                dispatch(dispatchUpdateAccount({ usernameUd, avatarUd }));
+                dispatch(
+                    dispatchUpdateAccount({
+                        usernameUd,
+                        avatarUd,
+                        phoneUd,
+                        cityUd,
+                        countryUd,
+                        addressUd,
+                    })
+                );
             })
             .catch((err) => {
                 setData({ ...data, err: err.response.data.msg, success: '' });
@@ -97,7 +122,8 @@ const Profile = () => {
     };
 
     const handleUpdate = () => {
-        if (username || avatar) updateAccount();
+        if (username || avatar || phone || city || country || address)
+            updateAccount();
     };
 
     return (
@@ -134,6 +160,54 @@ const Profile = () => {
                                     placeholder='Enter your email'
                                     onChange={handleChange}
                                     disabled
+                                />
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='phone'>Phone</Label>
+                                <Input
+                                    type='phone'
+                                    id='phone'
+                                    value={phone || auth.phone}
+                                    name='phone'
+                                    placeholder='Enter your phone'
+                                    onChange={handleChange}
+                                />
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='country'>Country</Label>
+                                <Input
+                                    type='country'
+                                    id='country'
+                                    value={country || auth.country}
+                                    name='country'
+                                    placeholder='Enter your country'
+                                    onChange={handleChange}
+                                />
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='city'>City</Label>
+                                <Input
+                                    type='city'
+                                    id='city'
+                                    value={city || auth.city}
+                                    name='city'
+                                    placeholder='Enter your city'
+                                    onChange={handleChange}
+                                />
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='address'>Address</Label>
+                                <Input
+                                    type='address'
+                                    id='address'
+                                    value={address || auth.address}
+                                    name='address'
+                                    placeholder='Enter your address'
+                                    onChange={handleChange}
                                 />
                                 <FormMessage></FormMessage>
                             </FormGroup>

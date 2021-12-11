@@ -1,8 +1,20 @@
 import styled, { keyframes } from 'styled-components';
 import { Close, KeyboardArrowDown } from '@material-ui/icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { useParams } from 'react-router-dom';
+import {
+    dataGender,
+    dataCategory,
+    dataProductLine,
+    dataCollection,
+    dataMaterial,
+    dataState,
+    dataStyle,
+    dataSize,
+    dataPrice,
+    dataColor,
+} from '../helpers/data';
+import { useNavigate } from 'react-router-dom';
 
 const growth = keyframes`
     from {
@@ -134,6 +146,7 @@ const ItemSubWrapperSize = styled(ItemSubWrapper)`
 const ItemSub = styled.div`
     font-size: 16px;
     font-weight: 400;
+    text-transform: capitalize;
     padding: 6px 15px;
     display: flex;
     align-items: center;
@@ -194,14 +207,133 @@ const Color = styled.div`
     pointer-events: none;
 `;
 
+const initialState = {
+    gender: '',
+    category: [],
+    attribute: [],
+};
+
 const FilterSlidebar = () => {
+    const navigate = useNavigate();
     const location = useLocation();
-    const { gender } = useParams();
-    console.log(gender);
-    const [gender1, setGender] = useState('');
+
+    const [filters, setFilters] = useState(initialState);
+    const [gender, setGender] = useState('');
+    const [category, setCategory] = useState('');
+    const [attribute, setAttribute] = useState('');
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+
+        let gender = '';
+        if (query.get('gender')) {
+            // eslint-disable-next-line
+            const qGender = query.get('gender').split(/,/);
+
+            if (qGender.includes('men')) {
+                if (qGender.includes('women')) {
+                    gender = 'all';
+                } else {
+                    gender = 'male';
+                }
+            } else {
+                gender = 'female';
+            }
+        }
+        setGender(() => query.get('gender') || '');
+
+        // Category
+        const category = [];
+        if (query.get('category')) {
+            // eslint-disable-next-line
+            const qCategory = query.get('category').split(/,/);
+
+            qCategory.forEach((item) => {
+                category.push(item.split('_').join(' '));
+            });
+        }
+        setCategory(() => query.get('category') || '');
+
+        // Attribute
+        const attribute = [];
+        if (query.get('attribute')) {
+            // eslint-disable-next-line
+            const qAttribute = query.get('attribute').split(/,/);
+
+            qAttribute.forEach((item) => {
+                attribute.push(item.split('_').join(' '));
+            });
+        }
+        setAttribute(() => query.get('attribute') || '');
+
+        setFilters({ gender, category, attribute });
+    }, [location]);
 
     const handleGenre = (e) => {
-        setGender(e.target.innerHTML.toString());
+        const value = e.target.innerHTML.toString().toLowerCase();
+
+        let qGender = gender;
+        if (value === 'all') {
+            qGender = 'men,women';
+        } else if (value === 'male') {
+            qGender = 'men';
+        } else {
+            qGender = 'women';
+        }
+
+        // console.log(
+        //     `/products?gender=${qGender}&category=${category}&attribute=${attribute}`
+        // );
+
+        navigate(
+            `/products?gender=${qGender}&category=${category}&attribute=${attribute}`
+        );
+    };
+
+    const handleChangeCategory = (e) => {
+        const value = e.target.id.toLowerCase();
+        // console.log(value);
+
+        let qCategory = category;
+        if (filters.category.includes(value)) {
+            // console.log(true);
+            const newArr = filters.category.filter((item) => item !== value);
+
+            const categoryTemp = [];
+            newArr.forEach((item) => {
+                categoryTemp.push(item.replace(' ', '_'));
+            });
+            qCategory = categoryTemp.join(',');
+
+            // console.log(
+            //     `/products?gender=${gender}&category=${qCategory}&attribute=${attribute}`
+            // );
+            // setFilters((prev) => {
+            //     return { ...prev, category: newArr };
+            // });
+            navigate(
+                `/products?gender=${gender}&category=${qCategory}&attribute=${attribute}`
+            );
+        } else {
+            // console.log(false);
+            filters.category.push(value);
+
+            const categoryTemp = [];
+            filters.category.forEach((item) => {
+                categoryTemp.push(item.replace(' ', '_'));
+            });
+            qCategory = categoryTemp.join(',');
+
+            // console.log(
+            //     `/products?gender=${gender}&category=${qCategory}&attribute=${attribute}`
+            // );
+            // setFilters((prev) => {
+            //     return { ...prev };
+            // });
+            navigate(
+                `/products?gender=${gender}&category=${qCategory}&attribute=${attribute}`
+            );
+        }
     };
 
     const handleClick = (e) => {
@@ -209,44 +341,81 @@ const FilterSlidebar = () => {
     };
 
     const handleCheck = (e) => {
-        e.target.classList.toggle('checked');
+        // e.target.classList.toggle('checked');
+        const value = e.target.id.toLowerCase();
+
+        let qAttribute = attribute;
+        if (filters.attribute.includes(value)) {
+            const newArr = filters.attribute.filter((item) => item !== value);
+
+            const attributeTemp = [];
+            newArr.forEach((item) => {
+                attributeTemp.push(item.split(' ').join('_'));
+            });
+            qAttribute = attributeTemp.join(',');
+
+            // console.log(
+            //     `/products?gender=${gender}&category=${category}&attribute=${qAttribute}`
+            // );
+            // setFilters((prev) => {
+            //     return { ...prev, attribute: newArr };
+            // });
+            navigate(
+                `/products?gender=${gender}&category=${category}&attribute=${qAttribute}`
+            );
+        } else {
+            filters.attribute.push(value);
+
+            const attributeTemp = [];
+            filters.attribute.forEach((item) => {
+                attributeTemp.push(item.split(' ').join('_'));
+            });
+            qAttribute = attributeTemp.join(',');
+
+            // console.log(
+            //     `/products?gender=${gender}&category=${category}&attribute=${qAttribute}`
+            // );
+            // setFilters((prev) => {
+            //     return { ...prev };
+            // });
+            navigate(
+                `/products?gender=${gender}&category=${category}&attribute=${qAttribute}`
+            );
+        }
     };
 
     return (
         <>
             <GenderWrapper>
-                <Gender
-                    onClick={handleGenre}
-                    className={gender === 'All' && 'checked'}
-                >
-                    All
-                </Gender>
-                <Gender
-                    onClick={handleGenre}
-                    className={gender === 'Male' && 'checked'}
-                >
-                    Male
-                </Gender>
-                <Gender
-                    onClick={handleGenre}
-                    className={gender === 'Female' && 'checked'}
-                >
-                    Female
-                </Gender>
+                {dataGender.map((item) => (
+                    <Gender
+                        key={item.id}
+                        onClick={handleGenre}
+                        className={
+                            filters.gender === item.value.toLowerCase() &&
+                            'checked'
+                        }
+                    >
+                        {item.value}
+                    </Gender>
+                ))}
             </GenderWrapper>
             <ItemSubWrapper className='normal'>
-                <ItemSub onClick={handleCheck}>
-                    Shoes
-                    <Close className='close' />
-                </ItemSub>
-                <ItemSub onClick={handleCheck}>
-                    Up
-                    <Close className='close' />
-                </ItemSub>
-                <ItemSub onClick={handleCheck}>
-                    Accessory
-                    <Close className='close' />
-                </ItemSub>
+                {dataCategory.map((item) => (
+                    <ItemSub
+                        key={item.id}
+                        id={item.value}
+                        className={
+                            filters.category.includes(
+                                item.value.toLowerCase()
+                            ) && 'checked'
+                        }
+                        onClick={handleChangeCategory}
+                    >
+                        {item.value}
+                        <Close className='close' />
+                    </ItemSub>
+                ))}
             </ItemSubWrapper>
             <FilterList>
                 <FilterItem className='active'>
@@ -255,26 +424,21 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            Limited Edition
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Online Only
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Sale off
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Best Seller
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            New Arrival
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataState.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
@@ -284,79 +448,45 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            Low Top
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            High Top
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Slip-on
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Mule
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataStyle.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
                 <FilterItem className='active'>
                     <Label onClick={handleClick}>
-                        <Name>Brand</Name>
+                        <Name>Product Line</Name>
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            Basas
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Vintas
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Urbas
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Creas
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Graphic Tee
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Hoodie
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Sweatshirt
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Socks
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Hat
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Track 6
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Basic Tee
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Shoelaces
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataProductLine.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
@@ -366,30 +496,21 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            500k - 599k
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            {'>'} 600k
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            400k - 499k
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            300k - 399k
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            200k - 299k
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            {'<'} 200k
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataPrice.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
@@ -399,30 +520,21 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            Suede
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Temperate
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            LV7 x Doraemon 50 years
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Irrelevant
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Track 6 Unnamed
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            DiscoverYou
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataCollection.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
@@ -432,18 +544,20 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapperSize className='sub'>
-                        <ItemSubSize onClick={handleCheck}>35</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>36</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>37</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>38</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>39</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>40</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>41</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>42</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>43</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>44</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>45</ItemSubSize>
-                        <ItemSubSize onClick={handleCheck}>46</ItemSubSize>
+                        {dataSize.map((item) => (
+                            <ItemSubSize
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                            </ItemSubSize>
+                        ))}
                     </ItemSubWrapperSize>
                 </FilterItem>
                 <Separate />
@@ -453,26 +567,21 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapper className='sub'>
-                        <ItemSub onClick={handleCheck}>
-                            Canvas
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Suede
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Synthetic Leather
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Leather
-                            <Close className='close' />
-                        </ItemSub>
-                        <ItemSub onClick={handleCheck}>
-                            Cotton
-                            <Close className='close' />
-                        </ItemSub>
+                        {dataMaterial.map((item) => (
+                            <ItemSub
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(
+                                        item.value.toLowerCase()
+                                    ) && 'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                {item.value}
+                                <Close className='close' />
+                            </ItemSub>
+                        ))}
                     </ItemSubWrapper>
                 </FilterItem>
                 <Separate />
@@ -482,60 +591,19 @@ const FilterSlidebar = () => {
                         <KeyboardArrowDown className='arrow' />
                     </Label>
                     <ItemSubWrapperSize className='sub'>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#E7D3AD'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#F5F5DC'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#455851'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#574D35'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#A49C8E'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#006964'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#DDBE78'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#999999'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#0E2366'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#624018'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#F4F4F4'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#588732'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#6633CC'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#FF80AA'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#FFCC00'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#FE6702'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#C10013'} />
-                        </ItemSubColor>
-                        <ItemSubColor onClick={handleCheck}>
-                            <Color color={'#000000'} />
-                        </ItemSubColor>
+                        {dataColor.map((item) => (
+                            <ItemSubColor
+                                key={item.id}
+                                id={item.value}
+                                className={
+                                    filters.attribute.includes(item.value) &&
+                                    'checked'
+                                }
+                                onClick={handleCheck}
+                            >
+                                <Color color={item.value} />
+                            </ItemSubColor>
+                        ))}
                     </ItemSubWrapperSize>
                 </FilterItem>
             </FilterList>

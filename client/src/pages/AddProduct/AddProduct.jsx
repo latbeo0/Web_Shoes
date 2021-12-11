@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import {
     AddProductContainer,
     Header,
@@ -55,6 +54,7 @@ import {
 } from '../../services/productFetch';
 import { useNavigate } from 'react-router-dom';
 import { checkFile } from '../../helpers/validate';
+import Loader from '../../utils/Loader';
 
 const initialSate = {
     name: '',
@@ -154,22 +154,8 @@ const AddProduct = () => {
     const auth = useSelector((state) => state.auth);
     const [product, setProduct] = useState(initialSate);
     const [listDetail, setListDetail] = useState([]);
-    const [checkImg, setCheckImg] = useState([]);
     const [listImage, setListImage] = useState([]);
-
-    useEffect(() => {
-        return () => {
-            product.imgPrimary.preview &&
-                URL.revokeObjectURL(product.imgPrimary.preview);
-        };
-    }, [product.imgPrimary]);
-
-    useEffect(() => {
-        return () => {
-            product.imgSecondary.preview &&
-                URL.revokeObjectURL(product.imgSecondary.preview);
-        };
-    }, [product.imgSecondary]);
+    const [loading, setLoading] = useState(false);
 
     const handlePreviewAvatar = (e) => {
         const name = e.target.id;
@@ -181,13 +167,13 @@ const AddProduct = () => {
             let formData = new FormData();
             formData.append('file', file);
 
-            // setLoading(true);
+            setLoading(true);
             fetchUploadImageProduct(formData, auth.token)
                 .then((res) => {
-                    // setLoading(false);
                     setProduct((prev) => {
                         return { ...prev, [name]: res.data.url };
                     });
+                    setLoading(false);
                 })
                 .catch((err) =>
                     setProduct((prev) => {
@@ -302,10 +288,12 @@ const AddProduct = () => {
             let formData = new FormData();
             formData.append('file', file);
 
+            setLoading(true);
             fetchUploadImageProduct(formData, auth.token)
                 .then((res) => {
                     listImage[Number(index)] = res.data.url;
                     setListImage([...listImage]);
+                    setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -326,11 +314,13 @@ const AddProduct = () => {
             detail: listDetail,
         };
 
+        setLoading(true);
         await fetchAddNewProduct(newProduct, auth.token)
             .then((res) => {
                 setProduct((prev) => {
                     return { ...prev, err: '', success: res.data.msg };
                 });
+                setLoading(false);
                 navigate('/admin/list_product');
             })
             .catch((err) => {
@@ -340,355 +330,371 @@ const AddProduct = () => {
 
     return (
         <AddProductContainer>
-            <Form>
-                <Header>New Product</Header>
-                <BodyForm>
-                    <FormLeft>
-                        <FormGroup>
-                            <Label htmlFor='name'>Name</Label>
-                            <InputText
-                                type='text'
-                                id='name'
-                                name='name'
-                                value={product.name}
-                                placeholder='Name of product'
-                                onChange={handleChangeInput}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label htmlFor='description'>Description</Label>
-                            <InputTextarea
-                                type='text'
-                                id='description'
-                                name='description'
-                                value={product.description}
-                                placeholder='Description'
-                                onChange={handleChangeInput}
-                                rows='5'
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Image Primary</Label>
-                            <AvatarUploadContainer>
-                                <AvatarUpload>
-                                    <AvatarEdit>
-                                        <InputAvatar
-                                            type='file'
-                                            id='imgPrimary'
-                                            onChange={handlePreviewAvatar}
-                                        />
-                                        <LabelAvatar for='imgPrimary'>
-                                            <PencilIcon />
-                                        </LabelAvatar>
-                                    </AvatarEdit>
-                                    <AvatarPreview>
-                                        {product.imgPrimary && (
-                                            <ImagePreview
-                                                id='imgPrimary'
-                                                src={product.imgPrimary}
-                                            />
-                                        )}
-                                    </AvatarPreview>
-                                </AvatarUpload>
-                                <AvatarUpload>
-                                    <AvatarEdit>
-                                        <InputAvatar
-                                            type='file'
-                                            id='imgSecondary'
-                                            onChange={handlePreviewAvatar}
-                                        />
-                                        <LabelAvatar for='imgSecondary'>
-                                            <PencilIcon />
-                                        </LabelAvatar>
-                                    </AvatarEdit>
-                                    <AvatarPreview>
-                                        {product.imgSecondary && (
-                                            <ImagePreview
-                                                id='imgSecondary'
-                                                src={product.imgSecondary}
-                                            />
-                                        )}
-                                    </AvatarPreview>
-                                </AvatarUpload>
-                            </AvatarUploadContainer>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Image Second</Label>
-                            <AvatarUploadContainer>
-                                {listImage.map((item, index) => (
-                                    <AvatarUpload key={index} id={index}>
-                                        <AvatarEdit id={index}>
+            {loading ? (
+                <Loader />
+            ) : (
+                <Form>
+                    <Header>New Product</Header>
+                    <BodyForm>
+                        <FormLeft>
+                            <FormGroup>
+                                <Label htmlFor='name'>Name</Label>
+                                <InputText
+                                    type='text'
+                                    id='name'
+                                    name='name'
+                                    value={product.name}
+                                    placeholder='Name of product'
+                                    onChange={handleChangeInput}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='description'>Description</Label>
+                                <InputTextarea
+                                    type='text'
+                                    id='description'
+                                    name='description'
+                                    value={product.description}
+                                    placeholder='Description'
+                                    onChange={handleChangeInput}
+                                    rows='5'
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Image Primary</Label>
+                                <AvatarUploadContainer>
+                                    <AvatarUpload>
+                                        <AvatarEdit>
                                             <InputAvatar
                                                 type='file'
-                                                id={`img${index}`}
-                                                onChange={handleChangeListImage}
+                                                id='imgPrimary'
+                                                onChange={handlePreviewAvatar}
                                             />
-                                            <LabelAvatar for={`img${index}`}>
+                                            <LabelAvatar for='imgPrimary'>
                                                 <PencilIcon />
                                             </LabelAvatar>
                                         </AvatarEdit>
                                         <AvatarPreview>
-                                            {item !== '' && (
+                                            {product.imgPrimary && (
                                                 <ImagePreview
-                                                    id={`img${index}`}
-                                                    src={item}
+                                                    id='imgPrimary'
+                                                    src={product.imgPrimary}
                                                 />
                                             )}
                                         </AvatarPreview>
-                                        <CloseIconWrapper
-                                            style={{ left: '7px' }}
-                                            onClick={handlePlusItemImage}
-                                        >
-                                            <CloseIcon />
-                                        </CloseIconWrapper>
                                     </AvatarUpload>
-                                ))}
-                                <AvatarUpload id='addImage'>
-                                    <AvatarUploadPlus />
-                                    <AvatarPreviewPlus
-                                        onClick={handlePlusItemImage}
-                                    />
-                                </AvatarUpload>
-                            </AvatarUploadContainer>
-                        </FormGroup>
-                    </FormLeft>
-                    <FormRight>
-                        <FormGroup>
-                            <Label>Gender</Label>
-                            <GenderContainer>
-                                {dataGender.map((gender) => (
-                                    <GenderItem key={gender.id}>
-                                        <LabelGender>
-                                            {gender.value}
-                                        </LabelGender>
-                                        <InputCheckBok
-                                            type='checkbox'
-                                            checked={product.gender.includes(
-                                                gender.value
+                                    <AvatarUpload>
+                                        <AvatarEdit>
+                                            <InputAvatar
+                                                type='file'
+                                                id='imgSecondary'
+                                                onChange={handlePreviewAvatar}
+                                            />
+                                            <LabelAvatar for='imgSecondary'>
+                                                <PencilIcon />
+                                            </LabelAvatar>
+                                        </AvatarEdit>
+                                        <AvatarPreview>
+                                            {product.imgSecondary && (
+                                                <ImagePreview
+                                                    id='imgSecondary'
+                                                    src={product.imgSecondary}
+                                                />
                                             )}
-                                            onChange={() =>
-                                                handleCheckBox(gender.value)
-                                            }
+                                        </AvatarPreview>
+                                    </AvatarUpload>
+                                </AvatarUploadContainer>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Image Second</Label>
+                                <AvatarUploadContainer>
+                                    {listImage.map((item, index) => (
+                                        <AvatarUpload key={index} id={index}>
+                                            <AvatarEdit id={index}>
+                                                <InputAvatar
+                                                    type='file'
+                                                    id={`img${index}`}
+                                                    onChange={
+                                                        handleChangeListImage
+                                                    }
+                                                />
+                                                <LabelAvatar
+                                                    for={`img${index}`}
+                                                >
+                                                    <PencilIcon />
+                                                </LabelAvatar>
+                                            </AvatarEdit>
+                                            <AvatarPreview>
+                                                {item !== '' && (
+                                                    <ImagePreview
+                                                        id={`img${index}`}
+                                                        src={item}
+                                                    />
+                                                )}
+                                            </AvatarPreview>
+                                            <CloseIconWrapper
+                                                style={{ left: '7px' }}
+                                                onClick={handlePlusItemImage}
+                                            >
+                                                <CloseIcon />
+                                            </CloseIconWrapper>
+                                        </AvatarUpload>
+                                    ))}
+                                    <AvatarUpload id='addImage'>
+                                        <AvatarUploadPlus />
+                                        <AvatarPreviewPlus
+                                            onClick={handlePlusItemImage}
+                                        />
+                                    </AvatarUpload>
+                                </AvatarUploadContainer>
+                            </FormGroup>
+                        </FormLeft>
+                        <FormRight>
+                            <FormGroup>
+                                <Label>Gender</Label>
+                                <GenderContainer>
+                                    {dataGender.map((gender) => (
+                                        <GenderItem key={gender.id}>
+                                            <LabelGender>
+                                                {gender.value}
+                                            </LabelGender>
+                                            <InputCheckBok
+                                                type='checkbox'
+                                                checked={product.gender.includes(
+                                                    gender.value
+                                                )}
+                                                onChange={() =>
+                                                    handleCheckBox(gender.value)
+                                                }
+                                            />
+                                        </GenderItem>
+                                    ))}
+                                </GenderContainer>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Category</Label>
+                                <InputSelect
+                                    name='category'
+                                    onChange={handleChangeInput}
+                                >
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    <InputOption>Shoes</InputOption>
+                                    <InputOption>Half Upper</InputOption>
+                                    <InputOption>Accessory</InputOption>
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Product Line</Label>
+                                <InputSelect
+                                    name='productLine'
+                                    onChange={handleChangeInput}
+                                >
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    {dataProductLine.map((item) => (
+                                        <InputOption key={item.id}>
+                                            {item.value}
+                                        </InputOption>
+                                    ))}
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Collection</Label>
+                                <InputSelect
+                                    name='collections'
+                                    onChange={handleChangeInput}
+                                >
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    <InputOption>
+                                        Ananas x Doraemon 50 Years
+                                    </InputOption>
+                                    <InputOption>DiscoverYou</InputOption>
+                                    <InputOption>Ananas Symbol</InputOption>
+                                    <InputOption>
+                                        Ananas Cropped Symbol
+                                    </InputOption>
+                                    <InputOption>Ananas Typo Logo</InputOption>
+                                    <InputOption>
+                                        Ananas x Lucky Luke
+                                    </InputOption>
+                                    <InputOption>
+                                        Pineapple Or Ananas
+                                    </InputOption>
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Material</Label>
+                                <InputSelect
+                                    name='material'
+                                    onChange={handleChangeInput}
+                                >
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    <InputOption>Canvas | Vải</InputOption>
+                                    <InputOption>Suede | Da lộn</InputOption>
+                                    <InputOption>Synthetic Leather</InputOption>
+                                    <InputOption>Leather | Da</InputOption>
+                                    <InputOption>Cotton</InputOption>
+                                    <InputOption>Fabric</InputOption>
+                                    <InputOption>Acrylic</InputOption>
+                                    <InputOption>Mesh</InputOption>
+                                    <InputOption>Corduroy</InputOption>
+                                    <InputOption>Polyester</InputOption>
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>State</Label>
+                                <InputSelect
+                                    name='state'
+                                    onChange={handleChangeInput}
+                                >
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    <InputOption>Limited Edition</InputOption>
+                                    <InputOption>Online Only</InputOption>
+                                    <InputOption>Sale off</InputOption>
+                                    <InputOption>Best Seller</InputOption>
+                                    <InputOption>New Arrival</InputOption>
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Price</Label>
+                                <InputText
+                                    name='price'
+                                    placeholder='Price of product'
+                                    onChange={handleChangeInput}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>inStock</Label>
+                                <GenderContainer>
+                                    <GenderItem>
+                                        <LabelGender>True</LabelGender>
+                                        <InputRadio
+                                            type='radio'
+                                            checked={product.inStock}
+                                            onChange={handleCheckRadio}
                                         />
                                     </GenderItem>
-                                ))}
-                            </GenderContainer>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Category</Label>
-                            <InputSelect
-                                name='category'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                <InputOption>Shoes</InputOption>
-                                <InputOption>Half Upper</InputOption>
-                                <InputOption>Accessory</InputOption>
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Product Line</Label>
-                            <InputSelect
-                                name='productLine'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                {dataProductLine.map((item) => (
-                                    <InputOption key={item.id}>
-                                        {item.value}
-                                    </InputOption>
-                                ))}
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Collection</Label>
-                            <InputSelect
-                                name='collections'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                <InputOption>
-                                    Ananas x Doraemon 50 Years
-                                </InputOption>
-                                <InputOption>DiscoverYou</InputOption>
-                                <InputOption>Ananas Symbol</InputOption>
-                                <InputOption>Ananas Cropped Symbol</InputOption>
-                                <InputOption>Ananas Typo Logo</InputOption>
-                                <InputOption>Ananas x Lucky Luke</InputOption>
-                                <InputOption>Pineapple Or Ananas</InputOption>
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Material</Label>
-                            <InputSelect
-                                name='material'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                <InputOption>Canvas | Vải</InputOption>
-                                <InputOption>Suede | Da lộn</InputOption>
-                                <InputOption>Synthetic Leather</InputOption>
-                                <InputOption>Leather | Da</InputOption>
-                                <InputOption>Cotton</InputOption>
-                                <InputOption>Fabric</InputOption>
-                                <InputOption>Acrylic</InputOption>
-                                <InputOption>Mesh</InputOption>
-                                <InputOption>Corduroy</InputOption>
-                                <InputOption>Polyester</InputOption>
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>State</Label>
-                            <InputSelect
-                                name='state'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                <InputOption>Limited Edition</InputOption>
-                                <InputOption>Online Only</InputOption>
-                                <InputOption>Sale off</InputOption>
-                                <InputOption>Best Seller</InputOption>
-                                <InputOption>New Arrival</InputOption>
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Price</Label>
-                            <InputText
-                                name='price'
-                                placeholder='Price of product'
-                                onChange={handleChangeInput}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>inStock</Label>
-                            <GenderContainer>
-                                <GenderItem>
-                                    <LabelGender>True</LabelGender>
-                                    <InputRadio
-                                        type='radio'
-                                        checked={product.inStock}
-                                        onChange={handleCheckRadio}
-                                    />
-                                </GenderItem>
-                                <GenderItem>
-                                    <LabelGender>False</LabelGender>
-                                    <InputRadio
-                                        type='radio'
-                                        checked={!product.inStock}
-                                        onChange={handleCheckRadio}
-                                    />
-                                </GenderItem>
-                            </GenderContainer>
-                        </FormGroup>
-                    </FormRight>
-                </BodyForm>
-                <FooterAddProduct>
-                    <FormLeft>
-                        <FormGroup>
-                            <Label>Style</Label>
-                            <InputSelect
-                                name='style'
-                                onChange={handleChangeInput}
-                            >
-                                <InputOption selected disabled>
-                                    --- Select ---
-                                </InputOption>
-                                <InputOption>Low Top</InputOption>
-                                <InputOption>High Top</InputOption>
-                                <InputOption>Slip-on</InputOption>
-                                <InputOption>Mule</InputOption>
-                            </InputSelect>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Color | Size | Quantity</Label>
-                            <DetailContainer2>
-                                {listDetail.map((dt, idt) => (
-                                    <ColorContainer2 key={idt}>
-                                        <InputColorWrapper>
-                                            <InputColor2
-                                                type='color'
-                                                id={idt}
-                                                value={dt.color}
-                                                onChange={handleChanceColor2}
-                                            />
-                                        </InputColorWrapper>
-                                        <SizeContainer2 id={idt}>
-                                            {dt.values.map((vl, ivl) => (
-                                                <SizeItemContainer2
-                                                    id={idt}
-                                                    key={ivl}
-                                                >
-                                                    <InputSize2
-                                                        type='text'
-                                                        id={ivl}
-                                                        name='size'
-                                                        value={vl.size}
-                                                        onChange={
-                                                            handleChangeInputDetail
-                                                        }
-                                                    />
-                                                    <InputSize2
-                                                        type='text'
-                                                        id={ivl}
-                                                        name='quantity'
-                                                        value={vl.quantity}
-                                                        onChange={
-                                                            handleChangeInputDetail
-                                                        }
-                                                    />
-                                                    <CloseIconWrapper
-                                                        id={ivl}
-                                                        onClick={
-                                                            handlePlusItemSize
-                                                        }
-                                                    >
-                                                        <CloseIcon />
-                                                    </CloseIconWrapper>
-                                                </SizeItemContainer2>
-                                            ))}
-                                            <InputSizePlus2
-                                                id='addItem'
-                                                onClick={handlePlusItemSize}
-                                            >
-                                                <InputColorPlusIcon />
-                                            </InputSizePlus2>
-                                        </SizeContainer2>
-                                        <CloseIconWrapper
-                                            id={idt}
-                                            onClick={handlePlusItemDetail}
-                                        >
-                                            <CloseIcon />
-                                        </CloseIconWrapper>
-                                    </ColorContainer2>
-                                ))}
-                                <InputSizePlus2
-                                    onClick={handlePlusItemDetail}
-                                    style={{ width: '100%' }}
+                                    <GenderItem>
+                                        <LabelGender>False</LabelGender>
+                                        <InputRadio
+                                            type='radio'
+                                            checked={!product.inStock}
+                                            onChange={handleCheckRadio}
+                                        />
+                                    </GenderItem>
+                                </GenderContainer>
+                            </FormGroup>
+                        </FormRight>
+                    </BodyForm>
+                    <FooterAddProduct>
+                        <FormLeft>
+                            <FormGroup>
+                                <Label>Style</Label>
+                                <InputSelect
+                                    name='style'
+                                    onChange={handleChangeInput}
                                 >
-                                    <InputColorPlusIcon />
-                                </InputSizePlus2>
-                            </DetailContainer2>
-                        </FormGroup>
-                    </FormLeft>
-                    <FormRight>
-                        <FormGroup>
-                            <ButtonAddProduct onClick={handleSubmit2}>
-                                Add product
-                            </ButtonAddProduct>
-                        </FormGroup>
-                    </FormRight>
-                </FooterAddProduct>
-            </Form>
+                                    <InputOption selected disabled>
+                                        --- Select ---
+                                    </InputOption>
+                                    <InputOption>Low Top</InputOption>
+                                    <InputOption>High Top</InputOption>
+                                    <InputOption>Slip-on</InputOption>
+                                    <InputOption>Mule</InputOption>
+                                </InputSelect>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Color | Size | Quantity</Label>
+                                <DetailContainer2>
+                                    {listDetail.map((dt, idt) => (
+                                        <ColorContainer2 key={idt}>
+                                            <InputColorWrapper>
+                                                <InputColor2
+                                                    type='color'
+                                                    id={idt}
+                                                    value={dt.color}
+                                                    onChange={
+                                                        handleChanceColor2
+                                                    }
+                                                />
+                                            </InputColorWrapper>
+                                            <SizeContainer2 id={idt}>
+                                                {dt.values.map((vl, ivl) => (
+                                                    <SizeItemContainer2
+                                                        id={idt}
+                                                        key={ivl}
+                                                    >
+                                                        <InputSize2
+                                                            type='text'
+                                                            id={ivl}
+                                                            name='size'
+                                                            value={vl.size}
+                                                            onChange={
+                                                                handleChangeInputDetail
+                                                            }
+                                                        />
+                                                        <InputSize2
+                                                            type='text'
+                                                            id={ivl}
+                                                            name='quantity'
+                                                            value={vl.quantity}
+                                                            onChange={
+                                                                handleChangeInputDetail
+                                                            }
+                                                        />
+                                                        <CloseIconWrapper
+                                                            id={ivl}
+                                                            onClick={
+                                                                handlePlusItemSize
+                                                            }
+                                                        >
+                                                            <CloseIcon />
+                                                        </CloseIconWrapper>
+                                                    </SizeItemContainer2>
+                                                ))}
+                                                <InputSizePlus2
+                                                    id='addItem'
+                                                    onClick={handlePlusItemSize}
+                                                >
+                                                    <InputColorPlusIcon />
+                                                </InputSizePlus2>
+                                            </SizeContainer2>
+                                            <CloseIconWrapper
+                                                id={idt}
+                                                onClick={handlePlusItemDetail}
+                                            >
+                                                <CloseIcon />
+                                            </CloseIconWrapper>
+                                        </ColorContainer2>
+                                    ))}
+                                    <InputSizePlus2
+                                        onClick={handlePlusItemDetail}
+                                        style={{ width: '100%' }}
+                                    >
+                                        <InputColorPlusIcon />
+                                    </InputSizePlus2>
+                                </DetailContainer2>
+                            </FormGroup>
+                        </FormLeft>
+                        <FormRight>
+                            <FormGroup>
+                                <ButtonAddProduct onClick={handleSubmit2}>
+                                    Add product
+                                </ButtonAddProduct>
+                            </FormGroup>
+                        </FormRight>
+                    </FooterAddProduct>
+                </Form>
+            )}
         </AddProductContainer>
     );
 };

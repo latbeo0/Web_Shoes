@@ -84,7 +84,7 @@ const Navbar = () => {
                 <NavbarItemSeparate />
                 <NavbarItem>
                     <NavbarItemContainer>
-                        <NavbarItemLink to='/products?gender=men'>
+                        <NavbarItemLink to='/products?gender=male'>
                             <NavbarItemTitle>Male</NavbarItemTitle>
                             <ArrowWrapper className='arrowWrapper'>
                                 <Arrow className='arrow' />
@@ -166,7 +166,7 @@ const Navbar = () => {
                 <NavbarItemSeparate />
                 <NavbarItem>
                     <NavbarItemContainer>
-                        <NavbarItemLink to='/products?gender=women'>
+                        <NavbarItemLink to='/products?gender=female'>
                             <NavbarItemTitle>Female</NavbarItemTitle>
                             <ArrowWrapper className='arrowWrapper'>
                                 <Arrow className='arrow' />

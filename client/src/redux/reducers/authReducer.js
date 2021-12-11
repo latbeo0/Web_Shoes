@@ -7,7 +7,11 @@ const initialState = {
     isLogged: false,
     isAdmin: false,
     token: '',
-    logAdmin: false,
+    email: '',
+    phone: '',
+    country: '',
+    city: '',
+    address: '',
 };
 
 const authReducer = (state = initialState, action) => {
@@ -27,6 +31,11 @@ const authReducer = (state = initialState, action) => {
                 isLogged: true,
                 isAdmin: action.payload.isAdmin,
                 token: action.payload.access_token,
+                email: action.payload.email,
+                phone: action.payload.phone,
+                country: action.payload.country,
+                city: action.payload.city,
+                address: action.payload.address,
             };
 
         case ACTIONS.LOGOUT:
@@ -37,6 +46,11 @@ const authReducer = (state = initialState, action) => {
                 isLogged: false,
                 isAdmin: false,
                 token: '',
+                email: '',
+                phone: '',
+                country: '',
+                city: '',
+                address: '',
             };
 
         case ACTIONS.UPDATE_ACCOUNT:
@@ -44,18 +58,10 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 username: action.payload.usernameUd,
                 avatar: action.payload.avatarUd,
-            };
-
-        case ACTIONS.LOG_ADMIN:
-            return {
-                ...state,
-                logAdmin: true,
-            };
-
-        case ACTIONS.OUT_ADMIN:
-            return {
-                ...state,
-                logAdmin: false,
+                phone: action.payload.phoneUd,
+                country: action.payload.countryUd,
+                city: action.payload.cityUd,
+                address: action.payload.addressUd,
             };
 
         default:
