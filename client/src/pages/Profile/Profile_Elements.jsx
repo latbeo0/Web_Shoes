@@ -182,3 +182,13 @@ export const ButtonLogin = styled.button`
         background-color: #1ac7b6;
     }
 `;
+
+export const InputSelect = styled.select`
+    font-size: 1.7rem;
+    padding: 10px 0 10px 5px;
+    outline: none;
+`;
+
+export const InputOption = styled.option`
+    font-size: 1.7rem;
+`;

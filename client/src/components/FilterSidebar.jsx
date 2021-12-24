@@ -341,7 +341,7 @@ const FilterSlidebar = () => {
     };
 
     const handleCheck = (e) => {
-        // e.target.classList.toggle('checked');
+        e.target.classList.toggle('checked');
         const value = e.target.id.toLowerCase();
 
         let qAttribute = attribute;

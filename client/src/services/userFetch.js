@@ -1,11 +1,15 @@
 import axios from 'axios';
 
 export const fetchRegister = async (username, email, password) => {
-    return await axios.post('/api/auth/register', {
-        username,
-        email,
-        password,
-    });
+    try {
+        return await axios.post('/api/auth/register', {
+            username,
+            email,
+            password,
+        });
+    } catch (err) {
+        console.log(1);
+    }
 };
 
 export const fetchActiveEmail = async (activation_token) => {
@@ -63,12 +67,9 @@ export const fetchUpdateAccount = async (dataUd, auth) => {
     return await axios.put(
         `/api/user/${auth.id}`,
         {
-            username: dataUd.usernameUd,
-            avatar: dataUd.avatarUd,
-            phone: dataUd.phoneUd,
-            country: dataUd.countryUd,
-            city: dataUd.cityUd,
-            address: dataUd.addressUd,
+            username: dataUd.username,
+            avatar: dataUd.avatar,
+            addressShipping: dataUd.addressShipping,
         },
         {
             headers: { Authorization: auth.token },

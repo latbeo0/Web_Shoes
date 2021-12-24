@@ -29,6 +29,16 @@ import Shipping from './pages/Shipping';
 import PaySuccess from './pages/PaySuccess';
 import ListUser from './pages/ListUser/';
 import Order from './pages/Order/Order';
+import {
+    fetchProvince,
+    fetchDistrict,
+    fetchWard,
+} from './services/locationFetch';
+import {
+    dispatchDistrict,
+    dispatchProvince,
+    dispatchWard,
+} from './redux/actions/locationActions';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -60,6 +70,18 @@ const App = () => {
         setLoading(false);
     }, [dispatch]);
 
+    useEffect(() => {
+        fetchProvince()
+            .then((res) => dispatch(dispatchProvince(res.data)))
+            .catch((err) => console.log(err));
+        fetchDistrict()
+            .then((res) => dispatch(dispatchDistrict(res.data)))
+            .catch((err) => console.log(err));
+        fetchWard()
+            .then((res) => dispatch(dispatchWard(res.data)))
+            .catch((err) => console.log(err));
+    }, [dispatch]);
+
     return (
         <BrowserRouter>
             {loading ? (
@@ -68,7 +90,7 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<User />}>
                         <Route index element={<Home />} />
-                        <Route path='products/*' element={<Products />} />
+                        <Route path='products' element={<Products />} />
                         <Route path='product/:id' element={<Product />} />
                         <Route path='login' element={<Login />} />
                         <Route path='register' element={<Register />} />

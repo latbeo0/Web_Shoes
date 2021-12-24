@@ -11,6 +11,7 @@ import {
     RowBodyTable,
     ItemBodyTable,
     ItemBodyWrapper,
+    ImageProductWrapper,
     ImageProduct,
     TitleProduct,
     StockFalse,
@@ -71,10 +72,12 @@ const ListUser = () => {
                                             style={{ width: '200px' }}
                                         >
                                             <ItemBodyWrapper>
-                                                <ImageProduct
-                                                    src={user.avatar}
-                                                    alt=''
-                                                />
+                                                <ImageProductWrapper>
+                                                    <ImageProduct
+                                                        src={user.avatar}
+                                                        alt=''
+                                                    />
+                                                </ImageProductWrapper>
                                                 <TitleProduct>
                                                     {user.username}
                                                 </TitleProduct>
