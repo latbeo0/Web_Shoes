@@ -63,10 +63,20 @@ export const ItemBodyWrapper = styled.div`
     justify-content: center;
 `;
 
-export const ImageProduct = styled.img`
+export const ImageProductWrapper = styled.div`
     width: 50px;
     height: 50px;
     margin: 0 10px;
+    position: relative;
+    background-color: #888;
+`;
+
+export const ImageProduct = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 `;
 
 export const TitleProduct = styled.span`

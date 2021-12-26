@@ -15,6 +15,10 @@ const ACTIONS = {
     RESET_CART: 'RESET_CART',
     // Order
     CREATE_ORDER: 'CREATE_ORDER',
+    // Location
+    GET_ALL_PROVINCE: 'GET_ALL_PROVINCE',
+    GET_ALL_DISTRICT: 'GET_ALL_DISTRICT',
+    GET_ALL_WARD: 'GET_ALL_WARD',
 };
 
 export default ACTIONS;

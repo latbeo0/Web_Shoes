@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { dispatchUpdateAccount } from '../../redux/actions/authActions';
 import {
@@ -29,13 +29,16 @@ import {
     Input,
     FormMessage,
     ButtonLogin,
+    InputSelect,
+    InputOption,
 } from './Profile_Elements';
 
 const initialSate = {
     username: '',
     phone: '',
-    country: '',
-    city: '',
+    province: '',
+    district: '',
+    ward: '',
     address: '',
     err: '',
     success: '',
@@ -44,16 +47,106 @@ const initialSate = {
 const Profile = () => {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
+    const location = useSelector((state) => state.location);
 
     const [data, setData] = useState(initialSate);
     const [avatar, setAvatar] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { username, city, phone, country, address, err, success } = data;
+    const { username, phone, province, district, ward, address, err, success } =
+        data;
+
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+
+    useEffect(() => {
+        if (auth.addressShipping.district !== '') {
+            let idProvince = 0;
+            location.province.forEach((item) => {
+                if (item.name === auth.addressShipping.province) {
+                    idProvince = item.code;
+                }
+            });
+            const newDistricts = location.district.filter(
+                (item) => item.province_code === idProvince
+            );
+            setDistricts(newDistricts);
+        }
+        if (auth.addressShipping.ward !== '') {
+            let idDistrict = 0;
+            location.district.forEach((item) => {
+                if (item.name === auth.addressShipping.district) {
+                    idDistrict = item.code;
+                }
+            });
+
+            const newWards = location.ward.filter(
+                (item) => item.district_code === idDistrict
+            );
+            setWards(newWards);
+        }
+        setData({
+            username: auth.username,
+            phone: auth.addressShipping.phone,
+            province: auth.addressShipping.province,
+            district: auth.addressShipping.district,
+            ward: auth.addressShipping.ward,
+            address: auth.addressShipping.address,
+            err: '',
+            success: '',
+        });
+    }, [auth, location]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value, err: '', success: '' });
+    };
+
+    const handleChangeProvince = (e) => {
+        const { name, value } = e.target;
+
+        let idProvince = 0;
+        location.province.forEach((item) => {
+            if (item.name === value) {
+                idProvince = item.code;
+            }
+        });
+
+        const newDistricts = location.district.filter(
+            (item) => item.province_code === idProvince
+        );
+        setData({
+            ...data,
+            [name]: value,
+            district: '',
+            ward: '',
+            err: '',
+            success: '',
+        });
+        setDistricts(newDistricts);
+    };
+
+    const handleChangeDistrict = (e) => {
+        const { name, value } = e.target;
+
+        let idDistrict = 0;
+        location.district.forEach((item) => {
+            if (item.name === value) {
+                idDistrict = item.code;
+            }
+        });
+
+        const newWards = location.ward.filter(
+            (item) => item.district_code === idDistrict
+        );
+        setData({
+            ...data,
+            [name]: value,
+            ward: '',
+            err: '',
+            success: '',
+        });
+        setWards(newWards);
     };
 
     const changeAvatar = async (e) => {
@@ -89,17 +182,24 @@ const Profile = () => {
         const usernameUd = username ? username : auth.username;
         const avatarUd = avatar ? avatar : auth.avatar;
         const phoneUd = phone ? phone : auth.phone;
-        const cityUd = city ? city : auth.city;
-        const countryUd = country ? country : auth.country;
+        const provinceUd = province ? province : auth.province;
+        const districtUd = district ? district : auth.district;
+        const wardUd = ward ? ward : auth.ward;
         const addressUd = address ? address : auth.address;
-        const dataUd = {
-            usernameUd,
-            avatarUd,
-            phoneUd,
-            cityUd,
-            countryUd,
-            addressUd,
+        const addressShippingUd = {
+            phone: phoneUd,
+            province: provinceUd,
+            district: districtUd,
+            ward: wardUd,
+            address: addressUd,
         };
+        const dataUd = {
+            username: usernameUd,
+            avatar: avatarUd,
+            addressShipping: addressShippingUd,
+        };
+
+        console.log({ dataUd });
 
         fetchUpdateAccount(dataUd, auth)
             .then((res) => {
@@ -109,10 +209,7 @@ const Profile = () => {
                     dispatchUpdateAccount({
                         usernameUd,
                         avatarUd,
-                        phoneUd,
-                        cityUd,
-                        countryUd,
-                        addressUd,
+                        addressShippingUd,
                     })
                 );
             })
@@ -122,7 +219,15 @@ const Profile = () => {
     };
 
     const handleUpdate = () => {
-        if (username || avatar || phone || city || country || address)
+        if (
+            username ||
+            avatar ||
+            phone ||
+            province ||
+            district ||
+            ward ||
+            address
+        )
             updateAccount();
     };
 
@@ -168,7 +273,7 @@ const Profile = () => {
                                 <Input
                                     type='phone'
                                     id='phone'
-                                    value={phone || auth.phone}
+                                    value={phone}
                                     name='phone'
                                     placeholder='Enter your phone'
                                     onChange={handleChange}
@@ -176,35 +281,87 @@ const Profile = () => {
                                 <FormMessage></FormMessage>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor='country'>Country</Label>
-                                <Input
-                                    type='country'
-                                    id='country'
-                                    value={country || auth.country}
-                                    name='country'
-                                    placeholder='Enter your country'
-                                    onChange={handleChange}
-                                />
+                                <Label>Tỉnh / Thành phố</Label>
+                                <InputSelect
+                                    name='province'
+                                    value={province}
+                                    disabled={!location}
+                                    onChange={handleChangeProvince}
+                                >
+                                    <InputOption
+                                        selected={province === ''}
+                                        disabled={province !== ''}
+                                    >
+                                        --- Select ---
+                                    </InputOption>
+                                    {location.province.map((item) => (
+                                        <InputOption
+                                            key={item.code}
+                                            value={item.name}
+                                        >
+                                            {item.name}
+                                        </InputOption>
+                                    ))}
+                                </InputSelect>
                                 <FormMessage></FormMessage>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor='city'>City</Label>
-                                <Input
-                                    type='city'
-                                    id='city'
-                                    value={city || auth.city}
-                                    name='city'
-                                    placeholder='Enter your city'
+                                <Label>Quận / Huyện</Label>
+                                <InputSelect
+                                    name='district'
+                                    value={district}
+                                    disabled={!province}
+                                    onChange={handleChangeDistrict}
+                                >
+                                    <InputOption
+                                        selected={district === ''}
+                                        disabled={district !== ''}
+                                    >
+                                        --- Select ---
+                                    </InputOption>
+                                    {districts.map((item) => (
+                                        <InputOption
+                                            key={item.code}
+                                            value={item.name}
+                                        >
+                                            {item.name}
+                                        </InputOption>
+                                    ))}
+                                </InputSelect>
+                                <FormMessage></FormMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Phường / Xã / Thị Trấn</Label>
+                                <InputSelect
+                                    name='ward'
+                                    value={ward}
+                                    disabled={!district}
                                     onChange={handleChange}
-                                />
+                                >
+                                    <InputOption
+                                        selected={ward === ''}
+                                        disabled={ward !== ''}
+                                    >
+                                        --- Select ---
+                                    </InputOption>
+                                    {wards.map((item) => (
+                                        <InputOption
+                                            key={item.code}
+                                            value={item.name}
+                                        >
+                                            {item.name}
+                                        </InputOption>
+                                    ))}
+                                </InputSelect>
                                 <FormMessage></FormMessage>
                             </FormGroup>
                             <FormGroup>
                                 <Label htmlFor='address'>Address</Label>
                                 <Input
-                                    type='address'
+                                    type='text'
+                                    disabled={!ward}
                                     id='address'
-                                    value={address || auth.address}
+                                    value={address}
                                     name='address'
                                     placeholder='Enter your address'
                                     onChange={handleChange}

@@ -8,10 +8,7 @@ const initialState = {
     isAdmin: false,
     token: '',
     email: '',
-    phone: '',
-    country: '',
-    city: '',
-    address: '',
+    addressShipping: {},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -32,10 +29,7 @@ const authReducer = (state = initialState, action) => {
                 isAdmin: action.payload.isAdmin,
                 token: action.payload.access_token,
                 email: action.payload.email,
-                phone: action.payload.phone,
-                country: action.payload.country,
-                city: action.payload.city,
-                address: action.payload.address,
+                addressShipping: action.payload.addressShipping,
             };
 
         case ACTIONS.LOGOUT:
@@ -47,10 +41,7 @@ const authReducer = (state = initialState, action) => {
                 isAdmin: false,
                 token: '',
                 email: '',
-                phone: '',
-                country: '',
-                city: '',
-                address: '',
+                addressShipping: {},
             };
 
         case ACTIONS.UPDATE_ACCOUNT:
@@ -58,10 +49,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 username: action.payload.usernameUd,
                 avatar: action.payload.avatarUd,
-                phone: action.payload.phoneUd,
-                country: action.payload.countryUd,
-                city: action.payload.cityUd,
-                address: action.payload.addressUd,
+                addressShipping: action.payload.addressShippingUd,
             };
 
         default:

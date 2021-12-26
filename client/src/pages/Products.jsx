@@ -58,6 +58,20 @@ const Column = styled.div`
     padding-right: 10px;
 `;
 
+const ImageWrapper = styled.div`
+    width: 100%;
+    height: 500px;
+    position: relative;
+`;
+
+const Image = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+`;
+
 const initialState = {
     gender: '',
     category: [],
@@ -129,42 +143,105 @@ const Products = () => {
 
     useEffect(() => {
         const productTemp = [];
-        if (filters.gender !== 'male' && filters.gender !== 'female') {
-            listProduct.forEach((item) => {
+        listProduct.forEach((item) => {
+            if (
+                filters.category.length === 0 ||
+                filters.category.includes(item.category.toLowerCase())
+            ) {
                 if (
-                    filters.category.length === 0 ||
-                    filters.category.includes(item.category.toLowerCase())
+                    filters.attribute.length === 0 ||
+                    filters.attribute.includes(
+                        item.collections.toLowerCase()
+                    ) ||
+                    filters.attribute.includes(item.material.toLowerCase()) ||
+                    filters.attribute.includes(
+                        item.productLine.toLowerCase()
+                    ) ||
+                    filters.attribute.includes(item.state.toLowerCase()) ||
+                    filters.attribute.includes(item.style.toLowerCase())
                 ) {
-                    // productTemp.push(item);
+                    productTemp.push(item);
+                }
+
+                if (filters.attribute.includes('500k - 599k')) {
                     if (
-                        filters.attribute.length === 0 ||
-                        filters.attribute.includes(
-                            item.collections.toLowerCase()
-                        ) ||
-                        filters.attribute.includes(
-                            item.material.toLowerCase()
-                        ) ||
-                        filters.attribute.includes(
-                            item.productLine.toLowerCase()
-                        ) ||
-                        filters.attribute.includes(item.state.toLowerCase()) ||
-                        filters.attribute.includes(item.style.toLowerCase())
+                        !productTemp.includes(item) &&
+                        item.price >= 500000 &&
+                        item.price < 600000
                     ) {
                         productTemp.push(item);
                     }
                 }
-            });
+                if (filters.attribute.includes('> 600k')) {
+                    if (!productTemp.includes(item) && item.price >= 600000) {
+                        productTemp.push(item);
+                    }
+                }
+                if (filters.attribute.includes('400k - 499k')) {
+                    if (
+                        !productTemp.includes(item) &&
+                        item.price >= 400000 &&
+                        item.price < 500000
+                    ) {
+                        productTemp.push(item);
+                    }
+                }
+                if (filters.attribute.includes('300k - 399k')) {
+                    if (
+                        !productTemp.includes(item) &&
+                        item.price >= 300000 &&
+                        item.price < 400000
+                    ) {
+                        productTemp.push(item);
+                    }
+                }
+                if (filters.attribute.includes('200k - 299k')) {
+                    if (
+                        !productTemp.includes(item) &&
+                        item.price >= 200000 &&
+                        item.price < 300000
+                    ) {
+                        productTemp.push(item);
+                    }
+                }
+                if (filters.attribute.includes('< 200k')) {
+                    if (!productTemp.includes(item) && item.price < 200000) {
+                        productTemp.push(item);
+                    }
+                }
+
+                item.detail.forEach((dt) => {
+                    if (filters.attribute.includes(dt.color.toString())) {
+                        if (!productTemp.includes(item)) {
+                            productTemp.push(item);
+                        }
+                    }
+
+                    dt.values.forEach((vl) => {
+                        if (filters.attribute.includes(vl.size.toString())) {
+                            if (!productTemp.includes(item)) {
+                                productTemp.push(item);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        if (filters.gender !== 'male' && filters.gender !== 'female') {
             setProducts(() => [...productTemp]);
         } else {
-            listProduct.forEach((item) => {
-                productTemp.push(item);
-            });
-
-            const newArr = productTemp.filter(
-                (item) => !item.gender.includes(filters.gender)
-            );
-
-            setProducts(() => [...newArr]);
+            if (filters.gender === 'male') {
+                const newArr = productTemp.filter((item) =>
+                    item.gender.includes('Male')
+                );
+                setProducts(() => [...newArr]);
+            } else {
+                const newArr = productTemp.filter((item) =>
+                    item.gender.includes('Female')
+                );
+                setProducts(() => [...newArr]);
+            }
         }
     }, [listProduct, filters]);
 
@@ -181,6 +258,10 @@ const Products = () => {
                     <ProductsWrapper>
                         {loading ? (
                             <Loader />
+                        ) : products.length === 0 ? (
+                            <ImageWrapper>
+                                <Image src='https://kellysearch.co.in/assets/images/pnf.jpg' />
+                            </ImageWrapper>
                         ) : (
                             <Row>
                                 {products.map((product) => (

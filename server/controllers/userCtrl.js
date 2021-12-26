@@ -12,17 +12,8 @@ const userCtrl = {
             const user = req.user;
 
             const info = await Users.findOne({ _id: user.id });
-            const {
-                _id,
-                username,
-                avatar,
-                isAdmin,
-                email,
-                phone,
-                country,
-                city,
-                address,
-            } = info._doc;
+            const { _id, username, avatar, isAdmin, email, addressShipping } =
+                info._doc;
 
             const access_token = createAccessToken({
                 id: user.id,
@@ -35,10 +26,7 @@ const userCtrl = {
                 avatar,
                 isAdmin,
                 email,
-                phone,
-                country,
-                city,
-                address,
+                addressShipping,
                 access_token,
             });
         } catch (err) {

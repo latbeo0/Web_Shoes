@@ -166,11 +166,22 @@ const MessageErr = styled(Message)`
     color: #ff0000;
 `;
 
-const initialShipping = {
+const InputSelect = styled.select`
+    font-size: 1.7rem;
+    padding: 10px 0 10px 5px;
+    outline: none;
+`;
+
+const InputOption = styled.option`
+    font-size: 1.7rem;
+`;
+
+const initialSate = {
     username: '',
     phone: '',
-    country: '',
-    city: '',
+    province: '',
+    district: '',
+    ward: '',
     address: '',
     err: '',
     success: '',
@@ -181,10 +192,15 @@ const Shipping = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
     const auth = useSelector((state) => state.auth);
+    const location = useSelector((state) => state.location);
 
-    const [shipping, setShipping] = useState(initialShipping);
+    const [data, setData] = useState(initialSate);
 
-    const { country, city, address, username, phone, err, success } = shipping;
+    const { username, phone, province, district, ward, address, err, success } =
+        data;
+
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
 
     function formatCash(str) {
         return str
@@ -196,26 +212,101 @@ const Shipping = () => {
     }
 
     useEffect(() => {
-        setShipping({
+        if (auth.addressShipping.district !== '') {
+            let idProvince = 0;
+            location.province.forEach((item) => {
+                if (item.name === auth.addressShipping.province) {
+                    idProvince = item.code;
+                }
+            });
+            const newDistricts = location.district.filter(
+                (item) => item.province_code === idProvince
+            );
+            setDistricts(newDistricts);
+        }
+        if (auth.addressShipping.ward !== '') {
+            let idDistrict = 0;
+            location.district.forEach((item) => {
+                if (item.name === auth.addressShipping.district) {
+                    idDistrict = item.code;
+                }
+            });
+
+            const newWards = location.ward.filter(
+                (item) => item.district_code === idDistrict
+            );
+            setWards(newWards);
+        }
+        setData({
             username: auth.username,
-            phone: auth.phone,
-            country: auth.country,
-            city: auth.city,
-            address: auth.address,
+            phone: auth.addressShipping.phone,
+            province: auth.addressShipping.province,
+            district: auth.addressShipping.district,
+            ward: auth.addressShipping.ward,
+            address: auth.addressShipping.address,
+            err: '',
+            success: '',
         });
-    }, [auth]);
+    }, [auth, location]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setShipping({ ...shipping, [name]: value, err: '', success: '' });
+        setData({ ...data, [name]: value, err: '', success: '' });
+    };
+
+    const handleChangeProvince = (e) => {
+        const { name, value } = e.target;
+
+        let idProvince = 0;
+        location.province.forEach((item) => {
+            if (item.name === value) {
+                idProvince = item.code;
+            }
+        });
+
+        const newDistricts = location.district.filter(
+            (item) => item.province_code === idProvince
+        );
+        setData({
+            ...data,
+            [name]: value,
+            district: '',
+            ward: '',
+            err: '',
+            success: '',
+        });
+        setDistricts(newDistricts);
+    };
+
+    const handleChangeDistrict = (e) => {
+        const { name, value } = e.target;
+
+        let idDistrict = 0;
+        location.district.forEach((item) => {
+            if (item.name === value) {
+                idDistrict = item.code;
+            }
+        });
+
+        const newWards = location.ward.filter(
+            (item) => item.district_code === idDistrict
+        );
+        setData({
+            ...data,
+            [name]: value,
+            ward: '',
+            err: '',
+            success: '',
+        });
+        setWards(newWards);
     };
 
     const checkOut = () => {
-        if (username && phone && city && country && address) {
+        if (username && phone && province && district && ward && address) {
             handleCheckOut();
         } else {
-            setShipping({
-                ...shipping,
+            setData({
+                ...data,
                 err: 'Please fill all fields',
                 success: '',
             });
@@ -225,18 +316,18 @@ const Shipping = () => {
     const handleCheckOut = async () => {
         const userId = auth.id ? auth.id : nanoid();
         const userName = username ? username : auth.username;
-
         const phoneUd = phone ? phone : auth.phone;
-        const cityUd = city ? city : auth.city;
-        const countryUd = country ? country : auth.country;
+        const provinceUd = province ? province : auth.province;
+        const districtUd = district ? district : auth.district;
+        const wardUd = ward ? ward : auth.ward;
         const addressUd = address ? address : auth.address;
         const addressShipping = {
             phone: phoneUd,
-            country: countryUd,
-            city: cityUd,
+            province: provinceUd,
+            district: districtUd,
+            ward: wardUd,
             address: addressUd,
         };
-
         const listOderItems = [];
         const arrProduct = cart.products;
         arrProduct.forEach((item) => {
@@ -252,11 +343,9 @@ const Shipping = () => {
         });
         const itemsPrice = cart.total;
         const totalPrice = cart.total;
-
         dispatch(
             dispatchHandleOrder({ userName, addressShipping, totalPrice })
         );
-
         await fetchPayment(
             listOderItems,
             addressShipping,
@@ -305,9 +394,9 @@ const Shipping = () => {
                     <FormGroup>
                         <Label htmlFor='phone'>Phone</Label>
                         <Input
-                            type='text'
+                            type='phone'
                             id='phone'
-                            value={phone || auth.phone}
+                            value={phone}
                             name='phone'
                             placeholder='Enter your phone'
                             onChange={handleChange}
@@ -315,35 +404,78 @@ const Shipping = () => {
                         <FormMessage></FormMessage>
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor='country'>Country</Label>
-                        <Input
-                            type='text'
-                            id='country'
-                            value={country || auth.country}
-                            name='country'
-                            placeholder='Enter your country'
-                            onChange={handleChange}
-                        />
+                        <Label>Tỉnh / Thành phố</Label>
+                        <InputSelect
+                            name='province'
+                            value={province}
+                            disabled={!location}
+                            onChange={handleChangeProvince}
+                        >
+                            <InputOption
+                                selected={province === ''}
+                                disabled={province !== ''}
+                            >
+                                --- Select ---
+                            </InputOption>
+                            {location.province.map((item) => (
+                                <InputOption key={item.code} value={item.name}>
+                                    {item.name}
+                                </InputOption>
+                            ))}
+                        </InputSelect>
                         <FormMessage></FormMessage>
                     </FormGroup>
                     <FormGroup>
-                        <Label htmlFor='city'>City</Label>
-                        <Input
-                            type='text'
-                            id='city'
-                            value={city || auth.city}
-                            name='city'
-                            placeholder='Enter your city'
+                        <Label>Quận / Huyện</Label>
+                        <InputSelect
+                            name='district'
+                            value={district}
+                            disabled={!province}
+                            onChange={handleChangeDistrict}
+                        >
+                            <InputOption
+                                selected={district === ''}
+                                disabled={district !== ''}
+                            >
+                                --- Select ---
+                            </InputOption>
+                            {districts.map((item) => (
+                                <InputOption key={item.code} value={item.name}>
+                                    {item.name}
+                                </InputOption>
+                            ))}
+                        </InputSelect>
+                        <FormMessage></FormMessage>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Phường / Xã / Thị Trấn</Label>
+                        <InputSelect
+                            name='ward'
+                            value={ward}
+                            disabled={!district}
                             onChange={handleChange}
-                        />
+                        >
+                            <InputOption
+                                selected={ward === ''}
+                                disabled={ward !== ''}
+                            >
+                                --- Select ---
+                            </InputOption>
+                            {wards.map((item) => (
+                                <InputOption key={item.code} value={item.name}>
+                                    {item.name}
+                                </InputOption>
+                            ))}
+                        </InputSelect>
                         <FormMessage></FormMessage>
                     </FormGroup>
                     <FormGroup>
                         <Label htmlFor='address'>Address</Label>
                         <Input
                             type='text'
+                            disabled={!ward}
                             id='address'
-                            value={address || auth.address}
+                            value={address}
                             name='address'
                             placeholder='Enter your address'
                             onChange={handleChange}

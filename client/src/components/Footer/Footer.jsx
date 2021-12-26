@@ -85,7 +85,7 @@ const Footer = () => {
                                         <Input />
                                         <ButtonArrow>
                                             <ArrowForward
-                                                style={{ fontSize: '1.2rem' }}
+                                                style={{ fontSize: '1.8rem' }}
                                             />
                                         </ButtonArrow>
                                     </ItemWrapper>

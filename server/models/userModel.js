@@ -26,22 +26,27 @@ const UserSchema = new mongoose.Schema({
         default:
             'https://res.cloudinary.com/da3pohnlj/image/upload/v1637204419/user_1_kq1w6v.png',
     },
-    country: {
-        type: String,
-        default: '',
-    },
-    address: {
-        type: String,
-        default: '',
-    },
-    city: {
-        type: String,
-        default: '',
-    },
-    phone: {
-        type: String,
-        default: '',
-        trim: true,
+    addressShipping: {
+        phone: {
+            type: String,
+            default: '',
+        },
+        province: {
+            type: String,
+            default: '',
+        },
+        district: {
+            type: String,
+            default: '',
+        },
+        ward: {
+            type: String,
+            default: '',
+        },
+        address: {
+            type: String,
+            default: '',
+        },
     },
 });
 

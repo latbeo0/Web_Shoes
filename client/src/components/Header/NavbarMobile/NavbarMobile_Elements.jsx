@@ -53,7 +53,7 @@ export const ImageBox = styled.div`
     margin-left: 30px;
 
     .icon {
-        font-size: 2rem;
+        font-size: 4rem;
         margin-right: 5px;
     }
 
@@ -67,7 +67,7 @@ export const ImageBox = styled.div`
         margin-left: 15px;
 
         .icon {
-            font-size: 2rem;
+            font-size: 4rem;
         }
     }
 
@@ -75,7 +75,7 @@ export const ImageBox = styled.div`
         margin-left: 5px;
 
         .icon {
-            font-size: 1.6rem;
+            font-size: 3.6rem;
         }
     }
 `;
@@ -89,7 +89,7 @@ export const SearchContainer = styled.div`
         left: 8px;
         transform: translateY(-50%);
         color: #666666;
-        font-size: 2rem;
+        font-size: 4rem;
         pointer-events: none;
     }
 
