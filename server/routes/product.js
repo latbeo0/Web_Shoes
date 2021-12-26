@@ -13,8 +13,9 @@ router.delete('/:id', verifyTokenAndAdmin, productCtrl.deleteProduct);
 
 // GET PRODUCT
 router.get('/find/:id', productCtrl.getProduct);
-
 // GET ALL PRODUCT
 router.get('/', productCtrl.getAllProduct);
+// GET PRODUCT BY NAME
+router.get('/search/:name', productCtrl.getProductByName);
 
 module.exports = router;

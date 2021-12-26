@@ -24,7 +24,9 @@ export const fetchGetAllProducts = async () => {
 export const fetchGetProduct = async (id) => {
     return await axios.get(`/api/product/find/${id}`, null);
 };
-
+export const fetchGetProductByName = async (name) => {
+    return await axios.get(`/api/product/search/${name}`, null);
+};
 export const fetchUpdateProduct = async (product, token, id) => {
     return await axios.put(`/api/product/${id}`, product, {
         headers: {
@@ -32,3 +34,4 @@ export const fetchUpdateProduct = async (product, token, id) => {
         },
     });
 };
+

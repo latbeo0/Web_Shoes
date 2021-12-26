@@ -29,7 +29,7 @@ import Shipping from './pages/Shipping';
 import PaySuccess from './pages/PaySuccess';
 import ListUser from './pages/ListUser/';
 import Order from './pages/Order/Order';
-
+import Search from './pages/Search'
 const App = () => {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
@@ -70,6 +70,7 @@ const App = () => {
                         <Route index element={<Home />} />
                         <Route path='products/*' element={<Products />} />
                         <Route path='product/:id' element={<Product />} />
+                        <Route path='search/:name' element={<Search/>} />
                         <Route path='login' element={<Login />} />
                         <Route path='register' element={<Register />} />
                         <Route
