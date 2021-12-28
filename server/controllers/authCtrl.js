@@ -138,16 +138,16 @@ const authCtrl = {
             const user = await Users.findOne({ email });
 
             if (user) {
-                const hashedPassword = CryptoJS.AES.decrypt(
-                    user.password,
-                    process.env.PASS_SEC
-                );
+                // const hashedPassword = CryptoJS.AES.decrypt(
+                //     user.password,
+                //     process.env.PASS_SEC
+                // );
 
-                const OriginalPassword = hashedPassword.toString(
-                    CryptoJS.enc.Utf8
-                );
-                if (OriginalPassword !== password)
-                    return res.status(401).json({ msg: 'Wrong credentials!' });
+                // const OriginalPassword = hashedPassword.toString(
+                //     CryptoJS.enc.Utf8
+                // );
+                // if (OriginalPassword !== password)
+                //     return res.status(401).json({ msg: 'Wrong credentials!' });
 
                 const refresh_token = createRefreshToken({
                     id: user._id,
