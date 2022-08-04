@@ -261,9 +261,9 @@ const Cart = () => {
                                 <ProductAmountContainer>
                                     <IconWrapper
                                         id={index}
-                                        onClick={handleAddProduct}
+                                        onClick={handleRemoveProduct}
                                     >
-                                        <Add
+                                        <Remove
                                             style={{ pointerEvents: 'none' }}
                                         />
                                     </IconWrapper>
@@ -272,9 +272,9 @@ const Cart = () => {
                                     </ProductAmount>
                                     <IconWrapper
                                         id={index}
-                                        onClick={handleRemoveProduct}
+                                        onClick={handleAddProduct}
                                     >
-                                        <Remove
+                                        <Add
                                             style={{ pointerEvents: 'none' }}
                                         />
                                     </IconWrapper>

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const path = require('path');
 
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');

@@ -9,7 +9,7 @@ export const fetchUploadImageProduct = async (formData, token) => {
             },
         });
     } catch (err) {
-        console.log(2);
+        console.log(err);
     }
 };
 
@@ -21,7 +21,7 @@ export const fetchAddNewProduct = async (product, token) => {
             },
         });
     } catch (err) {
-        console.log(2);
+        console.log(err);
     }
 };
 
@@ -29,7 +29,7 @@ export const fetchGetAllProducts = async () => {
     try {
         return await axios.get('/api/product/', null);
     } catch (err) {
-        console.log(2);
+        console.log(err);
     }
 };
 
@@ -37,7 +37,7 @@ export const fetchGetProduct = async (id) => {
     try {
         return await axios.get(`/api/product/find/${id}`, null);
     } catch (err) {
-        console.log(2);
+        console.log(err);
     }
 };
 export const fetchGetProductByName = async (name) => {
@@ -51,7 +51,6 @@ export const fetchUpdateProduct = async (product, token, id) => {
             },
         });
     } catch (err) {
-        console.log(2);
+        console.log(err);
     }
 };
-
